@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="15" height="10" tilewidth="32" tileheight="32" infinite="0" nextobjectid="17">
+ <properties>
+  <property name="number" value="8"/>
+ </properties>
+ <tileset firstgid="1" source="tower-tileset.tsx"/>
+ <layer name="walls" width="15" height="10">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,124,12,12,12,12,12,12,12,12,12,12,123,0,0,
+12,134,0,0,0,0,0,0,0,0,0,0,133,12,21,
+2,0,0,0,0,0,0,0,0,0,0,0,0,0,2,
+12,122,0,0,0,0,0,0,0,0,0,0,121,12,21,
+0,132,12,23,0,0,0,0,0,0,0,0,131,0,0,
+0,0,0,14,0,0,0,0,0,0,0,0,15,0,0,
+0,0,0,24,12,12,12,12,12,12,12,12,21,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="ground" width="15" height="10">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,2,27,56,0,0,0,0,0,0,54,0,0,0,
+2,28,27,2,56,0,0,0,0,0,0,54,27,2,0,
+0,0,2,28,66,0,0,0,0,0,0,64,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="death" width="15" height="10">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,89,89,89,89,89,89,0,0,0,0,
+0,0,0,0,0,4,4,4,4,4,4,0,0,0,0,
+0,0,0,0,0,4,4,4,4,4,4,0,0,0,0,
+0,0,0,0,80,4,4,4,4,4,4,78,0,0,0,
+0,0,0,0,4,4,4,4,4,4,4,4,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="guff" width="15" height="10">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,70,70,70,70,70,70,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,91,93,0,0,0,93,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup name="objects">
+  <object id="9" name="13" type="connection" x="32" y="128" width="32" height="32">
+   <properties>
+    <property name="dir" value="right"/>
+    <property name="to" value="10"/>
+   </properties>
+  </object>
+  <object id="10" name="14" type="connection" x="416" y="128" width="32" height="32">
+   <properties>
+    <property name="dir" value="left"/>
+    <property name="to" value="15"/>
+   </properties>
+  </object>
+  <object id="14" type="platform" x="160" y="128" width="32" height="32">
+   <properties>
+    <property name="movex" value="5"/>
+   </properties>
+  </object>
+  <object id="16" type="torch" x="384" y="96" width="32" height="32"/>
+ </objectgroup>
+</map>

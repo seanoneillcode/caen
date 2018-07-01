@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="15" height="10" tilewidth="32" tileheight="32" infinite="0" nextobjectid="18">
+ <properties>
+  <property name="number" value="19"/>
+ </properties>
+ <tileset firstgid="1" source="tower-tileset.tsx"/>
+ <layer name="walls" width="15" height="10">
+  <data encoding="csv">
+12,12,12,15,0,0,0,0,0,0,0,0,0,0,0,
+2,0,0,15,14,105,12,12,12,12,12,12,12,15,0,
+12,23,0,15,14,0,0,0,0,0,0,0,0,15,0,
+0,14,0,16,12,0,33,0,22,12,12,23,0,15,0,
+0,14,0,12,0,0,12,0,12,12,15,14,0,15,0,
+0,14,0,0,0,0,0,0,0,0,15,14,0,15,0,
+0,24,12,12,12,12,23,0,0,0,15,14,0,15,0,
+0,0,0,0,0,0,24,12,12,12,21,14,0,12,12,
+0,0,0,0,0,0,0,0,0,0,0,14,0,0,2,
+0,0,0,0,0,0,0,0,0,0,0,24,12,12,12
+</data>
+ </layer>
+ <layer name="ground" width="15" height="10">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+72,72,72,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,72,0,0,116,2,28,27,56,0,0,54,0,0,
+0,0,72,0,0,2,0,2,0,0,0,0,28,0,0,
+0,0,72,0,83,27,0,2,0,0,0,0,27,0,0,
+0,0,72,72,62,63,28,28,27,116,0,0,2,0,0,
+0,0,0,0,0,0,0,2,28,27,0,0,27,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,28,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,2,27,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="death" width="15" height="10">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,89,89,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup name="objects">
+  <object id="9" name="27" type="connection" x="32" y="32" width="32" height="32">
+   <properties>
+    <property name="dir" value="right"/>
+    <property name="to" value="34"/>
+   </properties>
+  </object>
+  <object id="10" name="28" type="connection" x="416" y="256" width="32" height="32">
+   <properties>
+    <property name="dir" value="left"/>
+    <property name="to" value="37"/>
+   </properties>
+  </object>
+  <object id="16" type="block" x="160" y="160" width="32" height="32"/>
+  <object id="17" type="block" x="224" y="96" width="32" height="32"/>
+ </objectgroup>
+</map>

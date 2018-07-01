@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="17" height="19" tilewidth="32" tileheight="32" infinite="0" nextobjectid="15">
+ <properties>
+  <property name="number" value="2"/>
+ </properties>
+ <tileset firstgid="1" source="tower-tileset.tsx"/>
+ <layer name="ground" width="17" height="19">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,51,51,51,51,0,51,51,0,0,
+0,0,0,0,0,0,0,0,51,52,52,52,52,52,52,52,72,
+0,0,0,0,0,0,0,0,51,52,52,51,0,51,51,0,0,
+0,0,0,0,0,0,0,0,51,52,52,51,0,0,0,0,0,
+0,0,0,0,0,0,0,0,51,52,52,51,0,0,0,0,0,
+0,0,0,0,0,0,51,51,41,52,52,41,51,51,0,0,0,
+0,0,0,0,0,0,51,51,52,52,52,52,51,51,0,0,0,
+0,0,0,0,0,0,51,51,52,52,52,52,51,51,0,0,0,
+0,0,0,0,0,0,51,51,52,52,52,52,51,51,0,0,0,
+0,0,0,0,0,0,51,51,52,52,52,52,51,51,0,0,0,
+0,0,0,0,0,0,51,51,41,52,52,41,51,51,0,0,0,
+0,0,0,0,0,0,0,0,51,52,52,51,0,0,0,0,0,
+0,0,0,0,0,0,0,0,51,52,52,51,0,0,0,0,0,
+0,0,0,0,0,0,0,0,51,52,52,51,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,52,52,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="walls" width="17" height="19">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,103,104,0,0,0,0,0,0,
+0,0,0,0,0,0,0,14,12,113,114,12,16,12,12,15,0,
+0,0,0,0,0,0,0,14,0,0,0,0,12,0,0,12,12,
+0,0,0,0,0,0,0,14,0,0,0,0,0,0,0,0,55,
+0,0,0,0,0,0,0,14,0,0,0,0,33,0,0,22,12,
+0,0,0,0,0,0,0,14,0,0,0,0,16,12,12,21,0,
+0,0,0,0,0,14,12,12,0,0,0,0,12,12,15,0,0,
+0,0,0,0,0,14,0,0,0,0,0,0,0,0,15,0,0,
+0,0,0,0,0,14,0,87,0,0,0,96,87,0,15,0,0,
+0,0,0,0,0,14,0,97,94,95,0,0,97,0,15,0,0,
+0,0,0,0,0,14,0,87,0,52,0,0,87,0,15,0,0,
+0,0,0,0,0,14,0,97,96,0,0,96,97,0,15,0,0,
+0,0,0,0,0,14,0,0,0,0,0,0,0,0,15,0,0,
+0,0,0,0,0,24,12,23,0,0,0,0,22,12,21,0,0,
+0,0,0,0,0,0,0,14,0,0,0,0,15,0,0,0,0,
+0,0,0,0,0,0,0,14,0,0,0,0,15,0,0,0,0,
+0,0,0,0,0,0,0,24,12,52,52,12,21,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup name="objects">
+  <object id="2" name="ant" type="actor" x="288" y="320" width="32" height="32">
+   <properties>
+    <property name="isHide" value="false"/>
+    <property name="isRight" value="true"/>
+   </properties>
+  </object>
+  <object id="3" name="27" type="scene" x="320" y="288" width="64" height="64">
+   <properties>
+    <property name="switch" value="a"/>
+   </properties>
+  </object>
+  <object id="4" name="26" type="scene" x="288" y="320" width="32" height="32">
+   <properties>
+    <property name="switch" value="a"/>
+   </properties>
+  </object>
+  <object id="5" name="202" type="connection" x="288" y="480" width="32" height="32">
+   <properties>
+    <property name="dir" value="up"/>
+    <property name="to" value="200"/>
+   </properties>
+  </object>
+  <object id="6" name="203" type="connection" x="320" y="480" width="32" height="32">
+   <properties>
+    <property name="dir" value="up"/>
+    <property name="to" value="200"/>
+   </properties>
+  </object>
+  <object id="8" name="62" type="connection" x="481" y="95" width="32" height="32">
+   <properties>
+    <property name="dir" value="left"/>
+    <property name="to" value="01"/>
+   </properties>
+  </object>
+  <object id="9" type="torch" x="256" y="288" width="32" height="32"/>
+  <object id="10" type="torch" x="223" y="333" width="32" height="32">
+   <properties>
+    <property name="isOn" value="false"/>
+   </properties>
+  </object>
+  <object id="13" name="30" type="dialog" x="384" y="96" width="32" height="32"/>
+  <object id="14" type="torch" x="384" y="332" width="32" height="32">
+   <properties>
+    <property name="isOn" value="false"/>
+    <property name="switch" value="b"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

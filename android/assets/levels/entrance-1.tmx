@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="20" height="16" tilewidth="32" tileheight="32" infinite="0" nextobjectid="56">
+ <properties>
+  <property name="isWind" value="true"/>
+  <property name="number" value="1"/>
+ </properties>
+ <tileset firstgid="1" source="tower-tileset.tsx"/>
+ <layer name="walls" width="20" height="16">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,34,34,34,34,0,0,0,0,0,0,0,0,
+0,0,0,34,34,34,34,34,34,34,34,34,34,34,34,34,0,0,0,0,
+0,0,0,34,0,34,0,34,0,0,0,34,0,34,0,34,0,0,0,0,
+0,0,0,34,0,34,0,34,0,0,0,34,0,34,0,34,0,0,0,0,
+0,0,0,34,0,0,0,34,0,0,0,34,0,0,0,34,0,0,0,0,
+0,0,0,34,0,34,0,0,0,0,0,0,0,34,0,34,0,0,0,0,
+0,0,0,34,0,34,0,0,0,0,0,0,0,34,0,34,0,0,0,0,
+0,0,0,34,0,34,0,0,0,0,0,0,0,34,0,34,0,0,0,0,
+0,0,0,34,0,0,0,0,0,0,0,0,0,0,0,34,0,0,0,0,
+0,0,0,34,0,34,0,0,0,0,0,0,0,34,0,34,0,0,0,0,
+0,0,0,34,0,34,0,0,0,0,0,0,0,34,0,34,0,0,0,0,
+0,0,0,34,0,34,0,0,0,0,0,0,0,34,0,34,0,0,0,0,
+0,0,0,34,34,34,34,34,34,0,34,34,34,34,34,34,0,0,0,0,
+0,0,0,0,0,0,0,0,34,34,34,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <imagelayer name="background">
+  <image source="../entrance-concept.png" width="600" height="512"/>
+ </imagelayer>
+ <objectgroup name="objects">
+  <object id="2" name="200" type="connection" x="288" y="128" width="32" height="32">
+   <properties>
+    <property name="dir" value="down"/>
+    <property name="to" value="202"/>
+   </properties>
+  </object>
+  <object id="3" name="61" type="connection" x="288" y="448" width="32" height="32">
+   <properties>
+    <property name="dir" value="up"/>
+    <property name="to" value="00"/>
+   </properties>
+  </object>
+  <object id="9" type="light" x="96" y="0" width="448" height="512">
+   <properties>
+    <property name="a" value="1"/>
+    <property name="b" value="1"/>
+    <property name="g" value="1"/>
+    <property name="r" value="1"/>
+   </properties>
+  </object>
+  <object id="19" type="guff" x="192" y="192" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/grass-1.png"/>
+   </properties>
+  </object>
+  <object id="21" type="guff" x="242" y="388" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/grass-1.png"/>
+   </properties>
+  </object>
+  <object id="22" type="guff" x="384" y="224" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/grass-2.png"/>
+   </properties>
+  </object>
+  <object id="23" type="guff" x="224" y="288" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/grass-3.png"/>
+   </properties>
+  </object>
+  <object id="24" type="guff" x="160" y="320" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/grass-2.png"/>
+   </properties>
+  </object>
+  <object id="25" type="guff" x="384" y="384" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/grass-2.png"/>
+   </properties>
+  </object>
+  <object id="26" type="guff" x="448" y="320" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/grass-2.png"/>
+   </properties>
+  </object>
+  <object id="27" type="guff" x="416" y="192" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/grass-3.png"/>
+   </properties>
+  </object>
+  <object id="28" type="guff" x="352" y="416" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/grass-3.png"/>
+   </properties>
+  </object>
+  <object id="29" type="guff" x="160" y="192" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/grass-3.png"/>
+   </properties>
+  </object>
+  <object id="30" type="guff" x="352" y="256" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/grass-4.png"/>
+   </properties>
+  </object>
+  <object id="31" type="guff" x="192" y="352" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/grass-4.png"/>
+   </properties>
+  </object>
+  <object id="32" type="guff" x="192" y="256" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/grass-4.png"/>
+   </properties>
+  </object>
+  <object id="33" type="guff" x="192" y="128" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/grass-4.png"/>
+   </properties>
+  </object>
+  <object id="34" type="guff" x="384" y="160" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/grass-4.png"/>
+   </properties>
+  </object>
+  <object id="35" type="guff" x="224" y="320" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/dust-air.png"/>
+   </properties>
+  </object>
+  <object id="36" type="guff" x="352" y="224" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/dust-air.png"/>
+   </properties>
+  </object>
+  <object id="37" type="guff" x="256" y="128" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/dust-air.png"/>
+   </properties>
+  </object>
+  <object id="38" type="guff" x="352" y="192" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/dust-air.png"/>
+   </properties>
+  </object>
+  <object id="40" type="guff" x="320" y="128" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/dust-air-2.png"/>
+   </properties>
+  </object>
+  <object id="41" type="guff" x="256" y="192" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/dust-air-2.png"/>
+   </properties>
+  </object>
+  <object id="42" type="guff" x="320" y="256" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/dust-air-2.png"/>
+   </properties>
+  </object>
+  <object id="43" type="guff" x="256" y="320" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/dust-air-2.png"/>
+   </properties>
+  </object>
+  <object id="44" type="guff" x="320" y="384" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/dust-air-2.png"/>
+   </properties>
+  </object>
+  <object id="45" type="guff" x="384" y="320" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/dust-air-2.png"/>
+   </properties>
+  </object>
+  <object id="46" type="guff" x="288" y="160" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/dust-air-2.png"/>
+   </properties>
+  </object>
+  <object id="47" type="guff" x="195" y="285" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/dust-air-2.png"/>
+   </properties>
+  </object>
+  <object id="48" type="guff" x="128" y="224" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/dust-air-2.png"/>
+   </properties>
+  </object>
+  <object id="49" type="guff" x="128" y="384" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/dust-air.png"/>
+   </properties>
+  </object>
+  <object id="50" type="guff" x="352" y="128" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/dust-air-2.png"/>
+   </properties>
+  </object>
+  <object id="51" name="ant" type="actor" x="304" y="160" width="32" height="32">
+   <properties>
+    <property name="isHide" value="false"/>
+   </properties>
+  </object>
+  <object id="53" name="25" type="scene" x="256" y="128" width="96" height="96">
+   <properties>
+    <property name="switch" value="a"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

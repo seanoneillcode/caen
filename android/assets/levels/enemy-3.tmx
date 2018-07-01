@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="15" height="15" tilewidth="32" tileheight="32" infinite="0" nextobjectid="58">
+ <properties>
+  <property name="number" value="40"/>
+ </properties>
+ <tileset firstgid="1" source="brown.tsx"/>
+ <tileset firstgid="101" source="tower-tileset.tsx"/>
+ <layer name="death" width="15" height="15">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="walls" width="15" height="15">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,203,204,0,0,0,0,0,0,
+12,12,12,12,12,12,12,213,214,12,12,12,15,0,0,
+72,0,0,0,0,0,0,0,0,0,0,0,15,0,0,
+12,12,23,0,12,0,12,0,12,0,12,0,15,0,0,
+0,0,14,0,0,0,0,0,0,0,0,0,15,0,0,
+0,0,14,0,0,0,0,0,0,33,0,0,15,0,0,
+0,0,14,0,0,0,0,0,0,0,0,0,15,0,0,
+0,0,14,0,0,0,0,0,0,33,0,0,15,0,0,
+0,0,14,0,0,33,0,0,0,33,0,0,15,0,0,
+0,0,14,0,22,12,23,0,22,12,23,0,15,0,0,
+0,0,24,12,21,0,14,0,15,0,24,12,21,0,0,
+0,0,0,0,0,0,14,0,12,12,12,0,0,0,0,
+0,0,0,0,0,0,14,0,0,0,72,0,0,0,0,
+0,0,0,0,0,0,24,12,12,12,12,0,0,0,0
+</data>
+ </layer>
+ <layer name="ground" width="15" height="15">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,72,72,72,72,72,72,72,72,72,72,72,0,0,0,
+0,0,0,72,0,82,0,72,0,82,0,72,0,0,0,
+0,0,0,72,83,27,81,82,83,27,81,72,0,0,0,
+0,0,0,83,28,28,2,37,2,0,27,81,0,0,0,
+0,0,0,27,37,2,27,28,37,2,2,28,0,0,0,
+0,0,0,63,27,2,28,27,2,0,37,61,0,0,0,
+0,0,0,72,63,0,2,28,37,0,61,72,0,0,0,
+0,0,0,72,0,0,0,2,0,0,0,72,0,0,0,
+0,0,0,0,0,0,0,63,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,72,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,72,72,72,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup name="objects">
+  <object id="9" name="85" type="connection" x="32" y="96" width="32" height="32">
+   <properties>
+    <property name="dir" value="right"/>
+    <property name="to" value="84"/>
+   </properties>
+  </object>
+  <object id="10" name="86" type="connection" x="288" y="416" width="32" height="32">
+   <properties>
+    <property name="dir" value="left"/>
+    <property name="to" value="87"/>
+   </properties>
+  </object>
+  <object id="47" type="enemy" x="288" y="224" width="32" height="32">
+   <properties>
+    <property name="dir" value="left"/>
+   </properties>
+  </object>
+  <object id="52" type="enemy" x="160" y="192" width="32" height="32">
+   <properties>
+    <property name="dir" value="right"/>
+   </properties>
+  </object>
+  <object id="53" type="enemy" x="160" y="256" width="32" height="32">
+   <properties>
+    <property name="dir" value="right"/>
+   </properties>
+  </object>
+  <object id="54" type="enemy" x="160" y="224" width="32" height="32">
+   <properties>
+    <property name="dir" value="left"/>
+   </properties>
+  </object>
+  <object id="55" type="torch" x="160" y="64" width="32" height="32"/>
+  <object id="56" type="torch" x="288" y="64" width="32" height="32"/>
+  <object id="57" type="block" x="224" y="128" width="32" height="32"/>
+ </objectgroup>
+</map>

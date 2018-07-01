@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="16" height="10" tilewidth="32" tileheight="32" infinite="0" nextobjectid="16">
+ <properties>
+  <property name="number" value="5"/>
+ </properties>
+ <tileset firstgid="1" source="tower-tileset.tsx"/>
+ <layer name="walls" width="16" height="10">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,101,0,0,0,0,0,0,0,0,0,0,0,0,
+0,14,12,111,12,12,12,12,12,12,12,12,15,0,0,0,
+12,12,0,0,0,0,0,0,0,0,0,0,12,12,12,12,
+72,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,
+12,23,0,0,0,0,0,0,0,0,0,0,0,0,22,12,
+0,24,12,23,0,0,0,0,0,0,0,0,0,0,15,0,
+0,0,0,14,0,0,0,0,0,0,0,0,22,12,21,0,
+0,0,0,24,12,12,23,0,22,12,12,12,21,0,0,0,
+0,0,0,0,0,0,24,12,21,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="ground" width="16" height="10">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,72,83,0,0,0,0,0,0,0,0,0,0,0,0,
+72,72,73,56,0,0,0,0,0,0,0,0,54,2,55,0,
+0,0,83,2,46,0,0,0,0,0,0,44,2,2,0,0,
+0,0,0,0,65,57,57,57,57,57,57,65,2,61,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="death" width="16" height="10">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,89,89,89,89,89,89,89,89,0,0,0,0,
+0,0,0,0,4,4,4,4,4,4,4,4,0,0,0,0,
+0,0,0,0,0,4,4,4,4,4,4,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,79,80,75,75,75,75,78,79,0,0,0,0,
+0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="guff" width="16" height="10">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,91,0,0,0,0,0,
+0,0,0,0,0,0,0,93,0,0,93,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup name="objects">
+  <object id="9" name="05" type="connection" x="32" y="128" width="32" height="32">
+   <properties>
+    <property name="dir" value="right"/>
+    <property name="to" value="04"/>
+   </properties>
+  </object>
+  <object id="10" name="06" type="connection" x="448" y="128" width="32" height="32">
+   <properties>
+    <property name="dir" value="left"/>
+    <property name="to" value="07"/>
+   </properties>
+  </object>
+  <object id="13" type="arrowSource" x="224" y="64" width="32" height="32">
+   <properties>
+    <property name="delay" value="2.0"/>
+    <property name="offset" value="0.5"/>
+    <property name="xdir" value="0"/>
+    <property name="ydir" value="-1"/>
+   </properties>
+  </object>
+  <object id="15" name="3" type="dialog" x="320" y="192" width="32" height="32"/>
+ </objectgroup>
+</map>

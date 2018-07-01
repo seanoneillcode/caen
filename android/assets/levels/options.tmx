@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="5" height="7" tilewidth="32" tileheight="32" infinite="0" nextobjectid="15">
+ <tileset firstgid="1" source="tower-tileset.tsx"/>
+ <layer name="ground" width="5" height="7">
+  <data encoding="csv">
+0,0,0,0,0,
+0,0,0,0,0,
+0,55,56,4,0,
+0,51,56,4,0,
+0,51,56,4,0,
+0,0,0,0,0,
+0,0,0,0,0
+</data>
+ </layer>
+ <layer name="walls" width="5" height="7">
+  <data encoding="csv">
+0,0,0,0,0,
+14,12,12,12,15,
+14,0,0,0,15,
+14,0,0,0,15,
+14,0,0,0,15,
+24,12,12,12,21,
+0,0,0,0,0
+</data>
+ </layer>
+ <layer name="death" width="5" height="7">
+  <data encoding="csv">
+0,0,0,0,0,
+0,0,0,0,0,
+0,0,0,0,0,
+0,0,0,0,0,
+0,0,0,0,0,
+0,0,0,0,0,
+0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup name="objects">
+  <object id="10" name="234" type="connection" x="64" y="128" width="32" height="32">
+   <properties>
+    <property name="dir" value="left"/>
+   </properties>
+  </object>
+  <object id="11" type="torch" x="64" y="32" width="32" height="32"/>
+ </objectgroup>
+</map>

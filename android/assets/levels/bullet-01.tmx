@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="15" height="17" tilewidth="32" tileheight="32" infinite="0" nextobjectid="40">
+ <properties>
+  <property name="isWind" value="true"/>
+  <property name="number" value="29"/>
+ </properties>
+ <tileset firstgid="1" source="brown.tsx"/>
+ <tileset firstgid="101" source="tower-tileset.tsx"/>
+ <layer name="ground" width="15" height="17">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,45,46,0,0,0,0,0,0,0,0,0,
+0,0,27,28,55,56,0,0,0,0,0,0,0,0,0,
+0,0,0,0,28,66,0,0,0,0,0,0,0,0,0,
+0,0,0,44,56,0,0,0,0,44,45,46,0,0,0,
+0,0,0,54,56,0,0,0,0,54,27,56,0,0,0,
+0,0,0,64,56,0,0,0,0,64,65,66,0,0,0,
+0,0,0,0,47,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,47,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,47,0,0,0,0,0,0,0,0,0,0,
+0,0,0,44,28,46,0,0,0,44,45,46,0,0,0,
+0,0,0,54,37,56,0,0,0,54,28,37,0,0,0,
+0,0,0,64,65,66,0,0,0,64,65,65,28,37,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="death" width="15" height="17">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,4,4,4,4,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,4,0,4,4,4,4,4,0,0,
+0,0,0,0,0,80,4,0,4,0,0,0,4,0,0,
+0,0,4,0,0,4,4,0,4,0,0,0,4,0,0,
+0,0,4,0,0,4,4,0,4,0,0,0,4,0,0,
+0,0,4,78,0,4,4,4,4,198,79,200,4,0,0,
+0,0,0,4,0,4,4,4,4,89,89,89,4,0,0,
+0,0,4,4,0,4,4,4,4,4,4,4,4,0,0,
+0,0,4,0,0,0,4,4,4,0,0,0,4,0,0,
+0,0,4,0,0,0,4,4,4,0,0,0,0,0,0,
+0,0,4,0,0,0,4,4,4,0,0,0,0,0,0,
+0,0,4,198,79,200,4,4,4,198,79,79,4,4,0,
+0,0,0,89,89,89,0,0,0,89,89,89,79,79,0,
+0,0,0,0,0,0,0,0,0,0,0,0,89,89,0
+</data>
+ </layer>
+ <layer name="walls" width="15" height="17">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,12,12,0,0,0,0,0,0,0,0,0,0,0,
+0,0,27,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,12,12,0,0,0,0,0,0,0,0,0,0,0,
+0,0,76,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,12,12,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,27,0,
+0,0,0,0,0,0,0,0,0,0,0,0,12,12,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="guff" width="15" height="17">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,191,191,0,0,0,0,
+0,0,0,0,0,0,0,0,0,192,191,0,0,0,0,
+0,0,0,0,0,0,0,0,0,193,192,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,193,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,170,170,170,170,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,191,
+0,0,0,0,0,0,150,0,150,0,0,0,0,0,192,
+0,0,0,0,0,0,160,0,160,0,0,0,0,0,193,
+0,0,0,0,0,0,139,0,129,0,0,0,0,0,0,
+191,0,0,0,0,0,160,0,160,0,0,0,0,0,0,
+192,0,0,0,0,0,139,0,129,0,0,0,0,0,0,
+193,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup name="objects">
+  <object id="9" name="65" type="connection" x="96" y="96" width="32" height="32">
+   <properties>
+    <property name="dir" value="right"/>
+    <property name="to" value="60"/>
+   </properties>
+  </object>
+  <object id="10" name="66" type="connection" x="384" y="416" width="32" height="32">
+   <properties>
+    <property name="dir" value="left"/>
+    <property name="to" value="67"/>
+   </properties>
+  </object>
+  <object id="33" type="pressure" x="320" y="224" width="32" height="32">
+   <properties>
+    <property name="switch" value="a"/>
+   </properties>
+  </object>
+  <object id="34" type="block" x="288" y="224" width="32" height="32"/>
+  <object id="35" type="platform" x="192" y="288" width="32" height="32">
+   <properties>
+    <property name="isActive" value="false"/>
+    <property name="movey" value="-4"/>
+    <property name="switch" value="a"/>
+   </properties>
+  </object>
+  <object id="36" type="platform" x="224" y="288" width="32" height="32">
+   <properties>
+    <property name="isActive" value="false"/>
+    <property name="movey" value="-4"/>
+    <property name="switch" value="a"/>
+   </properties>
+  </object>
+  <object id="37" type="platform" x="256" y="288" width="32" height="32">
+   <properties>
+    <property name="isActive" value="false"/>
+    <property name="movey" value="-4"/>
+    <property name="switch" value="a"/>
+   </properties>
+  </object>
+  <object id="38" type="platform" x="160" y="192" width="32" height="32">
+   <properties>
+    <property name="movex" value="3"/>
+   </properties>
+  </object>
+  <object id="39" type="door" x="128" y="288" width="32" height="32">
+   <properties>
+    <property name="across" value="true"/>
+    <property name="switch" value="a"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

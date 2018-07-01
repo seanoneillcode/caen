@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="15" height="15" tilewidth="32" tileheight="32" infinite="0" nextobjectid="48">
+ <properties>
+  <property name="isWind" value="true"/>
+  <property name="number" value="34"/>
+ </properties>
+ <tileset firstgid="1" source="brown.tsx"/>
+ <tileset firstgid="101" source="tower-tileset.tsx"/>
+ <layer name="ground" width="15" height="15">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,2,0,0,2,0,0,0,0,0,0,
+0,0,0,0,0,2,0,0,2,0,0,0,0,0,0,
+0,0,0,0,0,2,0,0,2,0,0,0,0,0,0,
+0,0,0,0,64,65,65,65,65,66,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,59,48,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,44,46,0,0,0,0,0,0,
+0,0,0,0,0,0,0,64,66,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="death" width="15" height="15">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,4,0,0,0,0,0,0,4,0,0,0,0,
+0,0,0,4,79,79,79,79,79,79,4,0,0,0,0,
+0,0,0,0,89,89,89,89,89,89,0,0,0,0,0,
+0,0,4,4,4,4,0,4,4,4,0,0,0,0,0,
+0,0,4,0,0,4,0,4,4,4,0,0,0,0,0,
+0,0,4,78,80,4,0,4,4,4,0,0,0,0,0,
+0,0,0,0,0,0,0,4,4,4,0,0,0,0,0,
+0,0,0,0,0,0,4,4,4,4,0,0,0,0,0,
+0,0,0,0,0,0,4,0,0,4,0,0,0,0,0,
+0,0,0,0,0,0,4,0,0,4,0,0,0,0,0,
+0,0,0,0,0,0,4,78,80,4,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="walls" width="15" height="15">
+  <data encoding="csv">
+0,0,0,14,14,2,15,14,2,15,15,0,0,0,0,
+0,0,0,14,14,0,15,14,0,15,15,0,0,0,0,
+0,0,0,14,14,0,15,14,0,15,15,0,0,0,0,
+0,0,0,24,12,0,12,12,0,12,21,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="guff" width="15" height="15">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+191,191,0,0,0,0,0,0,0,0,0,0,191,0,0,
+192,193,0,0,0,0,0,0,0,0,0,0,193,0,0,
+193,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,198,0,0,0,150,200,0,0,0,0,0,
+0,0,0,0,0,0,0,0,160,160,0,0,0,0,0,
+0,0,0,0,0,0,0,0,160,160,0,0,0,0,0,
+0,0,0,0,0,0,0,0,160,160,0,0,0,0,0,
+0,0,0,0,0,0,0,0,160,160,0,0,191,0,0,
+0,0,0,0,0,0,0,0,160,160,0,0,191,191,0,
+0,0,0,0,0,0,0,0,160,160,0,0,192,192,0,
+0,0,0,0,0,0,0,0,0,160,0,0,193,193,0,
+0,0,191,0,0,0,0,0,0,160,0,0,0,0,0,
+0,0,193,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup name="objects">
+  <object id="9" name="77" type="connection" x="256" y="32" width="32" height="32">
+   <properties>
+    <property name="dir" value="down"/>
+    <property name="to" value="76"/>
+   </properties>
+  </object>
+  <object id="10" name="78" type="connection" x="160" y="32" width="32" height="32">
+   <properties>
+    <property name="dir" value="down"/>
+    <property name="to" value="79"/>
+   </properties>
+  </object>
+  <object id="39" type="block" x="128" y="256" width="32" height="32"/>
+  <object id="43" type="platform" x="256" y="160" width="32" height="32">
+   <properties>
+    <property name="isActive" value="true"/>
+    <property name="movey" value="-6"/>
+    <property name="switch" value="b"/>
+   </properties>
+  </object>
+  <object id="44" type="pressure" x="96" y="256" width="32" height="32">
+   <properties>
+    <property name="switch" value="a"/>
+   </properties>
+  </object>
+  <object id="46" type="door" x="160" y="96" width="32" height="32">
+   <properties>
+    <property name="across" value="true"/>
+    <property name="isOpen" value="false"/>
+    <property name="switch" value="a"/>
+   </properties>
+  </object>
+  <object id="47" type="platform" x="288" y="416" width="32" height="32">
+   <properties>
+    <property name="isActive" value="true"/>
+    <property name="movey" value="8"/>
+    <property name="switch" value="b"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

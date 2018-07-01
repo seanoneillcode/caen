@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="15" height="10" tilewidth="32" tileheight="32" nextobjectid="8">
+ <tileset firstgid="1" source="tower-tileset.tsx"/>
+ <layer name="ground" width="15" height="10">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,25,25,25,25,25,25,0,0,0,0,0,0,
+0,0,0,25,25,25,25,25,25,0,0,0,0,0,0,
+0,0,2,25,25,25,25,25,25,0,0,0,0,0,0,
+0,0,0,25,25,25,25,25,25,0,0,0,0,0,0,
+0,0,0,25,25,25,25,25,25,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="walls" width="15" height="10">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,14,12,12,12,12,12,12,15,0,0,0,0,0,
+0,0,14,0,0,0,0,0,0,15,0,0,0,0,0,
+0,12,12,0,0,0,0,0,0,15,0,0,0,0,0,
+0,2,0,0,0,0,13,0,0,15,0,0,0,0,0,
+0,12,23,0,0,0,0,0,0,15,0,0,0,0,0,
+0,0,14,0,0,0,0,0,0,15,0,0,0,0,0,
+0,0,24,12,12,12,12,12,12,21,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup name="objects">
+  <object id="1" name="41" type="connection" x="64" y="128" width="32" height="32">
+   <properties>
+    <property name="to" value="40"/>
+   </properties>
+  </object>
+  <object id="3" name="5" type="dialog" x="96" y="128" width="32" height="32"/>
+ </objectgroup>
+</map>
