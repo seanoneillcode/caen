@@ -1748,6 +1748,28 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         boolean isUpPressed = Gdx.input.isKeyPressed(keyMappings.get("up key"));
         boolean isDownPressed = Gdx.input.isKeyPressed(keyMappings.get("down key"));
 
+        if (inputProcessor.hasTouchInput) {
+            inputProcessor.hasTouchInput = false;
+            Vector2 androidPos = inputProcessor.getAndroidPos();
+            Vector2 cameraOffset = new Vector2(camera.position.x - (VIEWPORT_WIDTH / 2.0f), camera.position.y - (VIEWPORT_HEIGHT / 2.0f));
+//            androidPos = androidPos.sub(cameraOffset);
+            androidPos = androidPos.sub(cameraOffset);
+            if (androidPos.x < 100) {
+                isLeftPressed = true;
+            }
+            if (androidPos.x > camera.viewportWidth - 100) {
+                isRightPressed = true;
+            }
+            if (androidPos.y > camera.viewportHeight - 100) {
+                isUpPressed = true;
+            }
+            if (androidPos.y < 100) {
+                isDownPressed = true;
+            }
+        }
+
+
+
         if (isLeftPressed) {
             inputVector.x = inputVector.x - 1;
         }

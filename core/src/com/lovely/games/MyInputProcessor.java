@@ -9,14 +9,12 @@ import com.badlogic.gdx.math.Vector3;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.lovely.games.CaenMain.VIEWPORT_HEIGHT;
-import static com.lovely.games.CaenMain.VIEWPORT_WIDTH;
-
 public class MyInputProcessor implements InputProcessor {
 
     public int lastKeyCode = 0;
     public boolean hasInput = false;
     public Camera camera;
+    public boolean hasTouchInput = false;
 
     class TouchInfo {
         public float touchX = 0;
@@ -60,7 +58,7 @@ public class MyInputProcessor implements InputProcessor {
     public boolean touchDown (int x, int y, int pointer, int button) {
 
 //Transform to world coordinates using the correct camera
-
+        hasTouchInput = true;
         if(pointer < 5){
 
             Vector3 mousePosition = new Vector3(x, y, 0);
