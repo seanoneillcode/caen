@@ -810,13 +810,15 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             Gdx.gl.glClearColor(gamma, gamma, gamma, 1.0f);
         }
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+        float oldZoom = camera.zoom;
+        camera.zoom = 0.95f;
+        camera.update(false);
         bufferBatch.setProjectionMatrix(camera.combined);
         bufferBatch.begin();
 
         bufferBatch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_DST_ALPHA);
 
-        Vector2 offset = new Vector2((playerPos.x), (playerPos.y) );
+        Vector2 offset = new Vector2(playerPos.x, playerPos.y);
         TextureRegion playerRegion = playerLightAnim.getKeyFrame(animationDelta, true);
         if (!staticLevel) {
             playerLight.setRegion(playerRegion);
@@ -824,6 +826,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             playerLight.setPosition( offset.x - 60, offset.y);
             playerLight.draw(bufferBatch);
         }
+        offset = new Vector2(camera.position.x, camera.position.y).scl(0.1f);
 
         TextureRegion tr = lightAnim.getKeyFrame(animationDelta, true);
         TextureRegion slow = lightAnim.getKeyFrame(animationDelta * 2.0f, true);
@@ -916,6 +919,9 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 }
             }
         }
+        camera.zoom = oldZoom;
+        camera.update(false);
+
         bufferBatch.end();
         buffer.end();
     }
@@ -925,8 +931,8 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         if (isPaused) {
             return;
         }
-        camera.position.set(getCameraPosition());
         updateCameraZoom();
+        camera.position.set(getCameraPosition());
         camera.update();
         inputProcessor.update();
         batch.setProjectionMatrix(camera.combined);
@@ -1316,7 +1322,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
 
     private void updateCameraZoom() {
         if ((conversation == null && currentScenes.isEmpty()) || showSaveWarning) {
-            targetZoom = 0.65f;
+            targetZoom = 0.7f;
         } else {
             targetZoom = 0.8f;
         }
