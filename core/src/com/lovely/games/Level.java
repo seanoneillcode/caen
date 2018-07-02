@@ -18,6 +18,7 @@ import com.lovely.games.scene.SceneSource;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.lovely.games.CaenMain.HALF_TILE_SIZE;
 import static com.lovely.games.CaenMain.TILE_SIZE;
 
 class Level {
@@ -98,7 +99,7 @@ class Level {
     BlockLike getBlockLike(Vector2 pos, boolean noGround) {
         for (BlockLike block : getBlockLikes()) {
             if (!(noGround && block.isGround())) {
-                if (pos.dst2(block.getPos()) < 256) {
+                if (pos.dst2(block.getPos().cpy().add(HALF_TILE_SIZE, HALF_TILE_SIZE)) < (16 * 16)) {
                     return block;
                 }
             }
@@ -108,7 +109,7 @@ class Level {
 
     DialogSource getDialogSource(Vector2 pos) {
         for (DialogSource dialogSource : dialogSources) {
-            if (!dialogSource.done && pos.dst2(dialogSource.pos) < 256) {
+            if (!dialogSource.done && pos.dst2(dialogSource.pos) < 512) {
                 return dialogSource;
             }
         }
@@ -132,7 +133,7 @@ class Level {
     Door getDoor(Vector2 pos, boolean isOpen) {
         for (Door door : doors) {
             if (door.isOpen == isOpen) {
-                if (pos.dst2(door.pos) < 256) {
+                if (pos.dst2(door.pos.cpy().add(HALF_TILE_SIZE, HALF_TILE_SIZE)) < 512) {
                     return door;
                 }
             }
@@ -173,8 +174,17 @@ class Level {
 
     Platform getPlatform(Vector2 pos) {
         for (Platform platform : platforms) {
-            if (pos.dst2(platform.pos) < 256) {
+            if (pos.dst2(platform.pos) < 512) {
                 return platform;
+            }
+        }
+        return null;
+    }
+
+    BlockLike getGroundBlock(Vector2 pos) {
+        for (BlockLike blockLike : getBlockLikes()) {
+            if (blockLike.isGround() && pos.dst2(blockLike.getPos()) < 512) {
+                return blockLike;
             }
         }
         return null;

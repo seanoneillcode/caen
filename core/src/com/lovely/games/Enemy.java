@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
+import static com.lovely.games.CaenMain.HALF_TILE_SIZE;
+import static com.lovely.games.CaenMain.QUARTER_TILE_SIZE;
 import static com.lovely.games.CaenMain.TILE_SIZE;
 
 public class Enemy extends Block implements BlockLike {
@@ -49,12 +51,12 @@ public class Enemy extends Block implements BlockLike {
         isShooting = false;
         if (!isGround) {
             Vector2 checkPos = pos.cpy();
-            for (int i = 0; i < 10; i++) {
-                checkPos.add(dir.cpy().scl(TILE_SIZE));
-                if (theFirstGate.isArrowBlocking(checkPos)) {
+            for (int i = 0; i < 48; i++) {
+                checkPos.add(dir.cpy().scl(QUARTER_TILE_SIZE));
+                if (theFirstGate.isArrowBlocking(checkPos.cpy().add(QUARTER_TILE_SIZE, QUARTER_TILE_SIZE))) {
                     break;
                 }
-                if (contains(checkPos.cpy().add(8, 8), new Vector2(16, 16), playerPos)) {
+                if (contains(checkPos, new Vector2(24, 24), playerPos)) {
                     colliding = true;
                     if (!prevShooting) {
                         animTimer = 0;

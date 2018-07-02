@@ -36,7 +36,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     static final float QUARTER_TILE_SIZE = 8f;
     private static final float PLAYER_SPEED = TILE_SIZE * 4.0f;
     private static final float CAMERA_MARGIN = 0.5f;
-    private static final float CAMERA_CATCHUP_SPEED = 2.0f;
+    private static final float CAMERA_CATCHUP_SPEED = 3.0f;
     protected static final int VIEWPORT_WIDTH = 800;
     protected static final int VIEWPORT_HEIGHT = 480;
     private static final float CAST_ARROW_COOLDOWN = 0.6f;
@@ -56,6 +56,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     static final float DEFAULT_SOUND_LEVEL = 0.5f;
     private static final float DEFAULT_MUSIC_LEVEL = 0.5f;
     private static final float DEFAULT_GAMMA = 0.5f;
+    private static final float SLIGHT_SPEED = 0.1f;
 
     private float lazerSoundTimer = 0;
     private float stepTimer = 0;
@@ -68,7 +69,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
 
     protected Level currentLevel;
     private Vector2 playerPos, playerDir;
-    private boolean isMoving;
     private Vector2 moveVector;
     private Vector2 inputVector;
     private float movementValue;
@@ -190,10 +190,11 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     private Animation<TextureRegion> doorAcrossOpenAnim, doorAcrossCloseAnim;
     private Sprite doorSprite, androidSprite;
     private Animation<TextureRegion> doorDustAnim;
+    private Vector2 playerMovement = new Vector2();
+    private Integer updating = 0;
 
 
-
-	@Override
+    @Override
 	public void create () {
 
         assetManager = new AssetManager(new InternalFileHandleResolver());
@@ -686,7 +687,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         currentLevel = level;
         saveEverything(levels.indexOf(currentLevel), startConnection.name);
         playerPos = startConnection.pos.cpy();
-        isMoving = false;
         inputVector = new Vector2();
         moveVector = new Vector2();
         arrows = new ArrayList<>();
@@ -1081,7 +1081,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
 //            }
             playerSprite.setPosition(playerPos.x, playerPos.y + HALF_TILE_SIZE  - heightAdjustment );
             TextureRegion currentFrame;
-            if (!playerIsDead && (levelTransitionTimer > 0 || isMoving)) {
+            if (!playerIsDead && (levelTransitionTimer > 0 || isMoving())) {
                 if (playerIsPushing || playerWasPushing) {
                     currentFrame = pushBlock.getKeyFrame(walkAnimDelta, true);
                 } else {
@@ -1407,23 +1407,24 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 castCurrentSpell();
             }
         }
-        if (isMoving && !playerIsDead) {
+        if (isMoving() && !playerIsDead) {
             float movementDelta = Gdx.graphics.getDeltaTime();
-            movementValue = movementValue - movementDelta;
+//            movementValue = movementValue - movementDelta;
             walkAnimDelta = walkAnimDelta + movementDelta;
-            if (movementValue < 0) {
-                isMoving = false;
-                wasMoving = true;
-                playerWasPushing = playerIsPushing;
-                playerIsPushing = false;
-                isWalkOne = !isWalkOne;
-                movementDelta = movementDelta + movementValue;
-            }
-            Vector2 movement = moveVector.cpy().scl(movementDelta * PLAYER_SPEED);
-            playerPos.add(movement);
-            if (currentPlatform != null) {
+//            if (movementValue < 0) {
+
+//            }
+//            Vector2 movement = moveVector.cpy().scl(movementDelta * PLAYER_SPEED);
+            playerPos.add(playerMovement);
+            if (currentPlatform != null && !isMoving()) {
                 playerPos.add(currentPlatform.getMovement());
             }
+        } else {
+            wasMoving = true;
+            playerWasPushing = playerIsPushing;
+            playerIsPushing = false;
+            isWalkOne = !isWalkOne;
+//            movementDelta = movementDelta + movementValue;
         }
         for (Door door : currentLevel.doors) {
             door.update();
@@ -1463,7 +1464,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             pressureTile.update();
             boolean handled = false;
 
-            if (playerPos.dst2(pressureTile.pos) < 64) {
+            if (playerPos.dst2(pressureTile.pos) < 256) {
                 pressureTile.handleAction(soundPlayer);
                 handled = true;
             }
@@ -1477,20 +1478,12 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 pressureTile.handlePressureOff(soundPlayer);
             }
         }
-        Wind wind = currentLevel.getWind(playerPos.cpy().add(4,4));
-        if (wind != null) {
-            Vector2 dir = wind.getDir();
-            inputVector = dir.cpy();
-        }
-        for (Wind winds : currentLevel.winds) {
-            winds.update();
-        }
         for (Explosion explosion : explosions) {
             explosion.update();
         }
         explosions.removeIf(Explosion::isDone);
 
-        if (!isMoving && !playerIsDead) {
+        if (!playerIsDead) {
             Platform platform = currentLevel.getPlatform(playerPos);
             if (platform != null) {
                 currentPlatform = platform;
@@ -1502,8 +1495,8 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 }
             }
             currentImageHeight = null;
-            if (currentPlatform == null && currentLevel.isDeath(playerPos.cpy().add(HALF_TILE_SIZE,HALF_TILE_SIZE))) {
-                BlockLike block = currentLevel.getBlockLike(playerPos.cpy().add(QUARTER_TILE_SIZE,QUARTER_TILE_SIZE), false);
+            if (currentPlatform == null && isDeathPlayer()) {
+                BlockLike block = currentLevel.getGroundBlock(playerPos);
                 if (!(block != null && block.isGround())) {
                     playerDeathTimer = PLAYER_DEATH_TIME;
                     soundPlayer.playSound("scream-hurt.ogg", playerPos);
@@ -1517,15 +1510,15 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 }
 
             }
-            if (wind == null) {
-                playerPos.x = MathUtils.round(playerPos.x / TILE_SIZE) * TILE_SIZE;
-                playerPos.y = MathUtils.round(playerPos.y / TILE_SIZE) * TILE_SIZE;
-            }
+//            if (wind == null) {
+//                playerPos.x = MathUtils.round(playerPos.x / TILE_SIZE) * TILE_SIZE;
+//                playerPos.y = MathUtils.round(playerPos.y / TILE_SIZE) * TILE_SIZE;
+//            }
             lockedPlatform = null;
         }
 
-        if (currentPlatform != null && !isMoving) {
-            playerPos = currentPlatform.pos.cpy();
+        if (currentPlatform != null && playerMovement.isZero()) {
+            playerPos = playerPos.add(currentPlatform.getMovement().cpy());
         }
 
         for (Connection connection : currentLevel.connections) {
@@ -1600,16 +1593,17 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 }
             }
 
-            if (arrow.isDead || currentLevel.isWall(arrow.pos) || currentLevel.isOutOfBounds(arrow.pos) || currentLevel.getDoor(arrow.pos.cpy(), false) != null) {
+            Vector2 actualArrowPos = arrow.pos.cpy().add(QUARTER_TILE_SIZE, QUARTER_TILE_SIZE);
+            if (arrow.isDead || currentLevel.isWall(actualArrowPos) || currentLevel.isOutOfBounds(actualArrowPos) || currentLevel.getDoor(actualArrowPos, false) != null) {
                 explosions.add(new Explosion(arrow.pos.cpy()));
                 soundPlayer.playSound("blast-1.ogg", arrow.pos);
                 arrowIterator.remove();
                 continue;
             }
-            BlockLike block = currentLevel.getBlockLike(arrow.pos.cpy(), true);
+            BlockLike block = currentLevel.getBlockLike(arrow.pos.cpy().add(HALF_TILE_SIZE, HALF_TILE_SIZE), true);
             if (block != null) {
                 blocksDirty = true;
-                Vector2 nextTileAgain = arrow.dir.cpy().scl(TILE_SIZE * 1.2f).add(arrow.pos);
+                Vector2 nextTileAgain = arrow.pos.cpy().add(HALF_TILE_SIZE, HALF_TILE_SIZE).add(arrow.dir.cpy().scl(TILE_SIZE));
                 explosions.add(new Explosion(arrow.pos.cpy()));
                 if (currentLevel.isTileBlocked(nextTileAgain)) {
                     arrowIterator.remove();
@@ -1685,6 +1679,8 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             currentLevel.blocks.sort((o1, o2) -> o1.isGround() == o2.isGround() ? 0 : (o1.isGround() ? -1 : 1));
         }
     }
+
+
 
     private float tileRound(float in) {
         return MathUtils.round(in / TILE_SIZE) * TILE_SIZE;
@@ -1996,17 +1992,21 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         } else {
             if (!playerIsDead && levelTransitionTimer < 0) {
                 boolean sceneBlock = !currentScenes.isEmpty() && currentScenes.stream().anyMatch(Scene::isBlocking);
-                if (!moveLock && !sceneBlock && !isMoving && !inputVector.isZero()) {
+                if (!moveLock && !sceneBlock && !inputVector.isZero()) {
                     boolean blocked = false;
                     moveVector = inputVector.cpy();
-                    Vector2 nextTilePos = moveVector.cpy().scl(TILE_SIZE).add(playerPos).add(QUARTER_TILE_SIZE, QUARTER_TILE_SIZE);
+                    Vector2 nextTilePos = playerPos.cpy()
+                            .add(HALF_TILE_SIZE, HALF_TILE_SIZE)
+                            .add(moveVector.cpy().scl(QUARTER_TILE_SIZE));
                     if (currentLevel.isTileBlocked(nextTilePos)) {
                         BlockLike block = currentLevel.getBlockLike(nextTilePos, true);
                         if (block == null) {
                             checkForSceneSources(nextTilePos);
                             blocked = true;
                         } else {
-                            Vector2 nextTileAgain = moveVector.cpy().scl(TILE_SIZE * 2.0f).add(playerPos).add(QUARTER_TILE_SIZE, QUARTER_TILE_SIZE);
+                            Vector2 nextTileAgain = playerPos.cpy()
+                                    .add(moveVector.cpy().scl(TILE_SIZE + QUARTER_TILE_SIZE))
+                                    .add(HALF_TILE_SIZE, HALF_TILE_SIZE);
                             if (currentLevel.isTileBlocked(nextTileAgain)) {
                                 blocked = true;
                             } else {
@@ -2016,16 +2016,20 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                             }
                         }
                     }
-                    Platform platform = currentLevel.getPlatform(playerPos);
+                    Platform platform = currentLevel.getPlatform(playerPos.cpy().add(HALF_TILE_SIZE, HALF_TILE_SIZE));
                     if (platform != null) {
-                        Vector2 nextNextTilePos = moveVector.cpy().scl(TILE_SIZE * 1.0f).add(playerPos).add(QUARTER_TILE_SIZE, QUARTER_TILE_SIZE);
+                        Vector2 nextNextTilePos = playerPos.cpy()
+                                .add(moveVector.cpy().scl(QUARTER_TILE_SIZE))
+                                .add(HALF_TILE_SIZE, HALF_TILE_SIZE);
                         if (currentLevel.isTileBlocked(nextNextTilePos)) {
                             BlockLike block = currentLevel.getBlockLike(nextNextTilePos, true);
                             if (block == null) {
                                 checkForSceneSources(nextNextTilePos);
                                 blocked = true;
                             } else {
-                                Vector2 nextTileAgain = moveVector.cpy().scl(TILE_SIZE * 2.0f).add(playerPos).add(QUARTER_TILE_SIZE, QUARTER_TILE_SIZE);
+                                Vector2 nextTileAgain = playerPos.cpy()
+                                        .add(moveVector.cpy().scl(TILE_SIZE + QUARTER_TILE_SIZE))
+                                        .add(HALF_TILE_SIZE, HALF_TILE_SIZE);
                                 if (currentLevel.isTileBlocked(nextTileAgain)) {
                                     blocked = true;
                                 } else {
@@ -2033,7 +2037,9 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                                     playerIsPushing = true;
                                     soundPlayer.playSound("block-3.ogg", block.getPos());
                                 }
-                                nextTileAgain = moveVector.cpy().scl(TILE_SIZE * 3.0f).add(playerPos).add(QUARTER_TILE_SIZE, QUARTER_TILE_SIZE);
+                                nextTileAgain = playerPos.cpy()
+                                        .add(moveVector.cpy().scl(TILE_SIZE + TILE_SIZE + QUARTER_TILE_SIZE))
+                                        .add(HALF_TILE_SIZE, HALF_TILE_SIZE);
                                 if (currentLevel.isTileBlocked(nextTileAgain)) {
                                     blocked = true;
                                 } else {
@@ -2049,8 +2055,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                         lockedPlatform = nextPlatform;
                     }
                     if (!blocked) {
-                        isMoving = true;
-
                         if (!wasMoving) {
                             walkAnimDelta = 0;
                         }
@@ -2061,7 +2065,11 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                             playerFacingLeft = false;
                         }
                         playerDir = inputVector.cpy();
-                        movementValue = TILE_SIZE / PLAYER_SPEED;
+//                        movementValue = Gdx.graphics.getDeltaTime() * PLAYER_SPEED;//TILE_SIZE / PLAYER_SPEED;
+                        playerMovement = inputVector.cpy().scl(2f);
+                    } else {
+                        playerMovement.x = 0;
+                        playerMovement.y = 0;
                     }
                 }
                 if (!inputVector.isZero() && !skipLock) {
@@ -2085,7 +2093,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         }
         if ((inputVector.x != 0 || inputVector.y != 0)) {
             dialogLock = true;
-            if (isMoving) {
+            if (isMoving()) {
                 float pitch = MathUtils.random(0.75f, 1.25f);
                 if (stepTimer < 0) {
                     soundPlayer.playSound("step-2.ogg", playerPos);
@@ -2098,6 +2106,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             skipLock = false;
             wasMoving = false;
             titleLock = false;
+            playerMovement = new Vector2();
         }
         inputVector = new Vector2();
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_9)) {
@@ -2145,7 +2154,8 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             return;
         }
         if (currentSpell != null && currentSpell.equals("arrow")) {
-            Vector2 nextTilePos = playerDir.cpy().scl(24f).add(playerPos);
+
+            Vector2 nextTilePos = playerDir.cpy().scl(24f, 32f).add(playerPos).add(0, QUARTER_TILE_SIZE);
             addArrow(nextTilePos, playerDir, PLAYER_ARROW_SPEED, false);
             castCooldown = CAST_ARROW_COOLDOWN;
         }
@@ -2180,10 +2190,10 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             }
         }
         if (actor.equals("pro")) {
-            isMoving = true;
             playerDir = value.cpy().nor();
-            movementValue = TILE_SIZE / PLAYER_SPEED;
+//            movementValue = TILE_SIZE / PLAYER_SPEED;
             moveVector = value.cpy().nor();
+            playerMovement = value.cpy().nor();
         }
     }
 
@@ -2315,6 +2325,18 @@ public class CaenMain extends ApplicationAdapter implements Stage {
 
     public void removeArrows() {
         arrows.clear();
+    }
+
+    public boolean isMoving() {
+        return !playerMovement.isZero();
+    }
+
+    public boolean isDeathPlayer() {
+        boolean up = currentLevel.isDeath(playerPos.cpy().add(HALF_TILE_SIZE, HALF_TILE_SIZE + QUARTER_TILE_SIZE));
+        boolean down = currentLevel.isDeath(playerPos.cpy().add(HALF_TILE_SIZE, HALF_TILE_SIZE - QUARTER_TILE_SIZE));
+        boolean left = currentLevel.isDeath(playerPos.cpy().add(HALF_TILE_SIZE - QUARTER_TILE_SIZE, HALF_TILE_SIZE));
+        boolean right = currentLevel.isDeath(playerPos.cpy().add(HALF_TILE_SIZE + QUARTER_TILE_SIZE, HALF_TILE_SIZE));
+        return up && down && left && right;
     }
 
 //	@Override

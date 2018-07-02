@@ -10,7 +10,7 @@ import static com.lovely.games.CaenMain.TILE_SIZE;
 
 class Block implements BlockLike {
 
-    static final float TILE_SPEED = TILE_SIZE * 4.0f;
+    static final float TILE_SPEED = TILE_SIZE * 8.0f;
 
     Vector2 pos;
     Vector2 dir;
