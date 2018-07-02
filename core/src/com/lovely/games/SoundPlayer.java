@@ -47,7 +47,7 @@ public class SoundPlayer {
     public void resumeSounds() {
         isPaused = false;
         for (Integer id : sounds.keySet()) {
-            sounds.get(id).sound.play();
+            //sounds.get(id).sound.play();
         }
     }
 
@@ -92,48 +92,48 @@ public class SoundPlayer {
     }
 
     public void playSound(String name) {
-        int id = MathUtils.random(RANDOM_SOUND_ID_RANGE);
-        Music sound = Gdx.audio.newMusic(Gdx.files.internal(name));
-        sounds.put(id, new PositionSound(sound, playerPos, false));
-        sound.setVolume(getVolume(playerPos, playerPos));
-        sound.play();
+//        int id = MathUtils.random(RANDOM_SOUND_ID_RANGE);
+//        Music sound = Gdx.audio.newMusic(Gdx.files.internal(name));
+//        sounds.put(id, new PositionSound(sound, playerPos, false));
+//        sound.setVolume(getVolume(playerPos, playerPos));
+//        sound.play();
     }
 
 
     public void playSound(String name, Vector2 pos) {
-        int id = MathUtils.random(RANDOM_SOUND_ID_RANGE);
-        Music sound = Gdx.audio.newMusic(Gdx.files.internal(name));
-        sounds.put(id, new PositionSound(sound, pos, false));
-        sound.setVolume(getVolume(playerPos, pos));
-        sound.play();
+//        int id = MathUtils.random(RANDOM_SOUND_ID_RANGE);
+//        Music sound = Gdx.audio.newMusic(Gdx.files.internal(name));
+//        sounds.put(id, new PositionSound(sound, pos, false));
+//        sound.setVolume(getVolume(playerPos, pos));
+//        sound.play();
     }
 
     public void playMusic(int id, String name, boolean isLooping) {
-        if (!sounds.containsKey(id)) {
-            Music sound = Gdx.audio.newMusic(Gdx.files.internal(name));
-            sounds.put(id, new PositionSound(sound, new Vector2(), true));
-        }
-        Music sound = sounds.get(id).sound;
-        if (sound.isPlaying()) {
-            return;
-        }
-        sound.setVolume(getMusicVolume());
-        sound.play();
-        sound.setLooping(isLooping);
+//        if (!sounds.containsKey(id)) {
+//            Music sound = Gdx.audio.newMusic(Gdx.files.internal(name));
+//            sounds.put(id, new PositionSound(sound, new Vector2(), true));
+//        }
+//        Music sound = sounds.get(id).sound;
+//        if (sound.isPlaying()) {
+//            return;
+//        }
+//        sound.setVolume(getMusicVolume());
+//        sound.play();
+//        sound.setLooping(isLooping);
     }
 
     public void playSound(int id, String name, Vector2 pos, boolean isLooping) {
-        if (!sounds.containsKey(id)) {
-            Music sound = Gdx.audio.newMusic(Gdx.files.internal(name));
-            sounds.put(id, new PositionSound(sound, pos, false));
-        }
-        Music sound = sounds.get(id).sound;
-        if (sound.isPlaying()) {
-            return;
-        }
-        sound.setVolume(getVolume(playerPos, pos));
-        sound.play();
-        sound.setLooping(isLooping);
+//        if (!sounds.containsKey(id)) {
+//            Music sound = Gdx.audio.newMusic(Gdx.files.internal(name));
+//            sounds.put(id, new PositionSound(sound, pos, false));
+//        }
+//        Music sound = sounds.get(id).sound;
+//        if (sound.isPlaying()) {
+//            return;
+//        }
+//        sound.setVolume(getVolume(playerPos, pos));
+//        sound.play();
+//        sound.setLooping(isLooping);
     }
 
     private float getVolume(Vector2 playerPos, Vector2 soundPos) {

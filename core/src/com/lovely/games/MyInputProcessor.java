@@ -15,6 +15,19 @@ public class MyInputProcessor implements InputProcessor {
     public boolean hasInput = false;
     public Camera camera;
     public boolean hasTouchInput = false;
+    public Vector2 startJoyPos;
+    public Vector2 joyVector;
+    public float inputCaptureTimer = -1;
+    public static final float INPUT_CAPTURE_WAIT = 0.2f;
+    Vector2 startCameraPos;
+
+    public Vector2 getStartJoyPos() {
+        if (startJoyPos == null || startCameraPos == null) {
+            return new Vector2();
+        }
+        Vector2 offset = new Vector2(startCameraPos.x - camera.position.x, startCameraPos.y - camera.position.y);
+        return startJoyPos.cpy().sub(offset);
+    }
 
     class TouchInfo {
         public float touchX = 0;
@@ -22,18 +35,38 @@ public class MyInputProcessor implements InputProcessor {
         public boolean touched = false;
     }
 
-    private Map<Integer, TouchInfo> touches = new HashMap<>();
-
-    public Vector2 getAndroidPos() {
-        return new Vector2(touches.get(0).touchX, touches.get(0).touchY);
-    }
-
     public MyInputProcessor(Camera camera) {
         for(int i = 0; i < 5; i++){
             touches.put(i, new TouchInfo());
         }
         this.camera = camera;
+        joyVector = new Vector2();
+        startCameraPos = null; //new Vector2(camera.position.x, camera.position.y);
     }
+
+    private Map<Integer, TouchInfo> touches = new HashMap<>();
+
+    public void update() {
+        if (inputCaptureTimer >= 0) {
+            inputCaptureTimer = inputCaptureTimer - Gdx.graphics.getDeltaTime();
+        }
+        if (inputCaptureTimer < 0 && joyVector.len() > 16) {
+            hasTouchInput = true;
+        } else {
+            hasTouchInput = false;
+        }
+    }
+
+    public Vector2 getAndroidPos() {
+        return new Vector2(touches.get(0).touchX, touches.get(0).touchY);
+    }
+
+
+
+    public Vector2 getJoyVector() {
+        return joyVector.cpy();
+    }
+
 
     public void acceptInput() {
         hasInput = false;
@@ -58,23 +91,54 @@ public class MyInputProcessor implements InputProcessor {
     public boolean touchDown (int x, int y, int pointer, int button) {
 
 //Transform to world coordinates using the correct camera
-        hasTouchInput = true;
+//        hasTouchInput = true;
+//        if (inputCaptureTimer < 0) {
+//            hasTouchInput = true;
+//            inputCaptureTimer = INPUT_CAPTURE_WAIT;
+//        }
+        Vector3 mousePosition = new Vector3(x, y, 0);
+        mousePosition = camera.unproject(mousePosition);
         if(pointer < 5){
 
-            Vector3 mousePosition = new Vector3(x, y, 0);
-            mousePosition = camera.unproject(mousePosition);
+
             touches.get(pointer).touchX = mousePosition.x;
             touches.get(pointer).touchY = mousePosition.y;
             touches.get(pointer).touched = true;
         }
-        return false;
+        if (pointer == 0) {
+            startJoyPos = new Vector2(mousePosition.x, mousePosition.y);
+            startCameraPos = new Vector2(camera.position.x, camera.position.y);
+        }
+        return true;
     }
 
     public boolean touchUp (int x, int y, int pointer, int button) {
+        if (pointer == 0) {
+            startJoyPos = null;
+            startCameraPos = null;
+            joyVector.x = 0;
+            joyVector.y = 0;
+
+        }
         return false;
     }
 
     public boolean touchDragged (int x, int y, int pointer) {
+        Vector3 mousePosition = new Vector3(x, y, 0);
+
+        mousePosition = camera.unproject(mousePosition);
+//        if (pointer == 0) {
+//            System.out.println("x " + x + " y " + y + " pointer " + pointer);
+            if (pointer == 0) {
+                joyVector = new Vector2(mousePosition.x, mousePosition.y).sub(getStartJoyPos());
+//                if (inputCaptureTimer < 0) {
+//
+//                    inputCaptureTimer = INPUT_CAPTURE_WAIT;
+//                }
+
+//                System.out.println(joyVector);
+            }
+//        }
         return false;
     }
 

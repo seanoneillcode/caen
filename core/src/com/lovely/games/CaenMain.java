@@ -928,6 +928,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         camera.position.set(getCameraPosition());
         updateCameraZoom();
         camera.update();
+        inputProcessor.update();
         batch.setProjectionMatrix(camera.combined);
         if ((!isMenu() || isBrightnessOption()) && !isPlayingOpeningScene) {
             mapRenderer.setView(camera);
@@ -1196,6 +1197,9 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                     posterSprite.draw(batch);
                 }
             }
+            Vector2 startJoyPos = inputProcessor.getStartJoyPos();
+            androidSprite.setPosition(startJoyPos.x, startJoyPos.y);
+            androidSprite.draw(batch);
             batch.end();
         }
         if (isPlayingOpeningScene) {
@@ -1312,9 +1316,9 @@ public class CaenMain extends ApplicationAdapter implements Stage {
 
     private void updateCameraZoom() {
         if ((conversation == null && currentScenes.isEmpty()) || showSaveWarning) {
-            targetZoom = 1.0f;
+            targetZoom = 0.65f;
         } else {
-            targetZoom = 0.85f;
+            targetZoom = 0.8f;
         }
         if (isMenu()) {
             targetZoom = 0.9f;
@@ -1749,23 +1753,43 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         boolean isDownPressed = Gdx.input.isKeyPressed(keyMappings.get("down key"));
 
         if (inputProcessor.hasTouchInput) {
-            inputProcessor.hasTouchInput = false;
-            Vector2 androidPos = inputProcessor.getAndroidPos();
-            Vector2 cameraOffset = new Vector2(camera.position.x - (VIEWPORT_WIDTH / 2.0f), camera.position.y - (VIEWPORT_HEIGHT / 2.0f));
+//            inputProcessor.hasTouchInput = false;
+//            Vector2 androidPos = inputProcessor.getAndroidPos();
+//            Vector2 cameraOffset = new Vector2(camera.position.x - (VIEWPORT_WIDTH / 2.0f), camera.position.y - (VIEWPORT_HEIGHT / 2.0f));
 //            androidPos = androidPos.sub(cameraOffset);
-            androidPos = androidPos.sub(cameraOffset);
-            if (androidPos.x < 100) {
-                isLeftPressed = true;
-            }
-            if (androidPos.x > camera.viewportWidth - 100) {
-                isRightPressed = true;
-            }
-            if (androidPos.y > camera.viewportHeight - 100) {
-                isUpPressed = true;
-            }
-            if (androidPos.y < 100) {
-                isDownPressed = true;
-            }
+//            androidPos = androidPos.sub(cameraOffset);
+
+            Vector2 joyVector = inputProcessor.getJoyVector();
+                Vector2 norJoy = joyVector.nor();
+                if (norJoy.x > 0.5f) {
+                    isRightPressed = true;
+//                    System.out.println("right pressed");
+                }
+                if (norJoy.x < -0.5f) {
+//                    System.out.println("left pressed");
+                    isLeftPressed = true;
+                }
+                if (norJoy.y > 0.5f) {
+                    isUpPressed = true;
+//                    System.out.println("up pressed");
+                }
+                if (norJoy.y < -0.5f) {
+//                    System.out.println("down pressed");
+                    isDownPressed = true;
+                }
+
+//            if (androidPos.x < 100) {
+//                isLeftPressed = true;
+//            }
+//            if (androidPos.x > camera.viewportWidth - 100) {
+//                isRightPressed = true;
+//            }
+//            if (androidPos.y > camera.viewportHeight - 100) {
+//                isUpPressed = true;
+//            }
+//            if (androidPos.y < 100) {
+//                isDownPressed = true;
+//            }
         }
 
 
