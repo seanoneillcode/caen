@@ -784,11 +784,11 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         if (snaplock && pos.dst2(new Vector2(cameraPosition.x, cameraPosition.y)) < 10000) {
             snaplock = false;
         }
-        if (!snaplock) {
-            float cameraTrailLimit = 100.0f;
+//        if (!snaplock) {
+            float cameraTrailLimit = 0f;
             cameraPosition.x = MathUtils.clamp(cameraPosition.x, -cameraTrailLimit + pos.x, cameraTrailLimit + pos.x);
             cameraPosition.y = MathUtils.clamp(cameraPosition.y, -cameraTrailLimit + pos.y, cameraTrailLimit + pos.y);
-        }
+//        }
 
         return cameraPosition;
     }
@@ -1754,47 +1754,28 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         boolean isUpPressed = Gdx.input.isKeyPressed(keyMappings.get("up key"));
         boolean isDownPressed = Gdx.input.isKeyPressed(keyMappings.get("down key"));
 
+        Vector2 inputAmount = new Vector2(1, 1);
         if (inputProcessor.hasTouchInput) {
-//            inputProcessor.hasTouchInput = false;
-//            Vector2 androidPos = inputProcessor.getAndroidPos();
-//            Vector2 cameraOffset = new Vector2(camera.position.x - (VIEWPORT_WIDTH / 2.0f), camera.position.y - (VIEWPORT_HEIGHT / 2.0f));
-//            androidPos = androidPos.sub(cameraOffset);
-//            androidPos = androidPos.sub(cameraOffset);
-
             Vector2 joyVector = inputProcessor.getJoyVector();
-                Vector2 norJoy = joyVector.nor();
-                if (norJoy.x > 0.5f) {
-                    isRightPressed = true;
-//                    System.out.println("right pressed");
-                }
-                if (norJoy.x < -0.5f) {
-//                    System.out.println("left pressed");
-                    isLeftPressed = true;
-                }
-                if (norJoy.y > 0.5f) {
-                    isUpPressed = true;
-//                    System.out.println("up pressed");
-                }
-                if (norJoy.y < -0.5f) {
-//                    System.out.println("down pressed");
-                    isDownPressed = true;
-                }
-
-//            if (androidPos.x < 100) {
-//                isLeftPressed = true;
-//            }
-//            if (androidPos.x > camera.viewportWidth - 100) {
-//                isRightPressed = true;
-//            }
-//            if (androidPos.y > camera.viewportHeight - 100) {
-//                isUpPressed = true;
-//            }
-//            if (androidPos.y < 100) {
-//                isDownPressed = true;
-//            }
+            Vector2 norJoy = joyVector.nor();
+            float threashold = 0.5f;
+            if (norJoy.x > threashold) {
+                isRightPressed = true;
+                inputAmount = inputProcessor.getInputAmount();
+            }
+            if (norJoy.x < -threashold) {
+                isLeftPressed = true;
+                inputAmount = inputProcessor.getInputAmount();
+            }
+            if (norJoy.y > threashold) {
+                isUpPressed = true;
+                inputAmount = inputProcessor.getInputAmount();
+            }
+            if (norJoy.y < -threashold) {
+                isDownPressed = true;
+                inputAmount = inputProcessor.getInputAmount();
+            }
         }
-
-
 
         if (isLeftPressed) {
             inputVector.x = inputVector.x - 1;
@@ -2072,7 +2053,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                         }
                         playerDir = inputVector.cpy();
 //                        movementValue = Gdx.graphics.getDeltaTime() * PLAYER_SPEED;//TILE_SIZE / PLAYER_SPEED;
-                        playerMovement = inputVector.cpy().scl(2f);
+                        playerMovement = inputVector.cpy().scl(2f).scl(inputAmount).limit(2f);
                     } else {
                         playerMovement.x = 0;
                         playerMovement.y = 0;

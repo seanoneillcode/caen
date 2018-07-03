@@ -3,6 +3,7 @@ package com.lovely.games;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
@@ -20,6 +21,7 @@ public class MyInputProcessor implements InputProcessor {
     public float inputCaptureTimer = -1;
     public static final float INPUT_CAPTURE_WAIT = 0.2f;
     Vector2 startCameraPos;
+    private Vector2 inputAmount = new Vector2();
 
     public Vector2 getStartJoyPos() {
         if (startJoyPos == null || startCameraPos == null) {
@@ -46,13 +48,22 @@ public class MyInputProcessor implements InputProcessor {
 
     private Map<Integer, TouchInfo> touches = new HashMap<>();
 
+    public Vector2 getInputAmount()  {
+        return inputAmount;
+    }
+
     public void update() {
         if (inputCaptureTimer >= 0) {
             inputCaptureTimer = inputCaptureTimer - Gdx.graphics.getDeltaTime();
         }
-        if (inputCaptureTimer < 0 && joyVector.len() > 16) {
+        if (inputCaptureTimer < 0 && !joyVector.isZero()) {
+
             hasTouchInput = true;
+            inputAmount.x = MathUtils.clamp(Math.abs(joyVector.x), 0, 32f) / 32f;
+            inputAmount.y = MathUtils.clamp(Math.abs(joyVector.y), 0, 32f) / 32f;
+
         } else {
+            inputAmount = new Vector2();
             hasTouchInput = false;
         }
     }
