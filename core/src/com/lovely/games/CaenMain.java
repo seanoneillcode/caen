@@ -193,7 +193,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     private Vector2 playerMovement = new Vector2();
     private Integer updating = 0;
 
-
     @Override
 	public void create () {
 
@@ -341,6 +340,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         assetManager.load("volume-level-off.png", Texture.class);
         assetManager.load("player-large.png", Texture.class);
         assetManager.load("select-arrow.png", Texture.class);
+        assetManager.load("pointer.png", Texture.class);
         assetManager.update();
 
         assetManager.load("arrow-source.ogg", Music.class);
@@ -418,8 +418,8 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         playerSprite = new Sprite();
         playerSprite.setSize(32,32);
 
-        androidSprite = new Sprite((Texture) assetManager.get("select-arrow.png"));
-        androidSprite.setSize(24, 24);
+        androidSprite = new Sprite((Texture) assetManager.get("pointer.png"));
+        androidSprite.setSize(5, 5);
 
         antSprite = new Sprite();
         antSprite.setSize(32,32);
@@ -1203,9 +1203,11 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                     posterSprite.draw(batch);
                 }
             }
-            Vector2 startJoyPos = inputProcessor.getStartJoyPos();
-            androidSprite.setPosition(startJoyPos.x, startJoyPos.y);
-            androidSprite.draw(batch);
+//            Vector2 startJoyPos = inputProcessor.getStartJoyPos();
+//            androidSprite.setRegion((Texture) assetManager.get("pointer.png"));
+//            androidSprite.setPosition(startJoyPos.x, startJoyPos.y);
+//            androidSprite.setPosition(playerPos.x + HALF_TILE_SIZE, playerPos.y + HALF_TILE_SIZE);
+//            androidSprite.draw(batch);
             batch.end();
         }
         if (isPlayingOpeningScene) {
@@ -1283,9 +1285,9 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                     selectArrowSprite.draw(batch);
                 }
             }
-            Vector2 androidPos = inputProcessor.getAndroidPos();
-            androidSprite.setPosition(androidPos.x, androidPos.y);
-            androidSprite.draw(batch);
+//            Vector2 androidPos = inputProcessor.getAndroidPos();
+//            androidSprite.setPosition(androidPos.x, androidPos.y);
+//            androidSprite.draw(batch);
 
             batch.end();
         }
@@ -1415,12 +1417,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         }
         if (isMoving() && !playerIsDead) {
             float movementDelta = Gdx.graphics.getDeltaTime();
-//            movementValue = movementValue - movementDelta;
             walkAnimDelta = walkAnimDelta + movementDelta;
-//            if (movementValue < 0) {
-
-//            }
-//            Vector2 movement = moveVector.cpy().scl(movementDelta * PLAYER_SPEED);
             playerPos.add(playerMovement);
             if (currentPlatform != null && !isMoving()) {
                 playerPos.add(currentPlatform.getMovement());
@@ -1430,7 +1427,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             playerWasPushing = playerIsPushing;
             playerIsPushing = false;
             isWalkOne = !isWalkOne;
-//            movementDelta = movementDelta + movementValue;
         }
         for (Door door : currentLevel.doors) {
             door.update();
@@ -1516,10 +1512,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 }
 
             }
-//            if (wind == null) {
-//                playerPos.x = MathUtils.round(playerPos.x / TILE_SIZE) * TILE_SIZE;
-//                playerPos.y = MathUtils.round(playerPos.y / TILE_SIZE) * TILE_SIZE;
-//            }
             lockedPlatform = null;
         }
 
@@ -1528,7 +1520,8 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         }
 
         for (Connection connection : currentLevel.connections) {
-            if (connection.contains(playerPos.cpy().add(QUARTER_TILE_SIZE,QUARTER_TILE_SIZE))) {
+            Vector2 movePos = playerPos.cpy().add(HALF_TILE_SIZE, HALF_TILE_SIZE).add(playerDir.cpy().scl(QUARTER_TILE_SIZE));
+            if (connection.contains(movePos)) {
                 if (connection.active) {
                     if (connection.to != null && !connection.to.isEmpty()) {
                         goToConnection(connection.to);
