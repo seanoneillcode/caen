@@ -1214,7 +1214,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             newGameScene.update(this);
             batch.setProjectionMatrix(camera.combined);
             batch.begin();
-            Vector2 pos = new Vector2(camera.position.x - 100, camera.position.y - 100);
+            Vector2 pos = new Vector2(camera.position.x - 100, camera.position.y - 10);
             newGameScene.render(batch, pos);
             batch.end();
         }
