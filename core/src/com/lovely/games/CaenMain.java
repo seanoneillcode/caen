@@ -1446,6 +1446,8 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             if (dir.x < 0) {
                 playerFacingLeft = true;
             }
+            playerMovement.x = 0;
+            playerMovement.y = 0;
             Vector2 movement = dir.scl(Gdx.graphics.getDeltaTime() * PLAYER_SPEED * PLAYER_TRANSITION_SPEED);
             playerPos.add(movement);
             if (!isBrightnessOption()) {
@@ -1536,6 +1538,8 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         if (dialogSource != null) {
             startDialog(dialogSource.id, null);
             dialogSource.done = true;
+            playerMovement.x = 0;
+            playerMovement.y = 0;
         }
         if (conversation != null) {
             conversation.update();

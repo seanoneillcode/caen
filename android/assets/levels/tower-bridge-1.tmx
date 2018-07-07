@@ -17,12 +17,12 @@
 4,4,79,0,79,4,4,4,4,4,4,4,4,4,79,79,79,4,4,0,
 4,4,89,0,89,4,4,4,4,4,4,4,4,4,89,89,89,4,4,0,
 4,4,4,0,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,0,
-4,4,4,0,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,0,
 4,4,0,0,0,4,4,4,4,4,4,4,4,4,0,0,0,0,0,0,
 4,4,0,0,0,0,4,4,4,4,4,4,4,0,0,0,0,0,0,0,
 4,4,0,0,0,80,4,4,4,4,4,4,4,78,0,0,0,0,0,0,
-4,4,79,79,79,4,4,4,4,4,4,4,4,4,79,79,79,79,79,0,
-0,0,89,89,89,0,0,0,0,0,0,0,0,0,89,89,89,89,89,0
+4,4,98,99,100,4,4,4,4,4,4,4,4,4,98,99,99,99,99,0,
+4,4,89,89,89,4,4,4,4,4,4,4,4,4,89,89,89,89,89,0,
+0,0,4,4,4,0,0,0,0,0,0,0,0,0,4,4,4,4,4,0
 </data>
  </layer>
  <layer name="walls" width="20" height="16">
@@ -37,10 +37,10 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,12,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,55,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,12,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,12,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,12,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
@@ -57,10 +57,10 @@
 0,0,0,47,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,47,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,47,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,47,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,44,28,46,0,0,0,0,0,0,0,0,0,44,45,45,0,0,0,
-0,0,54,2,2,48,0,0,0,0,0,0,0,59,2,27,28,2,0,0,
+0,0,44,55,46,0,0,0,0,0,0,0,0,0,44,45,45,0,0,0,
+0,0,54,55,55,48,0,0,0,0,0,0,0,59,55,55,55,55,0,0,
 0,0,64,65,66,0,0,0,0,0,0,0,0,0,64,65,65,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
@@ -80,7 +80,7 @@
 92,0,0,0,0,0,60,0,0,0,0,0,60,0,0,0,0,0,0,0,
 93,0,0,0,0,0,60,0,0,0,0,0,60,0,0,0,0,0,0,0,
 0,0,0,0,0,0,60,0,0,0,0,0,60,0,0,0,0,0,0,0,
-0,0,0,0,0,0,60,0,0,0,0,0,60,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
@@ -100,7 +100,7 @@
     <property name="ydir" value="-1"/>
    </properties>
   </object>
-  <object id="17" name="56" type="connection" x="544" y="384" width="32" height="32">
+  <object id="17" name="56" type="connection" x="544" y="352" width="32" height="32">
    <properties>
     <property name="dir" value="left"/>
     <property name="to" value="234"/>
@@ -109,35 +109,35 @@
   <object id="21" type="platform" x="256" y="256" width="32" height="32">
    <properties>
     <property name="isActive" value="false"/>
-    <property name="movey" value="-5"/>
+    <property name="movey" value="-4"/>
     <property name="switch" value="a"/>
    </properties>
   </object>
   <object id="24" type="platform" x="320" y="256" width="32" height="32">
    <properties>
     <property name="isActive" value="false"/>
-    <property name="movey" value="-5"/>
+    <property name="movey" value="-4"/>
     <property name="switch" value="a"/>
    </properties>
   </object>
   <object id="25" type="platform" x="288" y="256" width="32" height="32">
    <properties>
     <property name="isActive" value="false"/>
-    <property name="movey" value="-5"/>
+    <property name="movey" value="-4"/>
     <property name="switch" value="a"/>
    </properties>
   </object>
   <object id="28" type="platform" x="384" y="256" width="32" height="32">
    <properties>
     <property name="isActive" value="false"/>
-    <property name="movey" value="-5"/>
+    <property name="movey" value="-4"/>
     <property name="switch" value="a"/>
    </properties>
   </object>
   <object id="29" type="platform" x="352" y="256" width="32" height="32">
    <properties>
     <property name="isActive" value="false"/>
-    <property name="movey" value="-5"/>
+    <property name="movey" value="-4"/>
     <property name="switch" value="a"/>
    </properties>
   </object>
@@ -156,14 +156,14 @@
   <object id="33" type="platform" x="224" y="256" width="32" height="32">
    <properties>
     <property name="isActive" value="false"/>
-    <property name="movey" value="-5"/>
+    <property name="movey" value="-4"/>
     <property name="switch" value="a"/>
    </properties>
   </object>
   <object id="34" type="platform" x="192" y="256" width="32" height="32">
    <properties>
     <property name="isActive" value="false"/>
-    <property name="movey" value="-5"/>
+    <property name="movey" value="-4"/>
     <property name="switch" value="a"/>
    </properties>
   </object>
