@@ -49,9 +49,8 @@ class PressureTile {
                     trunk.broadcast(switchId);
                 }
                 isPressure = false;
+                animTimer = 0;
             }
-            animTimer = 0;
-
         }
         this.handledAction = false;
     }

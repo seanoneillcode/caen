@@ -165,11 +165,11 @@ public class SceneContainer {
                 .build());
 
         scenes.put("25", builder()
-                .verb(new DialogVerb("42"))
+                .verb(new DialogVerb("26"))
                 .verb(new MoveVerb(new Vector2(0, 32 * 2), "ant", true))
                 .verb(new HideShowActorVerb(true, "ant"))
                 .verb(new SendEventVerb("a"))
-                .verb(new DialogVerb("43"))
+                .verb(new DialogVerb("27"))
                 .build());
 
         scenes.put("26", builder()
@@ -178,7 +178,7 @@ public class SceneContainer {
 
         scenes.put("27", builder()
                 .verb(new DialogVerb("29"))
-                .verb(new MoveVerb(new Vector2(0, 32 * -1), "pro", true))
+                .verb(new MoveVerb(new Vector2(0, 32 * -2), "pro", true))
                 .build());
 
         scenes.put("28", builder()
@@ -203,12 +203,12 @@ public class SceneContainer {
                 .verb(new HideShowActorVerb(true, "pro"))
                 .verb(new WaitVerb(0.5f))
                 .verb(new SendEventVerb("b"))
-                .verb(new MoveVerb(new Vector2(0, -32), "ant", true))
-                .verb(new WaitVerb(0.5f))
+                .verb(new WaitVerb(0.25f))
                 .verb(new MoveVerb(new Vector2(32 * 2, 0), "ant", true))
                 .verb(new DialogVerb("34"))
                 .verb(new WaitVerb(0.5f))
                 .verb(new DialogVerb("35"))
+                .verb(new MoveVerb(new Vector2(32 * -1, 0), "ant", true))
                 .verb(new MoveVerb(new Vector2(0, 32 * 6), "ant", true))
                 .verb(new ConnectionVerb("33"))
                 .verb(new HideShowActorVerb(false, "pro"))

@@ -1285,13 +1285,9 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                     selectArrowSprite.draw(batch);
                 }
             }
-//            Vector2 androidPos = inputProcessor.getAndroidPos();
-//            androidSprite.setPosition(androidPos.x, androidPos.y);
-//            androidSprite.draw(batch);
 
             batch.end();
         }
-//        if (screenFade > 0) {
         Vector2 pos = new Vector2(204, 180);
         if (!isMenu() || isBrightnessOption()) {
             pos = new Vector2(camera.position.x - 76, camera.position.y - 60);
@@ -1302,7 +1298,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         fadeSprite.setPosition(pos.x, pos.y);
         fadeSprite.draw(batch);
         batch.end();
-//        }
 
         isLevelDirty = false;
         isViewDirty = false;
@@ -1555,7 +1550,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 actor.update(this, platform);
             }
         }
-        checkForSceneSources(playerPos);
+        checkForSceneSources(playerPos.cpy().add(HALF_TILE_SIZE, HALF_TILE_SIZE));
         currentLevel.resetSceneSources(playerPos);
         List<Scene> newScenes = new ArrayList<>();
         Iterator<Scene> sceneIterator = currentScenes.iterator();
@@ -2004,7 +1999,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                         if (currentLevel.isTileBlocked(nextNextTilePos)) {
                             BlockLike block = currentLevel.getBlockLike(nextNextTilePos, true);
                             if (block == null) {
-                                checkForSceneSources(nextNextTilePos);
+//                                checkForSceneSources(nextNextTilePos);
                                 blocked = true;
                             } else {
                                 Vector2 nextTileAgain = playerPos.cpy()

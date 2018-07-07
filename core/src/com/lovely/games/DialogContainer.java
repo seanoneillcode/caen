@@ -238,13 +238,15 @@ public class DialogContainer {
                 line(ant, "No... Arthur, please leave"),
                 line(pro, "I am here to take these trials", "talk"),
                 line(ant, "You have already failed. You cannot take them again", "talk"),
-                line(pro, "Why not? I am more determined, more skilled and experienced", "talk"),
-                line(ant, "A Mage must be sound in mind... and in body. These trials are an extreme test of both.", "talk"),
+                line(pro, "Why not? I am more determined, more skilled and experienced", "angry"),
+                line(ant, "A Mage must be sound in mind... and in body. These trials are an extreme test of both.", "happy"),
                 line(ant, "Now take what's left of your life and begone", "talk"),
                 line(pro, "I will show you", "angry")
         ));
         dialogs.put("29", Arrays.asList(
-                line(ant, "I see you trying to sneak past. If I catch you again I will kill you.", "angry")
+                line(ant, "I see you trying to sneak past", "happy"),
+                line(ant, "If I catch you again, I'll kill you!", "angry"),
+                line(ant, "Now leave!", "angry")
         ));
         dialogs.put("30", Arrays.asList(
                 line(pro, "I must be quick! If he catches me I'm dead...", "worried")
@@ -273,17 +275,19 @@ public class DialogContainer {
                 line(pro, "'3. You must light the four gates'")
         ));
         dialogs.put("34", Arrays.asList(
-                line(ant, "What!? Someone is taking the trials?"),
-                line(ant, "...but no-one has been here except Arthur...")
+                line(ant, "What is this? The first torch has been lit..."),
+                line(ant, "That means someone is taking the trials, and has passed the first gate..."),
+                line(ant, "But no-one has been here except Arthur...")
         ));
         dialogs.put("35", Arrays.asList(
                 line(ant, "NO!!", "angry"),
-                line(ant, "I must stop him", "angry"),
-                line(ant, "If he succeeds...", "angry")
+                line(ant, "He must have slipped past!!!", "angry"),
+                line(ant, "I have to stop him!", "angry")
         ));
         dialogs.put("36", Arrays.asList(
                 line(pro, "What does this say..."),
-                line(info, "'The First Gate'")
+                line(info, "'The First Gate'"),
+                line(pro, "Great, I'm doing well! There's only four gates.", "happy")
         ));
         dialogs.put("37", Arrays.asList(
                 line(pro, "Ominous...")

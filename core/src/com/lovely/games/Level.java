@@ -120,8 +120,8 @@ class Level {
         List<SceneSource> sceneSources = new ArrayList<>();
         for (SceneSource sceneSource : scenes) {
             if (!sceneSource.isDone && sceneSource.isActive) {
-                Rectangle playerRect = new Rectangle(pos.x + 1, pos.y + 1, 20, 20);
-                if (playerRect.overlaps(new Rectangle(sceneSource.pos.x, sceneSource.pos.y, sceneSource.size.x, sceneSource.size.y))) {
+//                Rectangle playerRect = new Rectangle(pos.x + 1, pos.y + 1, 20, 20);
+                if (new Rectangle(sceneSource.pos.x, sceneSource.pos.y, sceneSource.size.x, sceneSource.size.y).contains(pos)) {
                     sceneSource.isDone = true;
                     sceneSources.add(sceneSource);
                 }
