@@ -767,7 +767,8 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         }
         Vector3 target = new Vector3(pos.x, pos.y, 0);
         if (currentLevel.name.equals("levels/boss-fight.tmx") && bossIsFighting()) {
-            target.y = target.y + 210;
+            target.y = target.y + 280;
+            camera.zoom = 0.75f;
         }
         final float speed = CAMERA_CATCHUP_SPEED * Gdx.graphics.getDeltaTime();
         float ispeed = 1.0f - speed;
@@ -784,11 +785,11 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         if (snaplock && pos.dst2(new Vector2(cameraPosition.x, cameraPosition.y)) < 10000) {
             snaplock = false;
         }
-//        if (!snaplock) {
-            float cameraTrailLimit = 0f;
+        if (!snaplock) {
+            float cameraTrailLimit = 100f;
             cameraPosition.x = MathUtils.clamp(cameraPosition.x, -cameraTrailLimit + pos.x, cameraTrailLimit + pos.x);
             cameraPosition.y = MathUtils.clamp(cameraPosition.y, -cameraTrailLimit + pos.y, cameraTrailLimit + pos.y);
-//        }
+        }
 
         return cameraPosition;
     }
