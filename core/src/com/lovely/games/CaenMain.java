@@ -7,6 +7,7 @@ import com.badlogic.gdx.assets.loaders.MusicLoader;
 import com.badlogic.gdx.assets.loaders.TextureLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
@@ -384,6 +385,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
 
         inputProcessor = new MyInputProcessor(camera);
         Gdx.input.setInputProcessor(inputProcessor);
+        Controllers.addListener(inputProcessor);
 
         batch = new SpriteBatch();
         bufferBatch = new SpriteBatch();
@@ -1770,6 +1772,39 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             }
         }
 
+        Vector2 in = inputProcessor.getControllerInput();
+        float thehold = 0.35f;
+        boolean hasControoler = false;
+        if (in.x > thehold) {
+            isRightPressed = true;
+            System.out.println("in " + in);
+            hasControoler = true;
+
+            inputAmount = in.cpy();
+        }
+        if (in.x < -thehold) {
+            isLeftPressed = true;
+            hasControoler = true;
+            System.out.println("in " + in);
+            inputAmount = in.cpy();
+        }
+        if (in.y > thehold) {
+            isUpPressed = true;
+            hasControoler = true;
+            System.out.println("in " + in);
+            inputAmount = in.cpy();
+        }
+        if (in.y < -thehold) {
+            isDownPressed = true;
+            hasControoler = true;
+            System.out.println("in " + in);
+            inputAmount = in.cpy();
+        }
+//        inputProcessor.controllerInput.x = 0;
+//        inputProcessor.controllerInput.y = 0;
+
+
+
         if (isLeftPressed) {
             inputVector.x = inputVector.x - 1;
         }
@@ -1823,7 +1858,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 pressKeyPlease = null;
                 return;
             }
-            if (inputVector.x != 0 || Gdx.input.isKeyPressed(Input.Keys.SPACE) || Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+            if (inputVector.x != 0 || Gdx.input.isKeyPressed(Input.Keys.SPACE) || Gdx.input.isKeyPressed(Input.Keys.ENTER) || inputProcessor.pressingA) {
                 soundPlayer.playSound(BLIP_SELECT_ITEM_SOUND_ID, "select-3.ogg", playerPos, false);
                 if (isTitleMenu) {
                     if (titleSelectionIndex == 0) {
@@ -1942,7 +1977,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         }
 
         if (conversation != null) {
-            if (Gdx.input.isKeyPressed(Input.Keys.SPACE) || Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+            if (Gdx.input.isKeyPressed(Input.Keys.SPACE) || Gdx.input.isKeyPressed(Input.Keys.ENTER) || inputProcessor.pressingA) {
                 inputVector.x = 1;
             }
             if ((inputVector.x != 0 || inputVector.y != 0) && !dialogLock) {
@@ -2046,7 +2081,12 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                         }
                         playerDir = inputVector.cpy();
 //                        movementValue = Gdx.graphics.getDeltaTime() * PLAYER_SPEED;//TILE_SIZE / PLAYER_SPEED;
-                        playerMovement = inputVector.cpy().scl(2f).scl(inputAmount).limit(2f);
+                        if ( hasControoler) {
+                            playerMovement = inputProcessor.getControllerInput().cpy().scl(2f);
+                        } else {
+
+                        playerMovement = inputVector.cpy().scl(2f).scl(inputAmount);//.limit(2f);
+                        }
                     } else {
                         playerMovement.x = 0;
                         playerMovement.y = 0;
@@ -2058,7 +2098,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                         scene.skip();
                     }
                 }
-                if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+                if (Gdx.input.isKeyPressed(Input.Keys.SPACE) || inputProcessor.pressingX) {
                     if (!sceneBlock && !castLock && !isPlayerShooting) {
 //                        castCurrentSpell();
                         isPlayerShooting = true;
