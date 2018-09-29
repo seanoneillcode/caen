@@ -753,6 +753,9 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         if (currentLevel.isWind) {
             soundPlayer.playMusic(WIND_BGR_SOUND_ID, "wind-background.ogg", true);
         }
+        if (currentLevel.getMusic() != null) {
+            soundPlayer.levelMusic(currentLevel.getMusic());
+        }
         if (currentLevel.number != null && Integer.valueOf(currentLevel.number) > bestLevelSoFar) {
             bestLevelSoFar = Integer.valueOf(currentLevel.number);
             statisticsManager.addGameEvent(statisticsManager.startLevelEvent(level));

@@ -47,12 +47,13 @@ class Level {
     List<Guff> guffs;
     public List<Wind> winds;
     public List<Enemy> enemies;
+    private String music;
 
     Level(List<Connection> connections, boolean[][] walls, boolean[][] deaths, String name, int numXTiles,
           int numYTiles, List<ArrowSource> arrowSources, List<Platform> platforms, List<Block> blocks,
           List<PressureTile> pressureTiles, List<Door> doors, List<DialogSource> dialogSources,
           List<LevelLight> lights, List<Torch> torches, List<SceneSource> scenes, Trunk trunk, List<Actor> actors,
-          List<Wind> winds, List<Enemy> enemies, List<Guff> guffs, boolean isWind, String number) {
+          List<Wind> winds, List<Enemy> enemies, List<Guff> guffs, boolean isWind, String number, String music) {
         this.connections = connections;
         this.walls = walls;
         this.deaths = deaths;
@@ -75,6 +76,7 @@ class Level {
         this.guffs = guffs;
         this.isWind = isWind;
         this.number = number;
+        this.music = music;
     }
 
     Vector2 getConnectionPosition(String name) {
@@ -276,6 +278,10 @@ class Level {
         return null;
     }
 
+    public String getMusic() {
+        return music;
+    }
+
     /**
      * BUILDEr
      */
@@ -302,6 +308,7 @@ class Level {
         private List<Wind> winds = new ArrayList<>();
         List<Enemy> enemies = new ArrayList<>();
         private List<Guff> guffs = new ArrayList<>();
+        private String music = null;
 
         Builder(String name, int numXTiles, int numYTiles, boolean isWind, String number) {
             this.name = name;
@@ -328,6 +335,11 @@ class Level {
 
         Builder addEnemy(Vector2 pos, String dir) {
             this.enemies.add(new Enemy(pos, dir));
+            return this;
+        }
+
+        Builder addMusic(String music) {
+            this.music = music;
             return this;
         }
 
@@ -427,7 +439,7 @@ class Level {
                 deaths = new boolean[numXTiles][numYTiles];
             }
             return new Level(connections, walls, deaths, name, numXTiles, numYTiles, arrowSources, platforms, blocks,
-                    pressureTiles, doors, dialogSources, lights, torches, scenes, trunk, actors, winds, enemies, guffs, isWind, number);
+                    pressureTiles, doors, dialogSources, lights, torches, scenes, trunk, actors, winds, enemies, guffs, isWind, number, music);
         }
 
 
@@ -441,6 +453,7 @@ class Level {
         boolean isWind = mapProperties.containsKey("isWind") && Boolean.valueOf((String) mapProperties.get("isWind"));
         String levelNumber = (String) mapProperties.get("number");
         Builder builder = new Builder(name, levelWidth, levelHeight, isWind, levelNumber);
+        builder.addMusic((String) mapProperties.get("music"));
 
         MapLayer objectLayer = tiledMap.getLayers().get("objects");
         MapObjects mapObjects = objectLayer.getObjects();

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="19" height="23" tilewidth="32" tileheight="32" nextobjectid="27">
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="19" height="23" tilewidth="32" tileheight="32" infinite="0" nextobjectid="27">
  <properties>
   <property name="isWind" value="true"/>
   <property name="number" value="17"/>
@@ -99,7 +99,7 @@
     <property name="to" value="33"/>
    </properties>
   </object>
-  <object id="23" name="32" type="scene" x="288" y="479" width="32" height="32"/>
+  <object id="23" name="32" type="scene" x="288" y="482" width="32" height="32"/>
   <object id="25" type="torch" x="256" y="460" width="32" height="32">
    <properties>
     <property name="isOn" value="false"/>
