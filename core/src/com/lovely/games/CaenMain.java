@@ -193,6 +193,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     private Animation<TextureRegion> doorDustAnim;
     private Vector2 playerMovement = new Vector2();
     private Integer updating = 0;
+    private BlockLike lastBlock;
 
     @Override
 	public void create () {
@@ -1427,7 +1428,15 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             wasMoving = true;
             playerWasPushing = playerIsPushing;
             playerIsPushing = false;
+            lastBlock = null;
             isWalkOne = !isWalkOne;
+        }
+        if (lastBlock != null) {
+            if (!lastBlock.isMoving()) {
+                playerIsPushing = false;
+                playerWasPushing = true;
+                lastBlock = null;
+            }
         }
         for (Door door : currentLevel.doors) {
             door.update();
@@ -2029,6 +2038,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                                 blocked = true;
                             } else {
                                 block.move(moveVector);
+                                lastBlock = block;
                                 playerIsPushing = true;
                                 soundPlayer.playSound("block-3.ogg", block.getPos());
                             }
@@ -2052,6 +2062,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                                     blocked = true;
                                 } else {
                                     block.move(moveVector);
+                                    lastBlock = block;
                                     playerIsPushing = true;
                                     soundPlayer.playSound("block-3.ogg", block.getPos());
                                 }
@@ -2062,6 +2073,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                                     blocked = true;
                                 } else {
                                     block.move(moveVector);
+                                    lastBlock = block;
                                     playerIsPushing = true;
                                     soundPlayer.playSound("block-3.ogg", block.getPos());
                                 }
