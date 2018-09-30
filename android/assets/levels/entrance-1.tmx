@@ -2,6 +2,7 @@
 <map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="20" height="16" tilewidth="32" tileheight="32" infinite="0" nextobjectid="56">
  <properties>
   <property name="isWind" value="true"/>
+  <property name="music" value="wind"/>
   <property name="number" value="1"/>
  </properties>
  <tileset firstgid="1" source="tower-tileset.tsx"/>

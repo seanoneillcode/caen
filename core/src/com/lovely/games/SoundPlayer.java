@@ -37,9 +37,17 @@ public class SoundPlayer {
         this.musicMap = new HashMap<>();
         musicMap.put("mechanic", 111);
         musicMap.put("arrow", 112);
+        musicMap.put("wind", 113);
+        musicMap.put("fight", 114);
+        musicMap.put("fight-intro", 115);
+        musicMap.put("crystal", 116);
         musicFileNameMap = new HashMap<>();
         musicFileNameMap.put(111, "sound/3.ogg");
         musicFileNameMap.put(112, "sound/2.ogg");
+        musicFileNameMap.put(113, "wind-background.ogg");
+        musicFileNameMap.put(114, "sound/8.ogg");
+        musicFileNameMap.put(115, "sound/9.ogg");
+        musicFileNameMap.put(116, "sound/crystal.ogg");
     }
 
     public void startLevel() {

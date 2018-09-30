@@ -751,9 +751,9 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         leaveLevel = false;
         stonePrizeScene.reset();
         soundPlayer.startLevel();
-        if (currentLevel.isWind) {
-            soundPlayer.playMusic(WIND_BGR_SOUND_ID, "wind-background.ogg", true);
-        }
+//        if (currentLevel.isWind) {
+//            soundPlayer.playMusic(WIND_BGR_SOUND_ID, "wind-background.ogg", true);
+//        }
         if (currentLevel.getMusic() != null) {
             soundPlayer.levelMusic(currentLevel.getMusic());
         }
@@ -2298,7 +2298,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         isHidePlayer = true;
         newGameScene.reset();
         soundPlayer.playSound("new-game-1.ogg", playerPos);
-        soundPlayer.playMusic(WIND_BGR_SOUND_ID, "wind-background.ogg", true);
+//        soundPlayer.playMusic(WIND_BGR_SOUND_ID, "wind-background.ogg", true);
     }
 
     @Override
