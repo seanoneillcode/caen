@@ -5,8 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
 import static com.lovely.games.CaenMain.HALF_TILE_SIZE;
-import static com.lovely.games.CaenMain.QUARTER_TILE_SIZE;
-import static com.lovely.games.CaenMain.TILE_SIZE;
 
 public class Enemy extends Block implements BlockLike {
 
@@ -50,13 +48,13 @@ public class Enemy extends Block implements BlockLike {
         boolean prevShooting = isShooting;
         isShooting = false;
         if (!isGround) {
-            Vector2 checkPos = pos.cpy();
-            for (int i = 0; i < 48; i++) {
-                checkPos.add(dir.cpy().scl(QUARTER_TILE_SIZE));
-                if (theFirstGate.isArrowBlocking(checkPos.cpy().add(QUARTER_TILE_SIZE, QUARTER_TILE_SIZE))) {
+            Vector2 checkPos = pos.cpy().add(HALF_TILE_SIZE, HALF_TILE_SIZE);
+            for (int i = 0; i < 64; i++) {
+                checkPos.add(dir.cpy().scl(HALF_TILE_SIZE));
+                if (theFirstGate.isLazerBlocking(checkPos.cpy())){
                     break;
                 }
-                if (contains(checkPos, new Vector2(24, 24), playerPos)) {
+                if (contains(checkPos, new Vector2(HALF_TILE_SIZE, HALF_TILE_SIZE), playerPos)) {
                     colliding = true;
                     if (!prevShooting) {
                         animTimer = 0;
@@ -76,8 +74,11 @@ public class Enemy extends Block implements BlockLike {
     }
 
     private boolean contains(Vector2 checkPos, Vector2 size, Vector2 player) {
-        return player.x > checkPos.x && player.x < (checkPos.x + size.x)
-                && player.y > checkPos.y && player.y < (checkPos.y + size.x);
+        Vector2 halfSize = size.scl(0.5f);
+        return player.x > (checkPos.x - halfSize.x)
+                && player.x < (checkPos.x + halfSize.x)
+                && player.y > (checkPos.y - halfSize.y)
+                && player.y < (checkPos.y + halfSize.y);
     }
 
     public float getRotation() {

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.lovely.games.CaenMain.HALF_TILE_SIZE;
+import static com.lovely.games.CaenMain.QUARTER_TILE_SIZE;
 import static com.lovely.games.CaenMain.TILE_SIZE;
 
 class Level {
@@ -141,6 +142,24 @@ class Level {
             }
         }
         return null;
+    }
+
+    boolean isLazerBlocked(Vector2 pos) {
+        for (BlockLike block : getBlockLikes()) {
+            if (!(block.isGround())) {
+                if (pos.dst2(block.getPos().cpy().add(HALF_TILE_SIZE, HALF_TILE_SIZE)) < (256)) {
+                    return true;
+                }
+            }
+        }
+        for (Door door : doors) {
+            if (!door.isOpen) {
+                if (pos.dst2(door.pos.cpy().add(HALF_TILE_SIZE, HALF_TILE_SIZE)) < 512) {
+                    return true;
+                }
+            }
+        }
+        return isWall(pos.cpy());
     }
 
     boolean isTileBlocked(Vector2 pos) {

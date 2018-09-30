@@ -2345,8 +2345,8 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         return isOptionsMenu && optionOptions.get(tempIndex).equals("brightness");
     }
 
-    public boolean isArrowBlocking(Vector2 checkPos) {
-        return currentLevel.isTileBlocked(checkPos);
+    public boolean isLazerBlocking(Vector2 checkPos) {
+        return currentLevel.isLazerBlocked(checkPos);
     }
 
     public void playSound(int id, String name, Vector2 pos) {
