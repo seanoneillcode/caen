@@ -441,8 +441,8 @@ class Level {
             return this;
         }
 
-        Builder addGuff(Vector2 pos, Vector2 size, String image) {
-            this.guffs.add(new Guff(image, pos, size));
+        Builder addGuff(Vector2 pos, Vector2 size, String image, boolean isOnTop) {
+            this.guffs.add(new Guff(image, pos, size, isOnTop));
             return this;
         }
 
@@ -671,7 +671,11 @@ class Level {
                 Vector2 pos = new Vector2(rectObj.getRectangle().x, rectObj.getRectangle().y);
                 Vector2 size = new Vector2(rectObj.getRectangle().width, rectObj.getRectangle().height);
                 String image = properties.get("image").toString();
-                builder.addGuff(pos, size, image);
+                boolean isOnTop = false;
+                if (properties.containsKey("isOnTop")) {
+                    isOnTop = Boolean.parseBoolean(properties.get("isOnTop").toString());
+                }
+                builder.addGuff(pos, size, image, isOnTop);
             }
             if (properties.containsKey("type") && properties.get("type").equals("scene")) {
                 RectangleMapObject rectObj = (RectangleMapObject) obj;

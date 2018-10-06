@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="20" height="16" tilewidth="32" tileheight="32" infinite="0" nextobjectid="97">
+ <properties>
+  <property name="isWind" value="true"/>
+  <property name="music" value="foreboding"/>
+  <property name="number" value="1"/>
+ </properties>
+ <tileset firstgid="1" source="tower-tileset.tsx"/>
+ <layer name="walls" width="20" height="16" visible="0">
+  <data encoding="csv">
+0,0,0,34,34,34,34,34,34,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,34,34,34,34,34,34,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,34,34,34,34,34,34,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,34,0,0,0,0,34,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,34,34,0,34,34,34,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,34,34,0,34,34,34,34,34,34,34,34,0,0,0,0,0,0,
+0,0,0,34,0,0,0,0,34,34,34,34,34,34,0,0,0,0,0,0,
+0,0,0,34,34,34,34,0,34,34,34,34,34,34,0,0,0,0,0,0,
+0,0,0,34,34,34,0,0,0,0,0,0,34,34,0,0,0,0,0,0,
+0,0,0,34,0,0,0,0,34,0,0,0,0,34,0,0,0,0,0,0,
+0,0,0,34,34,34,0,34,34,34,34,34,34,34,0,0,0,0,0,0,
+0,0,0,0,0,34,0,34,34,34,34,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,34,0,0,0,0,34,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,34,34,0,0,0,34,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,34,0,0,0,34,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,34,34,34,34,34,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <imagelayer name="background">
+  <image source="gatehouse-sketch.png" width="640" height="640"/>
+ </imagelayer>
+ <objectgroup name="objects">
+  <object id="2" name="200" type="connection" x="256" y="448" width="32" height="32">
+   <properties>
+    <property name="dir" value="right"/>
+    <property name="to" value="202"/>
+   </properties>
+  </object>
+  <object id="3" name="61" type="connection" x="176.666" y="63.8333" width="32" height="32">
+   <properties>
+    <property name="dir" value="down"/>
+    <property name="to" value="00"/>
+   </properties>
+  </object>
+  <object id="51" name="ant" type="actor" x="160.667" y="288" width="32" height="32">
+   <properties>
+    <property name="isHide" value="false"/>
+   </properties>
+  </object>
+  <object id="56" type="torch" x="126.583" y="153.083" width="32" height="32"/>
+  <object id="59" type="torch" x="256" y="352" width="32" height="32"/>
+  <object id="60" type="guff" x="160" y="154.25" width="32" height="37.75">
+   <properties>
+    <property name="image" value="entity/heavy-door.png"/>
+    <property name="isOnTop" value="true"/>
+   </properties>
+  </object>
+  <object id="62" type="guff" x="160" y="128" width="32" height="32">
+   <properties>
+    <property name="image" value="entity/lintel.png"/>
+    <property name="isOnTop" value="true"/>
+   </properties>
+  </object>
+  <object id="63" type="guff" x="320" y="32" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+  <object id="64" type="guff" x="341.5" y="50.5" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+  <object id="65" type="guff" x="365.5" y="74" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+  <object id="66" type="guff" x="361.5" y="25" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+  <object id="67" type="guff" x="383" y="37.5" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+  <object id="68" type="guff" x="400" y="60" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+  <object id="69" type="guff" x="292.5" y="26" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+  <object id="70" type="guff" x="309" y="49" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+  <object id="71" type="guff" x="328.5" y="72" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+  <object id="72" type="guff" x="344" y="91" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+  <object id="73" type="guff" x="298" y="66" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+  <object id="74" type="guff" x="388.5" y="105" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+  <object id="75" type="guff" x="272" y="52.5" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+  <object id="76" type="guff" x="370" y="95.5" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+  <object id="77" type="guff" x="374" y="54.5" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+  <object id="78" type="guff" x="316" y="103" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+  <object id="79" type="guff" x="274.5" y="29" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+  <object id="80" type="guff" x="94.5" y="-19" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+  <object id="81" type="guff" x="209" y="-62" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+  <object id="82" type="guff" x="232.5" y="-52.5" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+  <object id="83" type="guff" x="270.5" y="-52.5" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+  <object id="84" type="guff" x="183" y="-58" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+  <object id="85" type="guff" x="134" y="-54.5" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+  <object id="86" type="guff" x="316.5" y="-62.5" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+  <object id="87" type="guff" x="362" y="-55" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+  <object id="88" type="guff" x="403.5" y="-38.5" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+  <object id="89" type="guff" x="80" y="-59.5" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+  <object id="90" type="guff" x="50.5" y="-37" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+  <object id="91" type="guff" x="447" y="-6.5" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+  <object id="92" type="guff" x="440" y="35.5" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+  <object id="93" type="guff" x="435.5" y="91" width="57" height="80">
+   <properties>
+    <property name="image" value="entity/rain.png"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

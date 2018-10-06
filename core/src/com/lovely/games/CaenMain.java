@@ -251,7 +251,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         assetManager.load("levels/enemy-9.tmx", TiledMap.class);
         assetManager.load("levels/crossy-road-1.tmx", TiledMap.class);
         assetManager.load("levels/crossy-road-2.tmx", TiledMap.class);
-        assetManager.load("levels/entrance-1.tmx", TiledMap.class);
+        assetManager.load("levels/entrance-2.tmx", TiledMap.class);
         assetManager.load("levels/lobby-1.tmx", TiledMap.class);
         assetManager.load("levels/boss-fight.tmx", TiledMap.class);
         assetManager.load("levels/options.tmx", TiledMap.class);
@@ -285,6 +285,9 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         assetManager.load("entity/grass-4.png", Texture.class);
         assetManager.load("entity/dust-air.png", Texture.class);
         assetManager.load("entity/dust-air-2.png", Texture.class);
+        assetManager.load("entity/lintel.png", Texture.class);
+        assetManager.load("entity/heavy-door.png", Texture.class);
+        assetManager.load("entity/rain.png", Texture.class);
         assetManager.load("entity/door-open.png", Texture.class);
         assetManager.load("levels/door-horizontal.png", Texture.class);
         assetManager.load("levels/door-dust.png", Texture.class);
@@ -497,7 +500,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         levels.add(Level.loadLevel(assetManager, "levels/enemy-9.tmx", soundPlayer)); // 46
         levels.add(Level.loadLevel(assetManager, "levels/crossy-road-1.tmx", soundPlayer)); // 48
         levels.add(Level.loadLevel(assetManager, "levels/crossy-road-2.tmx", soundPlayer)); // 49
-        levels.add(Level.loadLevel(assetManager, "levels/entrance-1.tmx", soundPlayer)); // 50
+        levels.add(Level.loadLevel(assetManager, "levels/entrance-2.tmx", soundPlayer)); // 50
         levels.add(Level.loadLevel(assetManager, "levels/lobby-1.tmx", soundPlayer)); // 50
         levels.add(Level.loadLevel(assetManager, "levels/boss-fight.tmx", soundPlayer)); // 50
         levels.add(Level.loadLevel(assetManager, "levels/lobby-2.tmx", soundPlayer)); // 50
@@ -548,6 +551,9 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         guffImages.put("entity/grass-3.png", loadAnimation(assetManager.get("entity/grass-3.png"), 4, 0.525f));
         guffImages.put("entity/grass-4.png", loadAnimation(assetManager.get("entity/grass-4.png"), 4, 0.53f));
         guffImages.put("entity/dust-air.png", loadAnimation(assetManager.get("entity/dust-air.png"), 16, 0.2f));
+        guffImages.put("entity/lintel.png", loadAnimation(assetManager.get("entity/lintel.png"), 1, 1f));
+        guffImages.put("entity/heavy-door.png", loadAnimation(assetManager.get("entity/heavy-door.png"), 1, 1f));
+        guffImages.put("entity/rain.png", loadAnimation(assetManager.get("entity/rain.png"), 4, 0.1f));
         guffImages.put("entity/dust-air-2.png", loadAnimation(assetManager.get("entity/dust-air-2.png"), 16, 0.2f));
         guffImages.put("entity/platform-particle-1.png", loadAnimation(assetManager.get("entity/platform-particle-1.png"), 8, 0.1f));
         arrowSprite = new Sprite();
@@ -962,8 +968,10 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             batch.setProjectionMatrix(camera.combined);
             batch.begin();
             for (Guff guff : currentLevel.guffs) {
-                TextureRegion currentFrame = guffImages.get(guff.imageName).getKeyFrame(animationDelta + guff.offset, true);
-                batch.draw(currentFrame, guff.pos.x, guff.pos.y, guff.size.x, guff.size.y);
+                if (!guff.isOnTop()) {
+                    TextureRegion currentFrame = guffImages.get(guff.imageName).getKeyFrame(animationDelta + guff.offset, true);
+                    batch.draw(currentFrame, guff.pos.x, guff.pos.y, guff.size.x, guff.size.y);
+                }
             }
             for (PressureTile pressureTile : currentLevel.pressureTiles) {
                 TextureRegion frame;
@@ -1133,7 +1141,12 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 }
                 playerSprite.draw(batch);
             }
-
+            for (Guff guff : currentLevel.guffs) {
+                if (guff.isOnTop()) {
+                    currentFrame = guffImages.get(guff.imageName).getKeyFrame(animationDelta + guff.offset, true);
+                    batch.draw(currentFrame, guff.pos.x, guff.pos.y, guff.size.x, guff.size.y);
+                }
+            }
             for (BlockLike blockLike : blockLikes) {
                 if (!(blockLike instanceof Enemy)) {
                     if (blockLike.getPos().y <= threeDeeLinePos.y && !blockLike.isGround()) {

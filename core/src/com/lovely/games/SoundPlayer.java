@@ -27,6 +27,7 @@ public class SoundPlayer {
     int currentSong = 0;
     int nextSong = 0;
     private Map<Integer, String> musicFileNameMap;
+    boolean isEnabled = true;
 
     SoundPlayer(AssetManager assetManager) {
         this.assetManager = assetManager;
@@ -41,6 +42,7 @@ public class SoundPlayer {
         musicMap.put("fight", 114);
         musicMap.put("fight-intro", 115);
         musicMap.put("crystal", 116);
+        musicMap.put("foreboding", 117);
         musicFileNameMap = new HashMap<>();
         musicFileNameMap.put(111, "sound/3.ogg");
         musicFileNameMap.put(112, "sound/2.ogg");
@@ -48,6 +50,7 @@ public class SoundPlayer {
         musicFileNameMap.put(114, "sound/8.ogg");
         musicFileNameMap.put(115, "sound/9.ogg");
         musicFileNameMap.put(116, "sound/crystal.ogg");
+        musicFileNameMap.put(117, "sound/foreboding.ogg");
     }
 
     public void startLevel() {
@@ -60,6 +63,9 @@ public class SoundPlayer {
     }
 
     public void pauseSounds() {
+        if (!isEnabled) {
+            return;
+        }
         isPaused = true;
         for (Integer id : sounds.keySet()) {
             sounds.get(id).sound.pause();
@@ -67,6 +73,9 @@ public class SoundPlayer {
     }
 
     public void resumeSounds() {
+        if (!isEnabled) {
+            return;
+        }
         isPaused = false;
         for (Integer id : sounds.keySet()) {
             //sounds.get(id).sound.play();
@@ -74,6 +83,9 @@ public class SoundPlayer {
     }
 
     public void update(Vector2 playerPos) {
+        if (!isEnabled) {
+            return;
+        }
         if (isPaused) {
             return;
         }
@@ -130,6 +142,9 @@ public class SoundPlayer {
     }
 
     public void stopSound(int id) {
+        if (!isEnabled) {
+            return;
+        }
         if (sounds.containsKey(id)) {
             Music sound = sounds.get(id).sound;
             sound.stop();
@@ -137,6 +152,9 @@ public class SoundPlayer {
     }
 
     public void playSound(String name) {
+        if (!isEnabled) {
+            return;
+        }
         int id = MathUtils.random(RANDOM_SOUND_ID_RANGE);
         Music sound = Gdx.audio.newMusic(Gdx.files.internal(name));
         sounds.put(id, new PositionSound(sound, playerPos, false));
@@ -146,6 +164,9 @@ public class SoundPlayer {
 
 
     public void playSound(String name, Vector2 pos) {
+        if (!isEnabled) {
+            return;
+        }
         int id = MathUtils.random(RANDOM_SOUND_ID_RANGE);
         Music sound = Gdx.audio.newMusic(Gdx.files.internal(name));
         sounds.put(id, new PositionSound(sound, pos, false));
@@ -154,6 +175,9 @@ public class SoundPlayer {
     }
 
     public void playMusic(int id, String name, boolean isLooping) {
+        if (!isEnabled) {
+            return;
+        }
         if (!sounds.containsKey(id)) {
             Music sound = Gdx.audio.newMusic(Gdx.files.internal(name));
             sounds.put(id, new PositionSound(sound, new Vector2(), true));
@@ -168,6 +192,9 @@ public class SoundPlayer {
     }
 
     public void playSound(int id, String name, Vector2 pos, boolean isLooping) {
+        if (!isEnabled) {
+            return;
+        }
         if (!sounds.containsKey(id)) {
             Music sound = Gdx.audio.newMusic(Gdx.files.internal(name));
             sounds.put(id, new PositionSound(sound, pos, false));
