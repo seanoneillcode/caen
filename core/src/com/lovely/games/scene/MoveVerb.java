@@ -47,6 +47,7 @@ public class MoveVerb implements SceneVerb {
             isDone = true;
         } else {
             if (total.dst2(amount) < 16) {
+                stage.moveActor(actor, new Vector2());
                 isDone = true;
             } else {
                 Vector2 mov = pos.cpy().scl(Gdx.graphics.getDeltaTime());

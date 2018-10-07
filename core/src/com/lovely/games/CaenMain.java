@@ -58,6 +58,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     private static final float DEFAULT_MUSIC_LEVEL = 0.5f;
     private static final float DEFAULT_GAMMA = 0.5f;
     private static final float SLIGHT_SPEED = 0.1f;
+    private Vector2 playerSceneMovement = new Vector2();
 
     private float lazerSoundTimer = 0;
     private float stepTimer = 0;
@@ -86,6 +87,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     private Animation<TextureRegion> walkRight, idleAnim, pressureOnAnim, pressureOffAnim;
     private Animation<TextureRegion> lightAnim, playerLightAnim, arrowAnim, torchAnim, campfireAnim, doorOpenAnim, doorCloseAnim;
     private float animationDelta = 0;
+    private float antAnimDelta = 0;
     private float walkAnimDelta = 0;
     private DialogContainer dialogContainer;
     private Conversation conversation;
@@ -194,6 +196,8 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     private Vector2 playerMovement = new Vector2();
     private Integer updating = 0;
     private BlockLike lastBlock;
+    private Animation<TextureRegion> antDrink, antFall;
+    private String antAnim = "normal";
 
     @Override
 	public void create () {
@@ -287,6 +291,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         assetManager.load("entity/dust-air-2.png", Texture.class);
         assetManager.load("entity/lintel.png", Texture.class);
         assetManager.load("entity/heavy-door.png", Texture.class);
+        assetManager.load("character/dead.png", Texture.class);
         assetManager.load("entity/rain.png", Texture.class);
         assetManager.load("entity/door-open.png", Texture.class);
         assetManager.load("levels/door-horizontal.png", Texture.class);
@@ -306,6 +311,8 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         assetManager.load("character/pro-simple-walk-up.png", Texture.class);
         assetManager.load("character/ant-idle.png", Texture.class);
         assetManager.load("character/ant-walk.png", Texture.class);
+        assetManager.load("character/ant-simple-fall.png", Texture.class);
+        assetManager.load("character/ant-simple-drink.png", Texture.class);
         assetManager.load("character/player-shadow.png", Texture.class);
         assetManager.update();
 
@@ -512,6 +519,8 @@ public class CaenMain extends ApplicationAdapter implements Stage {
 
         antWalk = loadAnimation(assetManager.get("character/ant-walk.png"), 4, 0.165f);
         antIdle = loadAnimation(assetManager.get("character/ant-idle.png"), 2, 0.5f);
+        antDrink = loadAnimation(assetManager.get("character/ant-simple-drink.png"), 14, 0.2f);
+        antFall = loadAnimation(assetManager.get("character/ant-simple-fall.png"), 9, 0.1f);
         enemyIdle = loadAnimation(assetManager.get("entity/enemy-idle.png"), 4, 0.25f);
         enemyShoot = loadAnimation(assetManager.get("entity/enemy-shoot.png"), 4, 0.05f);
         walkRight = loadAnimation(assetManager.get("character/pro-simple-walk.png"), 4, 0.16f); // 0.165
@@ -551,6 +560,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         guffImages.put("entity/grass-3.png", loadAnimation(assetManager.get("entity/grass-3.png"), 4, 0.525f));
         guffImages.put("entity/grass-4.png", loadAnimation(assetManager.get("entity/grass-4.png"), 4, 0.53f));
         guffImages.put("entity/dust-air.png", loadAnimation(assetManager.get("entity/dust-air.png"), 16, 0.2f));
+        guffImages.put("character/dead.png", loadAnimation(assetManager.get("character/dead.png"), 1, 1f));
         guffImages.put("entity/lintel.png", loadAnimation(assetManager.get("entity/lintel.png"), 1, 1f));
         guffImages.put("entity/heavy-door.png", loadAnimation(assetManager.get("entity/heavy-door.png"), 1, 1f));
         guffImages.put("entity/rain.png", loadAnimation(assetManager.get("entity/rain.png"), 4, 0.1f));
@@ -968,7 +978,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             batch.setProjectionMatrix(camera.combined);
             batch.begin();
             for (Guff guff : currentLevel.guffs) {
-                if (!guff.isOnTop()) {
+                if (!guff.isOnTop() && !guff.hide) {
                     TextureRegion currentFrame = guffImages.get(guff.imageName).getKeyFrame(animationDelta + guff.offset, true);
                     batch.draw(currentFrame, guff.pos.x, guff.pos.y, guff.size.x, guff.size.y);
                 }
@@ -1142,7 +1152,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 playerSprite.draw(batch);
             }
             for (Guff guff : currentLevel.guffs) {
-                if (guff.isOnTop()) {
+                if (guff.isOnTop() && !guff.hide) {
                     currentFrame = guffImages.get(guff.imageName).getKeyFrame(animationDelta + guff.offset, true);
                     batch.draw(currentFrame, guff.pos.x, guff.pos.y, guff.size.x, guff.size.y);
                 }
@@ -1369,11 +1379,22 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     }
 
     private void drawActor(Actor actor) {
-        TextureRegion currentFrame;
-        if (actor.isWalking) {
-            currentFrame = antWalk.getKeyFrame(animationDelta, true);
+        TextureRegion currentFrame = null;
+        antSprite.setSize(32, 32);
+        if (antAnim.equals("normal")) {
+            if (actor.isWalking) {
+                currentFrame = antWalk.getKeyFrame(animationDelta, true);
+            } else {
+                currentFrame = antIdle.getKeyFrame(animationDelta, true);
+            }
         } else {
-            currentFrame = antIdle.getKeyFrame(animationDelta, true);
+            if (antAnim.equals("drink")) {
+                currentFrame = antDrink.getKeyFrame(antAnimDelta, false);
+            }
+            if (antAnim.equals("fall")) {
+                antSprite.setSize(48, 48);
+                currentFrame = antFall.getKeyFrame(antAnimDelta, false);
+            }
         }
         antSprite.setPosition(actor.pos.x, actor.pos.y + 12);
         antSprite.setRegion(currentFrame);
@@ -1429,6 +1450,9 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             if (playerShootingTimer < 0.1f) {
                 castCurrentSpell();
             }
+        }
+        if (!playerSceneMovement.isZero()) {
+            playerMovement = playerSceneMovement.cpy();
         }
         if (isMoving() && !playerIsDead) {
             float movementDelta = Gdx.graphics.getDeltaTime();
@@ -2030,7 +2054,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 }
             }
         } else {
-            if (!playerIsDead && levelTransitionTimer < 0) {
+            if (!playerIsDead && levelTransitionTimer < 0 && playerSceneMovement.isZero()) {
                 boolean sceneBlock = !currentScenes.isEmpty() && currentScenes.stream().anyMatch(Scene::isBlocking);
                 if (!moveLock && !sceneBlock && !inputVector.isZero()) {
                     boolean blocked = false;
@@ -2242,6 +2266,13 @@ public class CaenMain extends ApplicationAdapter implements Stage {
 //            movementValue = TILE_SIZE / PLAYER_SPEED;
             moveVector = value.cpy().nor();
             playerMovement = value.cpy().nor();
+            playerSceneMovement = value.cpy().nor();
+            if (value.x < 0 && !playerFacingLeft) {
+                playerFacingLeft = true;
+            }
+            if (value.x > 0 && playerFacingLeft) {
+                playerFacingLeft = false;
+            }
         }
     }
 
@@ -2376,7 +2407,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     }
 
     public boolean isMoving() {
-        return !playerMovement.isZero();
+        return !playerMovement.isZero() || !playerSceneMovement.isZero();
     }
 
     public boolean isDeathPlayer() {
@@ -2385,6 +2416,19 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         boolean left = currentLevel.isDeath(playerPos.cpy().add(HALF_TILE_SIZE - QUARTER_TILE_SIZE, HALF_TILE_SIZE));
         boolean right = currentLevel.isDeath(playerPos.cpy().add(HALF_TILE_SIZE + QUARTER_TILE_SIZE, HALF_TILE_SIZE));
         return up && down && left && right;
+    }
+
+    public void hideGuff(String image, boolean hide) {
+        for (Guff guff : currentLevel.guffs) {
+            if (guff.imageName.equals(image)) {
+                guff.setVisible(hide);
+            }
+        }
+    }
+
+    public void setAntAnim(String anim, float antAnimDelta) {
+        antAnim = anim;
+        this.antAnimDelta = antAnimDelta;
     }
 
 //	@Override

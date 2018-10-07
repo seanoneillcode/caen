@@ -269,10 +269,9 @@ public class DialogContainer {
         ));
         dialogs.put("33", Arrays.asList(
                 line(pro, "What does this say..."),
-                line(pro, "'RULES OF THE CAEN'"),
-                line(pro, "'1. All rooms have at least one solution'"),
-                line(pro, "'2. All rooms have one entrance and one exit'"),
-                line(pro, "'3. You must light the four gates'")
+                line(pro, "'THIEF BEWARE'", "listening"),
+                line(pro, "'If you are reading this I failed to guard the entrance.'", "listening"),
+                line(pro, "'Only continue if you wish to die.'", "listening")
         ));
         dialogs.put("34", Arrays.asList(
                 line(ant, "What is this? The first torch has been lit..."),
@@ -317,6 +316,35 @@ public class DialogContainer {
         ));
         dialogs.put("43", Arrays.asList(
                 line(pro, "oh...", "worried")
+        ));
+        dialogs.put("44", Arrays.asList(
+                line(pro, "Knock knock!", "worried")
+        ));
+        dialogs.put("45", Arrays.asList(
+                line(ant, "Who is out in this weather..?")
+        ));
+        dialogs.put("46", Arrays.asList(
+                line(ant, "Who's there ? What do want? Go away!", "angry"),
+                line(pro, "I'm just a cripple Sir", "worried"),
+                line(ant, "Well I have no charity", "talk"),
+                line(pro, "I'm selling cider, strong and homemade..."),
+                line(ant, "Oh! Well... I did just run out... and I don't want to go out in this storm", "talk"),
+                line(ant, "Come in then and show me what you have", "happy")
+        ));
+        dialogs.put("47", Arrays.asList(
+                line(pro, "Try this one, it's pretty strong"),
+                line(ant, "We'll see...")
+        ));
+        dialogs.put("48", Arrays.asList(
+                line(pro, "Sorry old man, that was mostly poison", "happy"),
+                line(pro, "Now, I need to find the Diamond he was guarding", "talk")
+        ));
+        dialogs.put("49", Arrays.asList(
+                line(pro, "Just books, nothing I can sell", "talk")
+        ));
+        dialogs.put("50", Arrays.asList(
+                line(pro, "A diary entry... ", "talk"),
+                line(pro, "'It calls to me in my sleep, I wish I could end it...'", "listening")
         ));
     }
 

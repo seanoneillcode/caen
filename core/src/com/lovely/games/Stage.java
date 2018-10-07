@@ -31,4 +31,8 @@ public interface Stage {
     void gotoState(String state);
 
     void playSound(int id, String name, Vector2 pos);
+
+    void hideGuff(String image, boolean hide);
+
+    void setAntAnim(String anim, float antAnimDelta);
 }

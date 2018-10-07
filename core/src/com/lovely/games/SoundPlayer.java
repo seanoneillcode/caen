@@ -27,7 +27,7 @@ public class SoundPlayer {
     int currentSong = 0;
     int nextSong = 0;
     private Map<Integer, String> musicFileNameMap;
-    boolean isEnabled = true;
+    boolean isEnabled = false;
 
     SoundPlayer(AssetManager assetManager) {
         this.assetManager = assetManager;

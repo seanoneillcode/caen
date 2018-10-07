@@ -293,6 +293,37 @@ public class SceneContainer {
                 .verb(new PosterVerb("new-game-scene"))
                 .build());
 
+        scenes.put("43", builder()
+                .verb(new MoveVerb(new Vector2(0, -16), "pro", true))
+                .verb(new MoveVerb(new Vector2(-32, 0), "pro", true))
+                .verb(new MoveVerb(new Vector2(0, -80), "pro", true))
+                .verb(new DialogVerb("44"))
+                .verb(new CameraVerb(new Vector2(160, 240)))
+                .verb(new DialogVerb("45"))
+                .verb(new MoveVerb(new Vector2(32 * 2, 0), "ant", true))
+                .verb(new MoveVerb(new Vector2(0, 32 * 3), "ant", true))
+                .verb(new MoveVerb(new Vector2(-32 * 2, 0), "ant", true))
+                .verb(new CameraVerb(new Vector2(160, 340)))
+                .verb(new DialogVerb("46"))
+                .verb(new HideShowImageVerb(true, "entity/heavy-door.png"))
+                .verb(new MoveVerb(new Vector2(32, 0), "ant", true))
+                .verb(new MoveVerb(new Vector2(-4, 0), "ant", true))
+                .verb(new MoveVerb(new Vector2(0, -80), "pro", true))
+                .verb(new MoveVerb(new Vector2(16, 0), "pro", true))
+                .verb(new DialogVerb("47"))
+                .verb(new SetAntAnimVerb("drink", 0.2f * 14, true))
+                .verb(new SetAntAnimVerb("fall", 0.1f * 9 , false))
+                .verb(new DialogVerb("48"))
+                .build());
+
+        scenes.put("44", builder()
+                .verb(new DialogVerb("49"))
+                .build());
+
+        scenes.put("45", builder()
+                .verb(new DialogVerb("50"))
+                .build());
+
         scenes.put("new-game", builder()
                 .verb(new GameControlVerb("new-game"))
                 .build());
