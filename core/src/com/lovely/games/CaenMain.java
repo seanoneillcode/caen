@@ -292,6 +292,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         assetManager.load("entity/dust-air-2.png", Texture.class);
         assetManager.load("entity/lintel.png", Texture.class);
         assetManager.load("entity/heavy-door.png", Texture.class);
+        assetManager.load("entity/crystal.png", Texture.class);
         assetManager.load("character/dead.png", Texture.class);
         assetManager.load("entity/rain.png", Texture.class);
         assetManager.load("entity/door-open.png", Texture.class);
@@ -565,6 +566,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         guffImages.put("character/dead.png", loadAnimation(assetManager.get("character/dead.png"), 1, 1f));
         guffImages.put("entity/lintel.png", loadAnimation(assetManager.get("entity/lintel.png"), 1, 1f));
         guffImages.put("entity/heavy-door.png", loadAnimation(assetManager.get("entity/heavy-door.png"), 1, 1f));
+        guffImages.put("entity/crystal.png", loadAnimation(assetManager.get("entity/crystal.png"), 1, 1f));
         guffImages.put("entity/rain.png", loadAnimation(assetManager.get("entity/rain.png"), 4, 0.1f));
         guffImages.put("entity/dust-air-2.png", loadAnimation(assetManager.get("entity/dust-air-2.png"), 16, 0.2f));
         guffImages.put("entity/platform-particle-1.png", loadAnimation(assetManager.get("entity/platform-particle-1.png"), 8, 0.1f));

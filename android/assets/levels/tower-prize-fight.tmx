@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="21" height="17" tilewidth="32" tileheight="32" infinite="0" nextobjectid="80">
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="21" height="17" tilewidth="32" tileheight="32" infinite="0" nextobjectid="81">
  <properties>
   <property name="isWind" value="true"/>
   <property name="music" value="crystal"/>
@@ -158,6 +158,11 @@
    <properties>
     <property name="isOn" value="false"/>
     <property name="switch" value="a"/>
+   </properties>
+  </object>
+  <object id="80" type="guff" x="331.152" y="224" width="10" height="11.8182">
+   <properties>
+    <property name="image" value="entity/crystal.png"/>
    </properties>
   </object>
  </objectgroup>

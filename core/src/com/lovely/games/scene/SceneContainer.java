@@ -119,6 +119,7 @@ public class SceneContainer {
         scenes.put("14", builder()
                 .verb(new DialogVerb("18"))
                 .verb(new PosterVerb("posters/poster-prize.png"))
+                .verb(new HideShowImageVerb(true, "entity/crystal.png"))
                 .verb(new SendEventVerb("a"))
                 .verb(new DialogVerb("13"))
                 .build());
@@ -224,10 +225,6 @@ public class SceneContainer {
 
         scenes.put("33", builder()
                 .verb(new DialogVerb("36"))
-                .verb(new WaitVerb(0.5f))
-                .verb(new SendEventVerb("a"))
-                .verb(new WaitVerb(1f))
-                .verb(new ConnectionVerb("209"))
                 .build());
 
         scenes.put("34", builder()
@@ -243,17 +240,21 @@ public class SceneContainer {
                 .build());
 
         scenes.put("35", builder()
-                .verb(new DialogVerb("40"))
+                .verb(new SetAntAnimVerb("fall", 0 , true))
                 .verb(new WaitVerb(0.5f))
                 .verb(new SendEventVerb("a"))
                 .verb(new DialogVerb("38"))
                 .verb(new CameraVerb(new Vector2(290, 96)))
                 .verb(new HideShowActorVerb(false, "ant"))
                 .verb(new MoveVerb(new Vector2(32 * 4, 0), "ant", true))
+                .verb(new MoveVerb(new Vector2(0, 32), "ant", true))
+                .verb(new CameraVerb(new Vector2(290, 240)))
                 .verb(new WaitVerb(1f))
+                .verb(new DialogVerb("40"))
+                .verb(new MoveVerb(new Vector2(0, -32), "ant", true))
                 .verb(new MoveVerb(new Vector2(32 * 4, 0), "ant", true))
                 .verb(new HideShowActorVerb(true, "ant"))
-                .verb(new CameraVerb(new Vector2(290, 430)))
+//                .verb(new CameraVerb(new Vector2(290, 430)))
                 .verb(new DialogVerb("39"))
                 .build());
 

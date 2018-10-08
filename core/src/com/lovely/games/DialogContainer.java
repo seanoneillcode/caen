@@ -113,7 +113,7 @@ public class DialogContainer {
                 line(ant, "Fool, now I'll take what's mine.", "happy")
         ));
         dialogs.put("18", Arrays.asList(
-                line(pro, "There's something here...")
+                line(pro, "At last, the diamond! I'm rich", "happy")
         ));
         dialogs.put("19", Arrays.asList(
                 line(ant, "Yes?"),
@@ -284,9 +284,8 @@ public class DialogContainer {
                 line(ant, "I have to stop him!", "angry")
         ));
         dialogs.put("36", Arrays.asList(
-                line(pro, "What does this say..."),
-                line(info, "'The First Gate'"),
-                line(pro, "Great, I'm doing well! There's only four gates.", "happy")
+                line(pro, "Looks like there used to be a bridge here"),
+                line(pro, "I'll have to go the long way", "worried")
         ));
         dialogs.put("37", Arrays.asList(
                 line(pro, "Ominous...")
@@ -295,11 +294,19 @@ public class DialogContainer {
                 line(pro, "I hear something...")
         ));
         dialogs.put("39", Arrays.asList(
-                line(pro, "He knows I'm here..."),
-                line(pro, "I'm dead! I must keep ahead or I'm dead...")
+                line(pro, "I need to keep ahead, that poison should have killed him...")
         ));
         dialogs.put("40", Arrays.asList(
-                line(info, "'The Second Gate'")
+                line(ant, "you there! stop!"),
+                line(pro, "No, I need the diamond. To pay for food"),
+                line(ant, "It's not a diamond, it's a crystal"),
+                line(ant, "A crystal full of magic"),
+                line(pro, "Really? What a tale...", "happy"),
+                line(ant, "Yes! You cannot steal it, I need it to live!"),
+                line(pro, "Don't be a fool", "happy"),
+                line(ant, "I'll kill you before I let you have it", "angry"),
+                line(pro, "You'll have to catch me first", "angry"),
+                line(ant, "You can't escape me here!", "angry")
         ));
         dialogs.put("41", Arrays.asList(
                 line(info, "'The Third Gate'"),
