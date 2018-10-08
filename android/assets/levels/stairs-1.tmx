@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="7" height="9" tilewidth="32" tileheight="32" infinite="0" nextobjectid="104">
+ <properties>
+  <property name="isWind" value="true"/>
+  <property name="number" value="1"/>
+ </properties>
+ <tileset firstgid="1" source="tower-tileset.tsx"/>
+ <layer name="walls" width="7" height="9" visible="0">
+  <data encoding="csv">
+0,0,34,34,34,0,0,
+0,0,0,0,34,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="death" width="7" height="9">
+  <data encoding="csv">
+0,4,0,0,0,0,0,
+0,4,0,0,0,0,0,
+0,4,0,4,4,0,91,
+0,4,0,0,4,0,93,
+0,4,4,4,4,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0
+</data>
+ </layer>
+ <imagelayer name="background">
+  <image source="stairs.png" width="192" height="192"/>
+ </imagelayer>
+ <objectgroup name="objects">
+  <object id="56" type="torch" x="64" y="0" width="32" height="32"/>
+  <object id="102" name="202" type="connection" x="96" y="32" width="32" height="32">
+   <properties>
+    <property name="dir" value="left"/>
+    <property name="to" value="200"/>
+   </properties>
+  </object>
+  <object id="103" name="62" type="connection" x="96" y="96" width="32" height="32">
+   <properties>
+    <property name="dir" value="left"/>
+    <property name="to" value="01"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

@@ -256,7 +256,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         assetManager.load("levels/crossy-road-1.tmx", TiledMap.class);
         assetManager.load("levels/crossy-road-2.tmx", TiledMap.class);
         assetManager.load("levels/entrance-2.tmx", TiledMap.class);
-        assetManager.load("levels/lobby-1.tmx", TiledMap.class);
+        assetManager.load("levels/stairs-1.tmx", TiledMap.class);
         assetManager.load("levels/boss-fight.tmx", TiledMap.class);
         assetManager.load("levels/options.tmx", TiledMap.class);
         assetManager.load("levels/lobby-2.tmx", TiledMap.class);
@@ -264,6 +264,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         assetManager.load("levels/gate-2.tmx", TiledMap.class);
         assetManager.load("levels/gate-3.tmx", TiledMap.class);
         assetManager.load("levels/ant-catch-up.tmx", TiledMap.class);
+        assetManager.load("levels/trench.tmx", TiledMap.class);
         assetManager.update();
 
         assetManager.load("entity/platform.png", Texture.class);
@@ -508,13 +509,14 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         levels.add(Level.loadLevel(assetManager, "levels/crossy-road-1.tmx", soundPlayer)); // 48
         levels.add(Level.loadLevel(assetManager, "levels/crossy-road-2.tmx", soundPlayer)); // 49
         levels.add(Level.loadLevel(assetManager, "levels/entrance-2.tmx", soundPlayer)); // 50
-        levels.add(Level.loadLevel(assetManager, "levels/lobby-1.tmx", soundPlayer)); // 50
+        levels.add(Level.loadLevel(assetManager, "levels/stairs-1.tmx", soundPlayer)); // 50
         levels.add(Level.loadLevel(assetManager, "levels/boss-fight.tmx", soundPlayer)); // 50
         levels.add(Level.loadLevel(assetManager, "levels/lobby-2.tmx", soundPlayer)); // 50
         levels.add(Level.loadLevel(assetManager, "levels/gate-1.tmx", soundPlayer)); // 50
         levels.add(Level.loadLevel(assetManager, "levels/gate-2.tmx", soundPlayer)); // 50
         levels.add(Level.loadLevel(assetManager, "levels/gate-3.tmx", soundPlayer)); // 50
         levels.add(Level.loadLevel(assetManager, "levels/ant-catch-up.tmx", soundPlayer)); // 50
+        levels.add(Level.loadLevel(assetManager, "levels/trench.tmx", soundPlayer)); // 50
         gamma = 0.2f;
 
         antWalk = loadAnimation(assetManager.get("character/ant-walk.png"), 4, 0.165f);
