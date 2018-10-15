@@ -374,16 +374,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         assetManager.load("music/door.ogg", Music.class);
         assetManager.load("music/platform-4.ogg", Music.class);
         assetManager.load("music/select-3.ogg", Music.class);
-//        assetManager.load("blast-0.ogg", Music.class);
-//        assetManager.load("blip-select.ogg", Music.class);
-//        assetManager.load("blip-select-high.ogg", Music.class);
-//        assetManager.load("block-0.ogg", Music.class);
-//        assetManager.load("fall-0.ogg", Music.class);
-//        assetManager.load("chirp-1.ogg", Music.class);
-//        assetManager.load("clacking.ogg", Music.class);
-//        assetManager.load("cricket-2.ogg", Music.class);
-//        assetManager.load("get-magic.ogg", Music.class);
-//        assetManager.load("select-1.ogg", Music.class);
         assetManager.finishLoading();
 
         dialogContainer = new DialogContainer(assetManager);
@@ -754,11 +744,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         playerDir = new Vector2(1,0);
         if (level.name.equals("levels/camp-fire.tmx")) {
             staticLevel = true;
-//            soundPlayer.playSound(CHIRP_SOUND_ID, "chirp-1.ogg", playerPos, true);
-//            soundPlayer.playSound(CRICKET_SOUND_ID, "cricket-2.ogg", playerPos, true);
         } else {
-//            soundPlayer.stopSound(CHIRP_SOUND_ID);
-//            soundPlayer.stopSound(CRICKET_SOUND_ID);
             staticLevel = false;
         }
         if (level.name.equals("levels/lobby-2.tmx")) {
@@ -770,9 +756,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         leaveLevel = false;
         stonePrizeScene.reset();
         soundPlayer.startLevel();
-//        if (currentLevel.isWind) {
-//            soundPlayer.playMusic(WIND_BGR_SOUND_ID, "wind-background.ogg", true);
-//        }
         if (currentLevel.getMusic() != null) {
             soundPlayer.levelMusic(currentLevel.getMusic());
         }

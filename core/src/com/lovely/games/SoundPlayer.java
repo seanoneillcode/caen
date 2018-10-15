@@ -47,7 +47,7 @@ public class SoundPlayer {
         musicFileNameMap = new HashMap<>();
         musicFileNameMap.put(111, "sound/3.ogg");
         musicFileNameMap.put(112, "sound/2.ogg");
-        musicFileNameMap.put(113, "wind-background.ogg");
+        musicFileNameMap.put(113, "music/wind-background.ogg");
         musicFileNameMap.put(114, "sound/8.ogg");
         musicFileNameMap.put(115, "sound/9.ogg");
         musicFileNameMap.put(116, "sound/crystal.ogg");
