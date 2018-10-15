@@ -295,6 +295,7 @@ public class SceneContainer {
                 .build());
 
         scenes.put("43", builder()
+                .verb(new WaitVerb(1f))
                 .verb(new MoveVerb(new Vector2(0, -16), "pro", true))
                 .verb(new MoveVerb(new Vector2(-32, 0), "pro", true))
                 .verb(new MoveVerb(new Vector2(0, -80), "pro", true))
@@ -315,6 +316,7 @@ public class SceneContainer {
                 .verb(new SetAntAnimVerb("drink", 0.2f * 14, true))
                 .verb(new SetAntAnimVerb("fall", 0.1f * 9 , false))
                 .verb(new DialogVerb("48"))
+                .verb(new SendEventVerb("a"))
                 .build());
 
         scenes.put("44", builder()

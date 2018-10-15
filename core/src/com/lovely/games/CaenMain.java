@@ -198,6 +198,8 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     private BlockLike lastBlock;
     private Animation<TextureRegion> antDrink, antFall;
     private String antAnim = "normal";
+    private float loadLevelTimer = 0;
+    private Animation<TextureRegion> selectArrowAnim;
 
     @Override
 	public void create () {
@@ -412,7 +414,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         enemySprite = new Sprite((Texture) assetManager.get("entity/enemy.png"));
         enemySprite.setSize(40, 40);
         selectArrowSprite = new Sprite((Texture) assetManager.get("select-arrow.png"));
-        selectArrowSprite.setSize(24, 24);
+        selectArrowSprite.setSize(32, 32);
         arrowSourceSprite = new Sprite((Texture) assetManager.get("entity/arrow-source.png"));
         arrowSourceSprite.setSize(32, 48);
         doorSprite = new Sprite();
@@ -542,6 +544,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         arrowSourceAnim = loadAnimation(assetManager.get("entity/arrow-source.png"), 8, 0.1f);
         openingScene = loadAnimation(assetManager.get("player-large.png"), 8, 0.3f);
         menuSpriteAnim = loadAnimation(assetManager.get("posters/menu-sprites.png"), 12, 0.2f);
+        selectArrowAnim = loadAnimation(assetManager.get("select-arrow.png"), 2, 0.4f);
         doorOpenAnim.setPlayMode(Animation.PlayMode.REVERSED);
         doorAcrossCloseAnim.setPlayMode(Animation.PlayMode.REVERSED);
         pressureOffAnim.setPlayMode(Animation.PlayMode.REVERSED);
@@ -734,6 +737,10 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             torch.start();
 
         }
+        for (Scene scene : currentScenes) {
+            scene.start();
+        }
+        currentScenes.clear();
         for (SceneSource sceneSource : currentLevel.scenes) {
             sceneSource.start();
             sceneContainer.scenes.get(sceneSource.id).start();
@@ -957,6 +964,9 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         }
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        if (loadLevelTimer > 0.45f) {
+            return;
+        }
 
         if (!isLevelDirty && (!isMenu() || isBrightnessOption()) && !isViewDirty && !isPlayingOpeningScene) {
             Vector2 threeDeeLinePos = playerPos.cpy().add(0, 0);
@@ -1203,6 +1213,9 @@ public class CaenMain extends ApplicationAdapter implements Stage {
 
             if (conversation != null) {
                 dialogContainer.render(batch, new Vector2(camera.position.x - (VIEWPORT_WIDTH / 2.0f) + 100, camera.position.y - (VIEWPORT_HEIGHT / 2.0f) + 100), conversation, soundPlayer);
+                selectArrowSprite.setPosition(dialogContainer.lastPos.x + 8, dialogContainer.lastPos.y + 12);
+                selectArrowSprite.setRegion(selectArrowAnim.getKeyFrame(animationDelta, true));
+                selectArrowSprite.draw(batch);
             } else {
                 dialogContainer.reset();
             }
@@ -1239,9 +1252,9 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             batch.begin();
             if (isTitleMenu) {
                 TextureRegion frame = menuSpriteAnim.getKeyFrame(animationDelta, true);
-                menuSprite.setRegion(frame);
-                menuSprite.setPosition(-180,0);
-                menuSprite.draw(batch);
+//                menuSprite.setRegion(frame);
+//                menuSprite.setPosition(-180,0);
+//                menuSprite.draw(batch);
                 titleSprite.setPosition(180, 300);
                 titleSprite.draw(batch);
             }
@@ -1262,6 +1275,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 if (titleSelectionIndex == menuOptions.size() - 1 - index) {
                     font.setColor(fontColorSelectedMain);
                     selectArrowSprite.setPosition(selectedPos.x + 80, selectedPos.y - 15);
+                    selectArrowSprite.setRegion(selectArrowAnim.getKeyFrame(animationDelta, true));
                     selectArrowSprite.draw(batch);
                 } else {
                     font.setColor(fontColorMain);
@@ -1470,9 +1484,17 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         if (stepTimer > 0) {
             stepTimer = stepTimer - Gdx.graphics.getDeltaTime();
         }
+        if (loadLevelTimer > 0) {
+            loadLevelTimer = loadLevelTimer - Gdx.graphics.getDeltaTime();
+        }
         if (levelTransitionTimer < 0) {
             if (leaveLevel) {
                 startLevel(nextLevel, nextConnection);
+            }
+            if (loadLevelTimer > 0) {
+                setScreenFade(loadLevelTimer/LEVEL_TRANSITION_TIMER, Color.BLACK);
+            } else {
+                setScreenFade(0, Color.BLACK);
             }
         } else {
             levelTransitionTimer = levelTransitionTimer - Gdx.graphics.getDeltaTime();
@@ -1497,6 +1519,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             }
             return;
         }
+
         for (PressureTile pressureTile : currentLevel.pressureTiles) {
             pressureTile.update();
             boolean handled = false;
@@ -1898,7 +1921,11 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 if (isTitleMenu) {
                     if (titleSelectionIndex == 0) {
                         isTitleMenu = false;
-                        loadLevelFromPrefs();
+                        //loadLevelFromPrefs();
+                        titleLock = true;
+                        dialogLock = true;
+                        loadLevelTimer = LEVEL_TRANSITION_TIMER;
+                        moveLock = true;
                         soundPlayer.resumeSounds();
                     }
                     if (titleSelectionIndex == 1) {
@@ -2183,6 +2210,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 isViewDirty = true;
                 titleLock = true;
                 soundPlayer.pauseSounds();
+                loadLevelTimer = 0;
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.R)) {

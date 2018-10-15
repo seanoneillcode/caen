@@ -4,9 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.*;
@@ -492,13 +490,9 @@ public class DialogContainer {
             if (chosenOption != null && line.equals(chosenOption)) {
                 optionPointer.setPosition(dialogPos.x + 6, dialogPos.y - 2 + ypos + startHeight - 14);
                 optionPointer.draw(batch);
-//                font.setColor(fontColorSecondary);
-//                font.draw(batch, line, dialogPos.x + 10 + offsetx, dialogPos.y - 1 + ypos + startHeight - 2);
                 font.setColor(fontColorHighlighted);
                 font.draw(batch, line, dialogPos.x + 6 + offsetx, dialogPos.y + ypos + startHeight - 2);
             } else {
-//                font.setColor(fontColorSecondary);
-//                font.draw(batch, line, dialogPos.x + 10 + offsetx, dialogPos.y - 1 + ypos + startHeight - 2);
                 font.setColor(fontColorMain);
                 font.draw(batch, line, dialogPos.x + 6 + offsetx, dialogPos.y + ypos + startHeight - 2);
             }
@@ -506,8 +500,9 @@ public class DialogContainer {
             ypos = ypos - 32;
         }
 
-        lastPos.x = dialogPos.x + 10 + offsetx + (lines.get(lines.size() - 1).length() * 10);
-        lastPos.y = dialogPos.y + ypos + startHeight - 2;
+
+        lastPos.x = dialogPos.x + 390;
+        lastPos.y = dialogPos.y + startHeight - 28;
 
         String lastLine = lines.get(lines.size() - 1);
         if (!lastLine.isEmpty()) {
