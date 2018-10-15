@@ -515,9 +515,9 @@ public class DialogContainer {
             if (!thisChar.isEmpty() && (lastChar == null || !thisChar.equals(lastChar))) {
                 if (!thisChar.equals(" ")) {
                     if (isLeft) {
-                        soundPlayer.playSound("talk-high-beep.ogg");
+                        soundPlayer.playSound("music/talk-high-beep.ogg");
                     } else {
-                        soundPlayer.playSound("talk-shift.ogg");
+                        soundPlayer.playSound("music/talk-shift.ogg");
                     }
                     lastChar = thisChar;
                 }

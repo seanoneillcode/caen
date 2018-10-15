@@ -46,7 +46,7 @@ public class Door implements Switchable {
         if (switchId != null && switchId.equals(id)) {
             isOpen = !isOpen;
             animTimer = 0;
-            soundPlayer.playSound(soundId, "door.ogg", pos, false);
+            soundPlayer.playSound(soundId, "music/door.ogg", pos, false);
         }
     }
 }

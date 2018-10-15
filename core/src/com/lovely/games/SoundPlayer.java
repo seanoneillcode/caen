@@ -28,7 +28,7 @@ public class SoundPlayer {
     int currentSong = 0;
     int nextSong = 0;
     private Map<Integer, String> musicFileNameMap;
-    boolean isEnabled = false;
+    boolean isEnabled = true;
 
     SoundPlayer(AssetManager assetManager) {
         this.assetManager = assetManager;
@@ -223,7 +223,7 @@ public class SoundPlayer {
         if (sound.isPlaying()) {
             return;
         }
-        sound.setVolume(getVolume(playerPos, pos));
+        sound.setVolume(getVolume(playerPos, pos) / 2.0f);
         sound.play();
         sound.setLooping(isLooping);
     }

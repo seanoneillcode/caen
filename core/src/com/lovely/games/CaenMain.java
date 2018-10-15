@@ -357,34 +357,33 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         assetManager.load("pointer.png", Texture.class);
         assetManager.update();
 
-        assetManager.load("arrow-source.ogg", Music.class);
-        assetManager.load("blast-0.ogg", Music.class);
-        assetManager.load("blast-1.ogg", Music.class);
-        assetManager.load("blip-select.ogg", Music.class);
-        assetManager.load("blip-select-high.ogg", Music.class);
-        assetManager.load("block-0.ogg", Music.class);
-        assetManager.load("block-3.ogg", Music.class);
-        assetManager.load("chirp-1.ogg", Music.class);
-        assetManager.load("clacking.ogg", Music.class);
-        assetManager.load("cricket-2.ogg", Music.class);
-        assetManager.load("door.ogg", Music.class);
-        assetManager.load("fall-0.ogg", Music.class);
-        assetManager.load("flame-0.ogg", Music.class);
-        assetManager.load("get-magic.ogg", Music.class);
-        assetManager.load("lazer-4.ogg", Music.class);
-//        assetManager.load("mechanical-1.ogg", Music.class);
-        assetManager.load("new-game-1.ogg", Music.class);
-        assetManager.load("platform-4.ogg", Music.class);
-        assetManager.load("scream-hurt.ogg", Music.class);
-        assetManager.load("select-1.ogg", Music.class);
-        assetManager.load("select-2.ogg", Music.class);
-        assetManager.load("select-3.ogg", Music.class);
-        assetManager.load("step-2.ogg", Music.class);
-        assetManager.load("switch-1.ogg", Music.class);
-        assetManager.load("talk-beep.ogg", Music.class);
-        assetManager.load("talk-high-beep.ogg", Music.class);
-        assetManager.load("talk-shift.ogg", Music.class);
-        assetManager.load("thunk.ogg", Music.class);
+        assetManager.load("music/arrow-source.ogg", Music.class);
+        assetManager.load("music/blast-1.ogg", Music.class);
+        assetManager.load("music/block-3.ogg", Music.class);
+        assetManager.load("music/flame-0.ogg", Music.class);
+        assetManager.load("music/lazer-4.ogg", Music.class);
+        assetManager.load("music/new-game-1.ogg", Music.class);
+        assetManager.load("music/scream-hurt.ogg", Music.class);
+        assetManager.load("music/select-2.ogg", Music.class);
+        assetManager.load("music/step-2.ogg", Music.class);
+        assetManager.load("music/switch-1.ogg", Music.class);
+        assetManager.load("music/talk-beep.ogg", Music.class);
+        assetManager.load("music/talk-high-beep.ogg", Music.class);
+        assetManager.load("music/talk-shift.ogg", Music.class);
+        assetManager.load("music/thunk.ogg", Music.class);
+        assetManager.load("music/door.ogg", Music.class);
+        assetManager.load("music/platform-4.ogg", Music.class);
+        assetManager.load("music/select-3.ogg", Music.class);
+//        assetManager.load("blast-0.ogg", Music.class);
+//        assetManager.load("blip-select.ogg", Music.class);
+//        assetManager.load("blip-select-high.ogg", Music.class);
+//        assetManager.load("block-0.ogg", Music.class);
+//        assetManager.load("fall-0.ogg", Music.class);
+//        assetManager.load("chirp-1.ogg", Music.class);
+//        assetManager.load("clacking.ogg", Music.class);
+//        assetManager.load("cricket-2.ogg", Music.class);
+//        assetManager.load("get-magic.ogg", Music.class);
+//        assetManager.load("select-1.ogg", Music.class);
         assetManager.finishLoading();
 
         dialogContainer = new DialogContainer(assetManager);
@@ -634,7 +633,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     private void loadEverything() {
         Preferences prefs = Gdx.app.getPreferences("caen-preferences");
         soundPlayer.setSoundVolume(prefs.getFloat("sound-level", DEFAULT_SOUND_LEVEL));
-        soundPlayer.setSoundVolume(prefs.getFloat("music-level", DEFAULT_MUSIC_LEVEL));
+        soundPlayer.setMusicVolume(prefs.getFloat("music-level", DEFAULT_MUSIC_LEVEL));
         gamma = prefs.getFloat("brightness-level", DEFAULT_GAMMA);
         keyMappings.put("up key", prefs.getInteger("up key", 19));
         keyMappings.put("right key", prefs.getInteger("right key", 22));
@@ -1554,7 +1553,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 BlockLike block = currentLevel.getGroundBlock(playerPos);
                 if (!(block != null && block.isGround())) {
                     playerDeathTimer = PLAYER_DEATH_TIME;
-                    soundPlayer.playSound("scream-hurt.ogg", playerPos);
+                    soundPlayer.playSound("music/scream-hurt.ogg", playerPos);
                     playerIsDead = true;
                     animationDelta = 0;
                     isFallDeath = true;
@@ -1650,7 +1649,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             Vector2 actualArrowPos = arrow.pos.cpy().add(QUARTER_TILE_SIZE, QUARTER_TILE_SIZE);
             if (arrow.isDead || currentLevel.isWall(actualArrowPos) || currentLevel.isOutOfBounds(actualArrowPos) || currentLevel.getDoor(actualArrowPos, false) != null) {
                 explosions.add(new Explosion(arrow.pos.cpy()));
-                soundPlayer.playSound("blast-1.ogg", arrow.pos);
+                soundPlayer.playSound("music/blast-1.ogg", arrow.pos);
                 arrowIterator.remove();
                 continue;
             }
@@ -1665,13 +1664,13 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                     arrowIterator.remove();
                     block.move(arrow.dir);
                 }
-                soundPlayer.playSound("blast-1.ogg",block.getPos());
-                soundPlayer.playSound("block-3.ogg", block.getPos());
+                soundPlayer.playSound("music/blast-1.ogg",block.getPos());
+                soundPlayer.playSound("music/block-3.ogg", block.getPos());
             }
             if (!playerIsDead && getPlayerRect().overlaps(arrow.getRect())) {
                 playerDeathTimer = PLAYER_DEATH_TIME;
                 playerIsDead = true;
-                soundPlayer.playSound("flame-0.ogg", arrow.pos);
+                soundPlayer.playSound("music/flame-0.ogg", arrow.pos);
                 animationDelta = 0;
                 isFallDeath = false;
                 statisticsManager.addGameEvent(statisticsManager.playerDeathEvent("arrow", currentLevel));
@@ -1682,7 +1681,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                     if (arrow.getRect().overlaps(actor.getHitRect())) {
                         actor.handleHit();
                         explosions.add(new Explosion(arrow.pos.cpy()));
-                        soundPlayer.playSound("blast-1.ogg", arrow.pos);
+                        soundPlayer.playSound("music/blast-1.ogg", arrow.pos);
                         arrowIterator.remove();
                     }
                 }
@@ -1721,7 +1720,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                         if (!alreadyGround) {
                             blocksDirty = true;
                             blockLike.setGround(true);
-                            soundPlayer.playSound("switch-1.ogg", blockLike.getPos());
+                            soundPlayer.playSound("music/switch-1.ogg", blockLike.getPos());
                         }
                     }
                 } else {
@@ -1902,7 +1901,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 }
             }
             if (oldTitleIndex != titleSelectionIndex) {
-                soundPlayer.playSound("select-2.ogg", playerPos);
+                soundPlayer.playSound("music/select-2.ogg", playerPos);
             }
             if (pressKeyPlease != null && inputProcessor.hasInput) {
                 setNewKey(pressKeyPlease);
@@ -1912,7 +1911,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 return;
             }
             if (inputVector.x != 0 || Gdx.input.isKeyPressed(Input.Keys.SPACE) || Gdx.input.isKeyPressed(Input.Keys.ENTER) || inputProcessor.pressingA) {
-                soundPlayer.playSound(BLIP_SELECT_ITEM_SOUND_ID, "select-3.ogg", playerPos, false);
+                soundPlayer.playSound(BLIP_SELECT_ITEM_SOUND_ID, "music/select-3.ogg", playerPos, false);
                 if (isTitleMenu) {
                     if (titleSelectionIndex == 0) {
                         isTitleMenu = false;
@@ -2034,7 +2033,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 inputVector.x = 1;
             }
             if ((inputVector.x != 0 || inputVector.y != 0) && !dialogLock) {
-                soundPlayer.playSound("talk-beep.ogg", playerPos);
+                soundPlayer.playSound("music/talk-beep.ogg", playerPos);
                 if (!conversation.isFinished()) {
                     conversation.handleInput(inputVector);
                 }
@@ -2081,7 +2080,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                                 block.move(moveVector);
                                 lastBlock = block;
                                 playerIsPushing = true;
-                                soundPlayer.playSound("block-3.ogg", block.getPos());
+                                soundPlayer.playSound("music/block-3.ogg", block.getPos());
                             }
                         }
                     }
@@ -2105,7 +2104,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                                     block.move(moveVector);
                                     lastBlock = block;
                                     playerIsPushing = true;
-                                    soundPlayer.playSound("block-3.ogg", block.getPos());
+                                    soundPlayer.playSound("music/block-3.ogg", block.getPos());
                                 }
                                 nextTileAgain = playerPos.cpy()
                                         .add(moveVector.cpy().scl(TILE_SIZE + TILE_SIZE + QUARTER_TILE_SIZE))
@@ -2116,7 +2115,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                                     block.move(moveVector);
                                     lastBlock = block;
                                     playerIsPushing = true;
-                                    soundPlayer.playSound("block-3.ogg", block.getPos());
+                                    soundPlayer.playSound("music/block-3.ogg", block.getPos());
                                 }
                             }
                         }
@@ -2172,7 +2171,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             if (isMoving()) {
                 float pitch = MathUtils.random(0.75f, 1.25f);
                 if (stepTimer < 0) {
-                    soundPlayer.playSound("step-2.ogg", playerPos);
+                    soundPlayer.playSound("music/step-2.ogg", playerPos);
                     stepTimer = 0.165f * 4f;
                 }
             }
@@ -2306,13 +2305,13 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     }
 
     void addArrow(Vector2 pos, Vector2 dir, float speed, boolean isRed) {
-        soundPlayer.playSound("arrow-source.ogg", pos);
+        soundPlayer.playSound("music/arrow-source.ogg", pos);
         arrows.add(new Arrow(true, pos, dir, speed, true, isRed));
     }
 
     void addLazer(Vector2 pos, Vector2 dir) {
         if (lazerSoundTimer <= 0) {
-            soundPlayer.playSound("lazer-4.ogg", pos);
+            soundPlayer.playSound("music/lazer-4.ogg", pos);
             lazerSoundTimer = 0.5f;
         }
         arrows.add(new Arrow(false, pos.cpy().add(dir.x * HALF_TILE_SIZE, dir.y * HALF_TILE_SIZE), dir, TILE_SIZE * 16.0f, false, true));
@@ -2345,7 +2344,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         isTitleMenu = false;
         isHidePlayer = true;
         newGameScene.reset();
-        soundPlayer.playSound("new-game-1.ogg", playerPos);
+        soundPlayer.playSound("music/new-game-1.ogg", playerPos);
         soundPlayer.levelMusic("foreboding");
         soundPlayer.playMusic("foreboding");
     }

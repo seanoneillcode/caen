@@ -60,7 +60,7 @@ class PressureTile {
             trunk.broadcast(switchId);
             handledAction = true;
             isPressure = !isPressure;
-            soundPlayer.playSound("thunk.ogg", pos);
+            soundPlayer.playSound("music/thunk.ogg", pos);
             animTimer = 0;
         }
     }
