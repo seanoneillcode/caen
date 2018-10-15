@@ -17,7 +17,7 @@ import static com.lovely.games.DialogLine.options;
 public class DialogContainer {
 
     public static final float NORMAL_FACE_SCALE = 0.6f;
-    public static final float SMALL_FACE_SCALE = 0.54f;
+    public static final float SMALL_FACE_SCALE = 0.5f;
     public static final float SCALE_INCREASE_AMOUNT = 0.01f;
     private final Sprite rightDialogPointer;
     Map<String, List<DialogElement>> dialogs = new HashMap<>();
@@ -408,7 +408,7 @@ public class DialogContainer {
     }
 
     void render(SpriteBatch batch, Vector2 offset, Conversation conversation, SoundPlayer soundPlayer) {
-        Vector2 dialogPos = offset.cpy().add(0, 16);
+        Vector2 dialogPos = offset.cpy().add(64, 16);
         DialogElement dialogLine = conversation.getCurrentDialog();
         actors = new HashSet<>(conversation.getActors());
         float portraitHeight = 170;
@@ -421,7 +421,7 @@ public class DialogContainer {
                 leftPortrait.setTexture(portraits.get("pro-talk"));
                 lastMood = "pro-listening";
             }
-            dialogPointer.setPosition(dialogPos.x + 150, dialogPos.y + portraitHeight - 40);
+            dialogPointer.setPosition(dialogPos.x + 130, dialogPos.y + portraitHeight - 40);
             rightPortrait.setTexture(portraits.get(lastAntMood));
             leftScaleTarget = NORMAL_FACE_SCALE;
             rightScaleTarget = SMALL_FACE_SCALE;
@@ -434,7 +434,7 @@ public class DialogContainer {
                 lastAntMood = "ant-listening";
             }
             leftPortrait.setTexture(portraits.get(lastMood));
-            rightDialogPointer.setPosition(dialogPos.x + 302, dialogPos.y + portraitHeight - 40);
+            rightDialogPointer.setPosition(dialogPos.x + 252, dialogPos.y + portraitHeight - 40);
             rightScaleTarget = NORMAL_FACE_SCALE;
             leftScaleTarget = SMALL_FACE_SCALE;
         }
@@ -457,7 +457,7 @@ public class DialogContainer {
             leftPortrait.draw(batch);
         }
         if (actors.contains("ant")) {
-            rightPortrait.setPosition(dialogPos.x + 302, dialogPos.y + 4 - 170 + 40);
+            rightPortrait.setPosition(dialogPos.x + 242, dialogPos.y + 4 - 170 + 40);
             rightPortrait.draw(batch);
         }
         if (dialogLine.getOwner().equals("info")) {
@@ -469,7 +469,7 @@ public class DialogContainer {
 
         float startHeight = portraitHeight + 16;
         if (!isLeft) {
-            dialogPos.x = dialogPos.x + 120;
+            dialogPos.x = dialogPos.x + 40;
         }
         batch.draw(dialogBottom, dialogPos.x, dialogPos.y + startHeight);
         batch.draw(dialogTop, dialogPos.x, dialogPos.y + 8 + ypos + startHeight);
@@ -495,12 +495,12 @@ public class DialogContainer {
 //                font.setColor(fontColorSecondary);
 //                font.draw(batch, line, dialogPos.x + 10 + offsetx, dialogPos.y - 1 + ypos + startHeight - 2);
                 font.setColor(fontColorHighlighted);
-                font.draw(batch, line, dialogPos.x + 10 + offsetx, dialogPos.y + ypos + startHeight - 2);
+                font.draw(batch, line, dialogPos.x + 6 + offsetx, dialogPos.y + ypos + startHeight - 2);
             } else {
 //                font.setColor(fontColorSecondary);
 //                font.draw(batch, line, dialogPos.x + 10 + offsetx, dialogPos.y - 1 + ypos + startHeight - 2);
                 font.setColor(fontColorMain);
-                font.draw(batch, line, dialogPos.x + 10 + offsetx, dialogPos.y + ypos + startHeight - 2);
+                font.draw(batch, line, dialogPos.x + 6 + offsetx, dialogPos.y + ypos + startHeight - 2);
             }
 
             ypos = ypos - 32;

@@ -54,8 +54,8 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     private static final int CRICKET_SOUND_ID = MathUtils.random(RANDOM_SOUND_ID_RANGE);
     private static final int BLIP_SELECT_ITEM_SOUND_ID = MathUtils.random(RANDOM_SOUND_ID_RANGE);
     private static final int WIND_BGR_SOUND_ID = MathUtils.random(RANDOM_SOUND_ID_RANGE);
-    static final float DEFAULT_SOUND_LEVEL = 0.5f;
-    private static final float DEFAULT_MUSIC_LEVEL = 0.5f;
+    static final float DEFAULT_SOUND_LEVEL = 0.2f;
+    static final float DEFAULT_MUSIC_LEVEL = 1f;
     private static final float DEFAULT_GAMMA = 0.5f;
     private static final float SLIGHT_SPEED = 0.1f;
     private Vector2 playerSceneMovement = new Vector2();
@@ -1355,7 +1355,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         if ((conversation == null && currentScenes.isEmpty()) || showSaveWarning) {
             targetZoom = 0.7f;
         } else {
-            targetZoom = 0.8f;
+            targetZoom = 0.6f;
         }
         if (isMenu()) {
             targetZoom = 0.9f;
@@ -2346,7 +2346,8 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         isHidePlayer = true;
         newGameScene.reset();
         soundPlayer.playSound("new-game-1.ogg", playerPos);
-//        soundPlayer.playMusic(WIND_BGR_SOUND_ID, "wind-background.ogg", true);
+        soundPlayer.levelMusic("foreboding");
+        soundPlayer.playMusic("foreboding");
     }
 
     @Override

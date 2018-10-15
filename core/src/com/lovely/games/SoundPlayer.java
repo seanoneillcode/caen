@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.util.*;
 
+import static com.lovely.games.CaenMain.DEFAULT_MUSIC_LEVEL;
 import static com.lovely.games.CaenMain.DEFAULT_SOUND_LEVEL;
 import static com.lovely.games.CaenMain.RANDOM_SOUND_ID_RANGE;
 
@@ -34,7 +35,7 @@ public class SoundPlayer {
         this.sounds = new HashMap<>();
         this.isPaused = false;
         this.soundVolume = DEFAULT_SOUND_LEVEL;
-        this.musicVolume = DEFAULT_SOUND_LEVEL;
+        this.musicVolume = DEFAULT_MUSIC_LEVEL;
         this.musicMap = new HashMap<>();
         musicMap.put("mechanic", 111);
         musicMap.put("arrow", 112);
@@ -189,6 +190,25 @@ public class SoundPlayer {
         sound.setVolume(getMusicVolume());
         sound.play();
         sound.setLooping(isLooping);
+    }
+
+    public void playMusic(String music) {
+        int id = musicMap.get(music);
+        String name = getMusicFile(id);
+        if (!isEnabled) {
+            return;
+        }
+        if (!sounds.containsKey(id)) {
+            Music sound = Gdx.audio.newMusic(Gdx.files.internal(name));
+            sounds.put(id, new PositionSound(sound, new Vector2(), true));
+        }
+        Music sound = sounds.get(id).sound;
+        if (sound.isPlaying()) {
+            return;
+        }
+        sound.setVolume(getMusicVolume());
+        sound.play();
+        sound.setLooping(true);
     }
 
     public void playSound(int id, String name, Vector2 pos, boolean isLooping) {
