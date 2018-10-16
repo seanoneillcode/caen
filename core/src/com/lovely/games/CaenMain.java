@@ -56,7 +56,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     private static final int WIND_BGR_SOUND_ID = MathUtils.random(RANDOM_SOUND_ID_RANGE);
     static final float DEFAULT_SOUND_LEVEL = 0.2f;
     static final float DEFAULT_MUSIC_LEVEL = 1f;
-    private static final float DEFAULT_GAMMA = 0.5f;
+    private static final float DEFAULT_GAMMA = 0.3f;
     private static final float SLIGHT_SPEED = 0.1f;
     private Vector2 playerSceneMovement = new Vector2();
 
@@ -769,6 +769,10 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         if (currentLevel.number != null && Integer.valueOf(currentLevel.number) > bestLevelSoFar) {
             bestLevelSoFar = Integer.valueOf(currentLevel.number);
             statisticsManager.addGameEvent(statisticsManager.startLevelEvent(level));
+        }
+        antAnim = "normal";
+        for (Guff guff : currentLevel.guffs) {
+            guff.reset();
         }
     }
 
