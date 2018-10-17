@@ -299,7 +299,7 @@ public class SceneContainer {
                 .verb(new MoveVerb(new Vector2(0, -16), "pro", true))
                 .verb(new MoveVerb(new Vector2(-32, 0), "pro", true))
                 .verb(new MoveVerb(new Vector2(0, -80), "pro", true))
-                .verb(new DialogVerb("44"))
+//                .verb(new DialogVerb("44"))
                 .verb(new CameraVerb(new Vector2(200, 240)))
                 .verb(new DialogVerb("45"))
                 .verb(new CameraVerb(new Vector2(200, 340)))

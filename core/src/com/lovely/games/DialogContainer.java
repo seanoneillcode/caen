@@ -266,10 +266,7 @@ public class DialogContainer {
                 line(ant, "There is a resting place ahead. Go there now and I will meet you in a moment.")
         ));
         dialogs.put("33", Arrays.asList(
-                line(pro, "What does this say..."),
-                line(pro, "'THIEF BEWARE'", "listening"),
-                line(pro, "'If you are reading this I failed to guard the entrance.'", "listening"),
-                line(pro, "'Only continue if you wish to die.'", "listening")
+                line(pro, "It's a headstone, inscribed with weird symbols...")
         ));
         dialogs.put("34", Arrays.asList(
                 line(ant, "What is this? The first torch has been lit..."),
@@ -283,7 +280,7 @@ public class DialogContainer {
         ));
         dialogs.put("36", Arrays.asList(
                 line(pro, "Looks like there used to be a bridge here"),
-                line(pro, "I'll have to go the long way", "worried")
+                line(pro, "I'll have to go the long way around", "worried")
         ));
         dialogs.put("37", Arrays.asList(
                 line(pro, "Ominous...")
@@ -292,23 +289,24 @@ public class DialogContainer {
                 line(pro, "I hear something...")
         ));
         dialogs.put("39", Arrays.asList(
-                line(pro, "I need to keep ahead, that poison should have killed him...")
+                line(pro, "I need to get the diamond and get out"),
+                line(pro, "That poison should have killed him...")
         ));
         dialogs.put("40", Arrays.asList(
-                line(ant, "you there! stop!"),
-                line(pro, "No, I need the diamond. To pay for food"),
+                line(ant, "Stop! What are you doing!"),
+                line(pro, "I need the diamond. To pay for food"),
                 line(ant, "It's not a diamond, it's a crystal"),
-                line(ant, "A crystal full of magic"),
-                line(pro, "Really? What a tale...", "happy"),
-                line(ant, "Yes! You cannot steal it, I need it to live!"),
-                line(pro, "Don't be a fool", "happy"),
+                line(ant, "A vessel for magic"),
+                line(pro, "You're out of your mind", "happy"),
+                line(ant, "You cannot steal it, I need it to live!"),
+                line(pro, "I'm not a fool, I know how much it's worth", "happy"),
                 line(ant, "I'll kill you before I let you have it", "angry"),
                 line(pro, "You'll have to catch me first", "angry"),
-                line(ant, "You can't escape me here!", "angry")
+                line(ant, "You can't escape me!", "angry")
         ));
         dialogs.put("41", Arrays.asList(
-                line(info, "'The Third Gate'"),
-                line(pro, "Only one left and I'm safe")
+                line(pro, "It looks like the symbols are moving"),
+                line(pro, "Must be a trick of the light")
         ));
         dialogs.put("42", Arrays.asList(
                 line(ant, "If you wish to be a wizard, you must pass through the trials at CAEN"),
@@ -329,27 +327,28 @@ public class DialogContainer {
                 line(ant, "Who is out in this weather..?")
         ));
         dialogs.put("46", Arrays.asList(
-                line(ant, "Who's there ? What do want? Go away!", "angry"),
-                line(pro, "I'm just a cripple Sir", "worried"),
-                line(ant, "Well I have no charity", "talk"),
-                line(pro, "I'm selling cider, strong and homemade..."),
-                line(ant, "Oh! Well... I did just run out... and I don't want to go out in this storm", "talk"),
+                line(ant, "Who's there?", "angry"),
+                line(ant, "What do you want?", "angry"),
+//                line(pro, "I'm just a cripple Sir", "worried"),
+//                line(ant, "Well I have no charity", "talk"),
+                line(pro, "I'm selling cider Sir"),
+                line(ant, "Well... I did just run out... and I don't want to go out in this storm", "talk"),
                 line(ant, "Come in then and show me what you have", "happy")
         ));
         dialogs.put("47", Arrays.asList(
-                line(pro, "Try this one, it's pretty strong"),
+                line(pro, "Try this, it might be too strong for you though..."),
                 line(ant, "We'll see...")
         ));
         dialogs.put("48", Arrays.asList(
                 line(pro, "Sorry old man, that was mostly poison", "happy"),
-                line(pro, "Now, I need to find the Diamond he was guarding", "talk")
+                line(pro, "Now to find the Diamond he was guarding", "talk")
         ));
         dialogs.put("49", Arrays.asList(
                 line(pro, "Just books, nothing I can sell", "talk")
         ));
         dialogs.put("50", Arrays.asList(
-                line(pro, "A diary entry... ", "talk"),
-                line(pro, "'It calls to me in my sleep, I wish I could end it...'", "listening")
+                line(pro, "It's a old book", "talk"),
+                line(pro, "Full of symbols and written in a language I can't understand", "worried")
         ));
     }
 

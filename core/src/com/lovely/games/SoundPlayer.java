@@ -29,6 +29,9 @@ public class SoundPlayer {
     int nextSong = 0;
     private Map<Integer, String> musicFileNameMap;
     boolean isEnabled = true;
+    private float musicFadeTimer = 0;
+    boolean switchingMusic = false;
+    private float fadeVolume = 1f;
 
     SoundPlayer(AssetManager assetManager) {
         this.assetManager = assetManager;
@@ -44,6 +47,7 @@ public class SoundPlayer {
         musicMap.put("fight-intro", 115);
         musicMap.put("crystal", 116);
         musicMap.put("foreboding", 117);
+        musicMap.put("none", 118);
         musicFileNameMap = new HashMap<>();
         musicFileNameMap.put(111, "sound/3.ogg");
         musicFileNameMap.put(112, "sound/2.ogg");
@@ -52,6 +56,7 @@ public class SoundPlayer {
         musicFileNameMap.put(115, "sound/9.ogg");
         musicFileNameMap.put(116, "sound/crystal.ogg");
         musicFileNameMap.put(117, "sound/foreboding.ogg");
+        musicFileNameMap.put(118, "sound/none.ogg");
     }
 
     public void startLevel() {
@@ -96,12 +101,23 @@ public class SoundPlayer {
                 nextSong = 0;
             }
         } else {
-            if (nextSong != 0) {
-                stopSound(currentSong);
-                currentSong = nextSong;
-                nextSong = 0;
-                playMusic(currentSong, getMusicFile(currentSong), true);
+            if (nextSong != 0 && !switchingMusic) {
+                switchingMusic = true;
+                musicFadeTimer = 4.0f;
             }
+            if (musicFadeTimer > 0) {
+                fadeVolume = musicFadeTimer / 3.0f;
+                musicFadeTimer = musicFadeTimer - Gdx.graphics.getDeltaTime();
+                if (musicFadeTimer < 0) {
+                    stopSound(currentSong);
+                    currentSong = nextSong;
+                    nextSong = 0;
+                    playMusic(currentSong, getMusicFile(currentSong), true);
+                    switchingMusic = false;
+                    fadeVolume = 1f;
+                }
+            }
+
             if(!sounds.containsKey(currentSong)) {
                 playMusic(currentSong, getMusicFile(currentSong), true);
             }
@@ -264,7 +280,7 @@ public class SoundPlayer {
     }
 
     public float getMusicVolume() {
-        return musicVolume;
+        return musicVolume * fadeVolume;
     }
 
     public void dispose() {

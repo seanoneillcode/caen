@@ -3,7 +3,7 @@
  <properties>
   <property name="isWind" value="true"/>
   <property name="music" value="foreboding"/>
-  <property name="number" value="1"/>
+  <property name="number" value="0"/>
  </properties>
  <tileset firstgid="1" source="tower-tileset.tsx"/>
  <layer name="walls" width="20" height="18" visible="0">
