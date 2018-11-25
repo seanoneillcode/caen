@@ -2,18 +2,11 @@ package com.lovely.games;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.FileHandleResolver;
-import com.badlogic.gdx.assets.loaders.MusicLoader;
-import com.badlogic.gdx.assets.loaders.TextureLoader;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -74,7 +67,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     private Texture groundBlockImage;
     private Platform currentPlatform;
     private Texture lazerImage, horizontalLazerImage;
-    private Sprite lightHole;
     private Animation<TextureRegion> walkRight, idleAnim, pressureOnAnim, pressureOffAnim;
     private Animation<TextureRegion> lightAnim, playerLightAnim, arrowAnim, torchAnim, campfireAnim, doorOpenAnim, doorCloseAnim;
     private float animationDelta = 0;
@@ -83,7 +75,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     private DialogContainer dialogContainer;
     private Conversation conversation;
     private boolean dialogLock = false;
-    private Sprite playerLight, arrowSprite, levelLight;
     private boolean isLevelDirty = false;
     private FrameBuffer buffer;
     private OrthographicCamera cam;
@@ -96,17 +87,12 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     private boolean castLock;
     private String currentSpell;
     private float castCooldown = 0;
-    private Sprite playerSprite;
-    private Sprite enemySprite;
-
     private float posterAlpha;
     private String posterImageName;
-    private Sprite posterSprite;
     private boolean staticLevel;
     private float screenFade;
-    private Sprite fadeSprite;
     private float gamma;
-    private Color fadeColor;
+    private Color fadeColor = Color.BLACK;
     private boolean levelChangeLock = false;
     private boolean isWalkOne = true;
     private boolean wasMoving;
@@ -122,7 +108,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     private Animation<TextureRegion> playerShoot;
     private boolean isPlayerShooting = false;
     private float playerShootingTimer = 0;
-    private Sprite titleSprite;
     private boolean isTitleMenu = false, isOptionsMenu = false, isCreditsMenu = false;
     private int titleSelectionIndex = 0;
     private List<String> titleOptions = Arrays.asList("credits", "options", "new game", "load game");
@@ -133,7 +118,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     private List<Explosion> explosions;
     private Animation<TextureRegion> antWalk;
     private Animation<TextureRegion> antIdle;
-    private Sprite antSprite;
     private SoundPlayer soundPlayer;
     private int lastLevel = -1;
     private String lastConnectionNumber = "";
@@ -154,10 +138,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     private StonePrizeScene stonePrizeScene = null;
     private NewGameScene newGameScene = null;
     private Map<String, Animation<TextureRegion>> guffImages;
-    private Sprite volumePointerSprite;
-    private Sprite volumeLevelOnSprite;
-    private Sprite volumeLevelOffSprite;
-    private Sprite arrowSourceSprite;
     private boolean isHidePlayer;
     private BlockLike currentImageHeight = null;
     private Animation<TextureRegion> openingScene;
@@ -165,19 +145,16 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     private Animation<TextureRegion> platformAnim;
     private Animation<TextureRegion> arrowSourceAnim;
     private List<MyEffect> effects;
-    private Sprite menuSprite;
     private Animation<TextureRegion> walkUp, walkDown, enemyIdle, enemyShoot, menuSpriteAnim;
     private Map<String, Integer> keyMappings;
     private String pressKeyPlease;
     MyInputProcessor inputProcessor;
-    private Sprite selectArrowSprite;
     private StatisticsManager statisticsManager;
     private int pid;
     private int bestLevelSoFar = 0;
     private Platform lockedPlatform;
     private Animation<TextureRegion> switchOnAnim, switchOffAnim;
     private Animation<TextureRegion> doorAcrossOpenAnim, doorAcrossCloseAnim;
-    private Sprite doorSprite, androidSprite;
     private Animation<TextureRegion> doorDustAnim;
     private Vector2 playerMovement = new Vector2();
     private BlockLike lastBlock;
@@ -188,6 +165,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
 
     private AssetManager assetManager;
     private LevelManager levelManager;
+    private SpriteManager spriteManager;
 
     @Override
 	public void create () {
@@ -195,7 +173,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         assetManager = assetLoader.getLoadedAssetManager();
 
         dialogContainer = new DialogContainer(assetManager);
-        fadeColor = Color.BLACK;
         inputVector = new Vector2();
         statisticsManager = new StatisticsManager(pid);
 
@@ -208,51 +185,16 @@ public class CaenMain extends ApplicationAdapter implements Stage {
 
         batch = new SpriteBatch();
         bufferBatch = new SpriteBatch();
-
         explosions = new ArrayList<>();
-
         soundPlayer = new SoundPlayer(assetManager);
-
         levelManager = new LevelManager(assetManager, soundPlayer);
 
         blockImage = assetManager.get("entity/block.png");
         groundBlockImage = assetManager.get("entity/ground-block.png");
-        lightHole = new Sprite((Texture) assetManager.get("light-hole.png"));
-        lightHole.setScale(6.0f);
-        playerLight = new Sprite((Texture) assetManager.get("player-light.png"));
-        playerLight.setScale(1.0f, 4.0f);
-        levelLight = new Sprite((Texture) assetManager.get("level-light.png"));
-        fadeSprite = new Sprite((Texture) assetManager.get("fade-image.png"));
-        fadeSprite.setScale(8.0f);
-        posterSprite = new Sprite((Texture) assetManager.get("posters/poster-prize.png"));
-        posterSprite.setBounds(0,0,VIEWPORT_WIDTH,VIEWPORT_HEIGHT);
-        enemySprite = new Sprite((Texture) assetManager.get("entity/enemy.png"));
-        enemySprite.setSize(40, 40);
-        selectArrowSprite = new Sprite((Texture) assetManager.get("select-arrow.png"));
-        selectArrowSprite.setSize(32, 32);
-        arrowSourceSprite = new Sprite((Texture) assetManager.get("entity/arrow-source.png"));
-        arrowSourceSprite.setSize(32, 48);
-        doorSprite = new Sprite();
-        doorSprite.setSize(64, 64);
-        menuSprite = new Sprite((Texture) assetManager.get("posters/menu-sprites.png"));
-        menuSprite.setSize(800, 400);
-        playerSprite = new Sprite();
-        playerSprite.setSize(32,32);
 
-        androidSprite = new Sprite((Texture) assetManager.get("pointer.png"));
-        androidSprite.setSize(5, 5);
-
-        antSprite = new Sprite();
-        antSprite.setSize(32,32);
-
-        titleSprite = new Sprite((Texture) assetManager.get("caen-title.png"));
-        titleSprite.setScale(2);
-        volumePointerSprite = new Sprite((Texture) assetManager.get("volume-pointer.png"));
-        volumePointerSprite.setScale(2);
-        volumeLevelOnSprite = new Sprite((Texture) assetManager.get("volume-level-on.png"));
-        volumeLevelOnSprite.setScale(2);
-        volumeLevelOffSprite = new Sprite((Texture) assetManager.get("volume-level-off.png"));
-        volumeLevelOffSprite.setScale(2);
+        spriteManager = new SpriteManager(assetManager);
+        spriteManager.getSprite("posterSprite").setBounds(0,0,VIEWPORT_WIDTH,VIEWPORT_HEIGHT);
+        spriteManager.getSprite("arrowSprite").setBounds(0,0,32,32);
 
         lazerImage = assetManager.get("entity/lazer.png");
         horizontalLazerImage = assetManager.get("entity/lazer-horizontal.png");
@@ -264,8 +206,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
 
         screenFader = new ScreenFader();
         screenFade = 0f;
-
-
 
         gamma = 0.2f;
 
@@ -320,10 +260,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         guffImages.put("entity/rain.png", loadAnimation(assetManager.get("entity/rain.png"), 4, 0.1f));
         guffImages.put("entity/dust-air-2.png", loadAnimation(assetManager.get("entity/dust-air-2.png"), 16, 0.2f));
         guffImages.put("entity/platform-particle-1.png", loadAnimation(assetManager.get("entity/platform-particle-1.png"), 8, 0.1f));
-        arrowSprite = new Sprite();
-        arrowSprite.setBounds(0,0,32,32);
-//        actorImages = new HashMap<>();
-//        actorImages.put("ant", assetManager.get("char-style-4.png"));
         currentScenes = new ArrayList<>();
         currentSpell = "";
 
@@ -335,8 +271,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
 
         font = loadFonts("fonts/kells.fnt");
 
-        // start room = 20
-//        Level startLevel = levels.get(lastLevel); // 28 -> 22 ->
         moveLock = false;
 
         sceneContainer = new SceneContainer();
@@ -596,13 +530,16 @@ public class CaenMain extends ApplicationAdapter implements Stage {
 
         Vector2 offset = new Vector2(playerPos.x, playerPos.y);
         TextureRegion playerRegion = playerLightAnim.getKeyFrame(animationDelta, true);
+        Sprite playerLight = spriteManager.getSprite("playerLight");
+        Sprite lightHole = spriteManager.getSprite("lightHole");
+        Sprite levelLight = spriteManager.getSprite("levelLight");
         if (!staticLevel) {
             playerLight.setRegion(playerRegion);
             playerLight.setColor(1.0f, 0.8f, 0.5f, 1.0f);
             playerLight.setPosition( offset.x - 60, offset.y);
             playerLight.draw(bufferBatch);
         }
-        offset = new Vector2(camera.position.x, camera.position.y).scl(0.1f);
+//        offset = new Vector2(camera.position.x, camera.position.y).scl(0.1f);
 
         TextureRegion tr = lightAnim.getKeyFrame(animationDelta, true);
         TextureRegion slow = lightAnim.getKeyFrame(animationDelta * 2.0f, true);
@@ -782,6 +719,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                     }
                 }
             }
+            Sprite arrowSourceSprite = spriteManager.getSprite("arrowSourceSprite");
             for (ArrowSource arrowSource : currentLevel.arrowSources) {
                 if (arrowSource.isHidden) {
                     continue;
@@ -804,6 +742,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 }
                 arrowSourceSprite.draw(batch);
             }
+            Sprite arrowSprite = spriteManager.getSprite("arrowSprite");
             for (Arrow arrow : arrows) {
                 if (arrow.isArrow) {
                     TextureRegion currentFrame = arrowAnim.getKeyFrame(animationDelta, true);
@@ -820,6 +759,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                     batch.draw(img, arrow.pos.x, arrow.pos.y);
                 }
             }
+            Sprite doorSprite = spriteManager.getSprite("doorSprite");
             for (Door door : currentLevel.doors) {
                 Animation<TextureRegion> animation;
                 if (door.isAcross) {
@@ -866,6 +806,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
 //            if (currentPlatform != null) {
 //                heightAdjustment = ((currentPlatform.getAnimTimer() % 0.4f) * -4f);
 //            }
+            Sprite playerSprite = spriteManager.getSprite("playerSprite");
             playerSprite.setPosition(playerPos.x, playerPos.y + HALF_TILE_SIZE  - heightAdjustment );
             TextureRegion currentFrame;
             if (!playerIsDead && (levelTransitionTimer > 0 || isMoving())) {
@@ -972,6 +913,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
             if (conversation != null) {
+                Sprite selectArrowSprite = spriteManager.getSprite("selectArrowSprite");
                 dialogContainer.render(batch, new Vector2(camera.position.x - (VIEWPORT_WIDTH / 2.0f) + 100, camera.position.y - (VIEWPORT_HEIGHT / 2.0f) + 100), conversation, soundPlayer);
                 selectArrowSprite.setPosition(dialogContainer.lastPos.x + 8, dialogContainer.lastPos.y + 12);
                 selectArrowSprite.setRegion(selectArrowAnim.getKeyFrame(animationDelta, true));
@@ -980,6 +922,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 dialogContainer.reset();
             }
             if (posterImageName != null) {
+                Sprite posterSprite = spriteManager.getSprite("posterSprite");
                 if (posterImageName.equals("posters/poster-prize.png")) {
                     stonePrizeScene.update(this);
                     Vector2 pos = new Vector2(camera.position.x - 150, camera.position.y - 120);
@@ -1011,6 +954,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             batch.setProjectionMatrix(camera.combined);
             batch.begin();
             if (isTitleMenu) {
+                Sprite titleSprite = spriteManager.getSprite("titleSprite");
                 TextureRegion frame = menuSpriteAnim.getKeyFrame(animationDelta, true);
 //                menuSprite.setRegion(frame);
 //                menuSprite.setPosition(-180,0);
@@ -1029,6 +973,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 menuOptions = creditOptions;
                 selectedPos.x = 280;
             }
+            Sprite selectArrowSprite = spriteManager.getSprite("selectArrowSprite");
             for (int index = menuOptions.size() - 1; index > -1; index--) {
                 String option = menuOptions.get(index);
                 float tmpfloat = 0;
@@ -1083,6 +1028,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             pos = new Vector2(camera.position.x - 76, camera.position.y - 60);
         }
         batch.begin();
+        Sprite fadeSprite = spriteManager.getSprite("fadeSprite");
         fadeSprite.setColor(fadeColor);
         fadeSprite.setAlpha(screenFade);
         fadeSprite.setPosition(pos.x, pos.y);
@@ -1094,6 +1040,9 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     }
 
     private void drawVolumeLine(Vector2 pos, float amount) {
+        Sprite volumeLevelOnSprite = spriteManager.getSprite("volumeLevelOnSprite");
+        Sprite volumeLevelOffSprite = spriteManager.getSprite("volumeLevelOffSprite");
+        Sprite volumePointerSprite = spriteManager.getSprite("volumePointerSprite");
         for (int i = 0; i < 10; i++) {
             if (amount * 10 > i) {
                 volumeLevelOnSprite.setPosition(pos.x + i * 32, pos.y );
@@ -1140,6 +1089,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
 
     private void drawActor(Actor actor) {
         TextureRegion currentFrame = null;
+        Sprite antSprite = spriteManager.getSprite("antSprite");
         antSprite.setSize(32, 32);
         if (antAnim.equals("normal")) {
             if (actor.isWalking) {
@@ -1170,6 +1120,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         if (enemy.isShooting) {
             frame = enemyShoot.getKeyFrame(enemy.animTimer, false);
         }
+        Sprite enemySprite = spriteManager.getSprite("enemySprite");
         enemySprite.setRegion(frame);
         enemySprite.setRotation(enemy.getRotation());
         enemySprite.setOrigin(20, 20);
