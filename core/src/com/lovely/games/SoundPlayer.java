@@ -48,6 +48,15 @@ public class SoundPlayer {
         musicMap.put("crystal", 116);
         musicMap.put("foreboding", 117);
         musicMap.put("none", 118);
+        musicMap.put("gothicus", 119);
+        musicMap.put("gothicus-looped", 120);
+        musicMap.put("harbinger", 121);
+        musicMap.put("harbinger-looped", 122);
+        musicMap.put("poisoner", 123);
+        musicMap.put("the-visitor", 124);
+        musicMap.put("ancient", 125);
+        musicMap.put("tension", 126);
+        musicMap.put("lazers", 127);
         musicFileNameMap = new HashMap<>();
         musicFileNameMap.put(111, "sound/3.ogg");
         musicFileNameMap.put(112, "sound/2.ogg");
@@ -57,6 +66,15 @@ public class SoundPlayer {
         musicFileNameMap.put(116, "sound/crystal.ogg");
         musicFileNameMap.put(117, "sound/foreboding.ogg");
         musicFileNameMap.put(118, "sound/none.ogg");
+        musicFileNameMap.put(119, "sound/gothicus.ogg");
+        musicFileNameMap.put(120, "sound/gothicus-looped.ogg");
+        musicFileNameMap.put(121, "sound/harbinger.ogg");
+        musicFileNameMap.put(122, "sound/harbinger-looped.ogg");
+        musicFileNameMap.put(123, "sound/poisoner.ogg");
+        musicFileNameMap.put(124, "sound/the-visitor.ogg");
+        musicFileNameMap.put(125, "sound/1.ogg");
+        musicFileNameMap.put(126, "sound/4.ogg");
+        musicFileNameMap.put(127, "sound/6.ogg");
     }
 
     public void startLevel() {

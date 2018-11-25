@@ -2360,8 +2360,8 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         isHidePlayer = true;
         newGameScene.reset();
         soundPlayer.playSound("music/new-game-1.ogg", playerPos);
-        soundPlayer.levelMusic("foreboding");
-        soundPlayer.playMusic("foreboding");
+        soundPlayer.levelMusic("the-visitor");
+        soundPlayer.playMusic("the-visitor");
     }
 
     @Override

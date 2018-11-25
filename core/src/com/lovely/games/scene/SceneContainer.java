@@ -313,6 +313,7 @@ public class SceneContainer {
                 .verb(new MoveVerb(new Vector2(0, -80), "pro", true))
                 .verb(new MoveVerb(new Vector2(16, -32), "pro", true))
                 .verb(new DialogVerb("47"))
+                .verb(new PlaySoundVerb("sound/the-visitor.ogg", new Vector2(200, 240)))
                 .verb(new SetAntAnimVerb("drink", 0.2f * 14, true))
                 .verb(new SetAntAnimVerb("fall", 0.1f * 9 , false))
                 .verb(new DialogVerb("48"))
