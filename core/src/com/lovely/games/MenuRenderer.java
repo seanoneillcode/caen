@@ -64,7 +64,7 @@ public class MenuRenderer {
             } else {
                 font.setColor(fontColorMain);
             }
-            if (option.equals("continue") && !caenMain.hasContinue) {
+            if (option.equals("continue") && !menu.hasContinue) {
                 font.setColor(fontGreyedOut);
             }
             if (option.equals("reset everything!")) {
@@ -75,11 +75,11 @@ public class MenuRenderer {
                     font.setColor(new Color(0.5f, 0.2f, 0.4f, 1.0f));
                 }
             }
-            if (caenMain.keyMappings.containsKey(option)) {
+            if (caenMain.inputProcessor.keyMappings.containsKey(option)) {
                 if (option.equals(menu.pressKeyPlease)) {
                     font.draw(batch, "press key", selectedPos.x + 240, selectedPos.y, 0f, 1, false);
                 } else {
-                    font.draw(batch, Input.Keys.toString(caenMain.keyMappings.get(option)), selectedPos.x + 240, selectedPos.y, 0f, 1, false);
+                    font.draw(batch, Input.Keys.toString(caenMain.inputProcessor.keyMappings.get(option)), selectedPos.x + 240, selectedPos.y, 0f, 1, false);
                 }
             }
 

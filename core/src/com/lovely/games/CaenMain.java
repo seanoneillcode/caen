@@ -79,9 +79,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     public SoundPlayer soundPlayer;
     private int lastLevel = -1;
     private String lastConnectionNumber = "";
-
-
-    public boolean hasContinue = false;
     private boolean isViewDirty = false;
     private ScreenFader screenFader;
     private boolean isPaused = false;
@@ -97,7 +94,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     private BlockLike currentImageHeight = null;
     boolean isPlayingOpeningScene;
     private List<MyEffect> effects;
-    public Map<String, Integer> keyMappings;
     MyInputProcessor inputProcessor;
     private StatisticsManager statisticsManager;
     private int pid;
@@ -166,8 +162,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         effects = new ArrayList<>();
         stonePrizeScene = new StonePrizeScene(assetManager);
         newGameScene = new NewGameScene(animationManager.openingScene);
-        keyMappings = new HashMap<>();
-
 
         moveLock = false;
 
@@ -190,7 +184,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
 
     }
 
-    private void saveEverything() {
+    public void saveEverything() {
         saveEverything(levelManager.getLevelNumber(currentLevel), lastConnectionNumber);
     }
 
@@ -203,25 +197,25 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         prefs.putFloat("brightness-level", gamma);
         prefs.putString("current-spell", currentSpell);
         prefs.putInteger("pid", pid);
-        keyMappings.forEach(prefs::putInteger);
+        inputProcessor.keyMappings.forEach(prefs::putInteger);
         prefs.flush();
-        hasContinue = true;
+        menu.setHasContinue(true);
     }
 
     private int generatePid() {
         return String.valueOf(System.currentTimeMillis()).hashCode();
     }
 
-    private void loadEverything() {
+    public void loadEverything() {
         Preferences prefs = Gdx.app.getPreferences("caen-preferences");
         soundPlayer.setSoundVolume(prefs.getFloat("sound-level", DEFAULT_SOUND_LEVEL));
         soundPlayer.setMusicVolume(prefs.getFloat("music-level", DEFAULT_MUSIC_LEVEL));
         gamma = prefs.getFloat("brightness-level", DEFAULT_GAMMA);
-        keyMappings.put("up key", prefs.getInteger("up key", 19));
-        keyMappings.put("right key", prefs.getInteger("right key", 22));
-        keyMappings.put("down key", prefs.getInteger("down key", 20));
-        keyMappings.put("left key", prefs.getInteger("left key", 21));
-        keyMappings.put("cast key", prefs.getInteger("cast key", 62));
+        inputProcessor.keyMappings.put("up key", prefs.getInteger("up key", 19));
+        inputProcessor.keyMappings.put("right key", prefs.getInteger("right key", 22));
+        inputProcessor.keyMappings.put("down key", prefs.getInteger("down key", 20));
+        inputProcessor.keyMappings.put("left key", prefs.getInteger("left key", 21));
+        inputProcessor.keyMappings.put("cast key", prefs.getInteger("cast key", 62));
         pid = prefs.getInteger("pid", generatePid());
         statisticsManager.pid = pid;
         if (prefs.contains("current-spell")) {
@@ -230,9 +224,9 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             currentSpell = "";
         }
         if (prefs.contains("last-level")) {
-            hasContinue = prefs.getInteger("last-level") != START_LEVEL_NUM;
+            menu.setHasContinue(prefs.getInteger("last-level") != START_LEVEL_NUM);
         } else {
-            hasContinue = false;
+            menu.setHasContinue(false);
         }
     }
 
@@ -358,7 +352,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         if (staticLevel) {
             pos = new Vector2(280, 240);
         }
-        if (isMenu()) {
+        if (menu.shouldHandleMenu()) {
             return new Vector3(280, 240, 0);
         }
         Vector3 target = new Vector3(pos.x, pos.y, 0);
@@ -535,14 +529,14 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         camera.update();
         inputProcessor.update();
         batch.setProjectionMatrix(camera.combined);
-        if ((!isMenu() || isBrightnessOption()) && !isPlayingOpeningScene) {
+        if ((!menu.shouldHandleMenu() || isBrightnessOption()) && !isPlayingOpeningScene) {
             mapRenderer.setView(camera);
             update();
         }
 //        screenFader.update(this);
         getInput();
         animationDelta = animationDelta + Gdx.graphics.getDeltaTime();
-        if ((!isMenu() || isBrightnessOption()) && !isPlayingOpeningScene) {
+        if ((!menu.shouldHandleMenu() || isBrightnessOption()) && !isPlayingOpeningScene) {
             renderLightMasks();
         }
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -551,7 +545,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             return;
         }
 
-        if (!isLevelDirty && (!isMenu() || isBrightnessOption()) && !isViewDirty && !isPlayingOpeningScene) {
+        if (!isLevelDirty && (!menu.shouldHandleMenu() || isBrightnessOption()) && !isViewDirty && !isPlayingOpeningScene) {
             Vector2 threeDeeLinePos = playerPos.cpy().add(0, 0);
             mapRenderer.render();
             batch.setProjectionMatrix(camera.combined);
@@ -836,7 +830,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             newGameScene.render(batch, pos);
             batch.end();
         }
-        if (isMenu() && !isViewDirty && !isPlayingOpeningScene) {
+        if (menu.shouldHandleMenu() && !isViewDirty && !isPlayingOpeningScene) {
             batch.setProjectionMatrix(camera.combined);
             batch.begin();
             menuRenderer.render(batch, animationDelta, this);
@@ -852,7 +846,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             batch.end();
         }
         Vector2 pos = new Vector2(204, 180);
-        if (!isMenu() || isBrightnessOption()) {
+        if (!menu.shouldHandleMenu() || isBrightnessOption()) {
             pos = new Vector2(camera.position.x - 76, camera.position.y - 60);
         }
         batch.begin();
@@ -873,7 +867,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         } else {
             targetZoom = 0.6f;
         }
-        if (isMenu()) {
+        if (menu.shouldHandleMenu()) {
             targetZoom = 0.9f;
         }
         if (posterImageName != null) {
@@ -1313,10 +1307,10 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     }
 
     private void getInput() {
-        boolean isLeftPressed = Gdx.input.isKeyPressed(keyMappings.get("left key"));
-        boolean isRightPressed = Gdx.input.isKeyPressed(keyMappings.get("right key"));
-        boolean isUpPressed = Gdx.input.isKeyPressed(keyMappings.get("up key"));
-        boolean isDownPressed = Gdx.input.isKeyPressed(keyMappings.get("down key"));
+        boolean isLeftPressed = Gdx.input.isKeyPressed(inputProcessor.keyMappings.get("left key"));
+        boolean isRightPressed = Gdx.input.isKeyPressed(inputProcessor.keyMappings.get("right key"));
+        boolean isUpPressed = Gdx.input.isKeyPressed(inputProcessor.keyMappings.get("up key"));
+        boolean isDownPressed = Gdx.input.isKeyPressed(inputProcessor.keyMappings.get("down key"));
 
         Vector2 inputAmount = new Vector2(1, 1);
         if (inputProcessor.hasTouchInput) {
@@ -1387,166 +1381,8 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             inputVector.y = inputVector.y - 1;
         }
 
-        if (isMenu() && !menu.titleLock && !menu.showSaveWarning) {
-            int oldTitleIndex = menu.titleSelectionIndex;
-            if (menu.pressKeyPlease != null) {
-                inputVector.y = 0;
-            }
-            menu.titleSelectionIndex = menu.titleSelectionIndex - (int) inputVector.y;
-            if (inputVector.y != 0) {
-                menu.titleLock = true;
-                moveLock = true;
-            }
-            List<String> menuOptions = menu.titleOptions;
-            if (menu.isOptionsMenu) {
-                menuOptions = menu.optionOptions;
-            }
-            if (menu.isCreditsMenu) {
-                menuOptions = menu.creditOptions;
-            }
-            if (menu.titleSelectionIndex > menuOptions.size() - 1) {
-                menu.titleSelectionIndex = menuOptions.size() - 1;
-            }
-            if (menu.titleSelectionIndex < 0) {
-                menu.titleSelectionIndex = 0;
-            }
-            if (menu.isTitleMenu) {
-                if (!hasContinue) {
-                    if (menu.titleSelectionIndex < 1) {
-                        menu.titleSelectionIndex = 1;
-                    }
-                }
-            }
-            if (oldTitleIndex != menu.titleSelectionIndex) {
-                soundPlayer.playSound("music/select-2.ogg", playerPos);
-            }
-            if (menu.pressKeyPlease != null && inputProcessor.hasInput) {
-                setNewKey(menu.pressKeyPlease);
-                menu.titleLock = true;
-                inputVector.x = 0;
-                menu.pressKeyPlease = null;
-                return;
-            }
-            if (inputVector.x != 0 || Gdx.input.isKeyPressed(Input.Keys.SPACE) || Gdx.input.isKeyPressed(Input.Keys.ENTER) || inputProcessor.pressingA) {
-                soundPlayer.playSound(BLIP_SELECT_ITEM_SOUND_ID, "music/select-3.ogg", playerPos, false);
-                if (menu.isTitleMenu) {
-                    if (menu.titleSelectionIndex == 0) {
-                        menu.isTitleMenu = false;
-                        //loadLevelFromPrefs();
-                        menu.titleLock = true;
-                        dialogLock = true;
-                        loadLevelTimer = LEVEL_TRANSITION_TIMER;
-                        moveLock = true;
-                        soundPlayer.resumeSounds();
-                    }
-                    if (menu.titleSelectionIndex == 1) {
-                        if (hasContinue) {
-                            menu.showSaveWarning = true;
-                            startDialog("saveWarning", new DialogVerb("new-game"));
-                        } else {
-                            soundPlayer.resumeSounds();
-                            //gotoState("new-game");
-                            startOpeningScene();
-                            return;
-                        }
-                    }
-                    if (menu.titleSelectionIndex == 2) {
-                        menu.isOptionsMenu = true;
-                        menu.isTitleMenu = false;
-                        menu.titleLock = true;
-                        moveLock = true;
-                        menu.titleSelectionIndex = menu.optionOptions.size() - 1;
-                    }
-                    if (menu.titleSelectionIndex == 3) {
-                        // show credits
-                        menu.isCreditsMenu = true;
-                        menu.isTitleMenu = false;
-                        menu.titleLock = true;
-                        moveLock = true;
-                        menu.titleSelectionIndex = 0;
-                    }
-                } else {
-                    if (menu.isCreditsMenu) {
-                        menu.isTitleMenu = true;
-                        menu.isCreditsMenu = false;
-                        menu.titleLock = true;
-                        moveLock = true;
-                        menu.titleSelectionIndex = 3;
-                    } else {
-                        if (menu.isOptionsMenu) {
-                            int tempIndex = menu.optionOptions.size() - 1 - menu.titleSelectionIndex;
-                            if (keyMappings.containsKey(menu.optionOptions.get(tempIndex))) {
-                                if (inputVector.x > 0) {
-                                    menu.titleLock = true;
-                                    if (menu.pressKeyPlease == null) {
-                                        menu.pressKeyPlease = menu.optionOptions.get(tempIndex);
-                                        inputProcessor.acceptInput();
-                                    } else {
-                                        menu.pressKeyPlease = null;
-                                    }
-                                }
-                            }
-                            if (menu.optionOptions.get(tempIndex).equals("sound")) {
-                                // sound volume
-                                if (inputVector.x > 0) {
-                                    soundPlayer.increaseSoundVolume();
-                                }
-                                if (inputVector.x < 0) {
-                                    soundPlayer.decreaseSoundVolume();
-                                }
-                            }
-                            if (menu.optionOptions.get(tempIndex).equals("music")) {
-                                // music volume
-                                if (inputVector.x > 0) {
-                                    soundPlayer.increaseMusicVolume();
-                                }
-                                if (inputVector.x < 0) {
-                                    soundPlayer.decreaseMusicVolume();
-                                }
-                            }
-                            if (menu.optionOptions.get(tempIndex).equals("reset everything!")) {
-                                Preferences prefs = Gdx.app.getPreferences("caen-preferences");
-                                prefs.clear();
-                                prefs.flush();
-                                menu.isTitleMenu = true;
-                                menu.isOptionsMenu = false;
-                                menu.titleLock = true;
-                                moveLock = true;
-                                menu.titleSelectionIndex = 2;
-                                loadEverything();
-                            }
-                            if (menu.optionOptions.get(tempIndex).equals("brightness")) {
-                                // brightness
-
-                                if (inputVector.x > 0) {
-                                    gamma += 0.01f;
-                                }
-                                if (inputVector.x < 0) {
-                                    gamma -= 0.01f;
-                                }
-                                gamma = MathUtils.clamp(gamma, 0, 1.0f);
-                            }
-                            if (menu.optionOptions.get(tempIndex).equals("back")) {
-                                // go back
-                                menu.isTitleMenu = true;
-                                menu.isOptionsMenu = false;
-                                menu.titleLock = true;
-                                moveLock = true;
-                                menu.titleSelectionIndex = 2;
-                                saveEverything();
-                            }
-                        }
-                    }
-                }
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-                Gdx.app.exit();
-            }
-            if (inputVector.x == 0 && inputVector.y == 0) {
-                menu.titleLock = false;
-            }
-            inputVector = new Vector2();
-            return;
+        if (menu.shouldHandleMenu() && menu.canHandleInput()) {
+            menu.handleInput(this, soundPlayer, inputVector,inputProcessor);
         }
 
         if (conversation != null) {
@@ -1740,11 +1576,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         }
     }
 
-    private void setNewKey(String pressKeyPlease) {
-        int lastKey = inputProcessor.lastKeyCode;
-        keyMappings.put(pressKeyPlease, lastKey);
-    }
-
     private void castCurrentSpell() {
 //        currentSpell = "arrow";
         if (castCooldown > 0) {
@@ -1861,7 +1692,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         screenFader.fadeScreen(inDirection, time, color);
     }
 
-    private void startOpeningScene() {
+    public void startOpeningScene() {
         isPlayingOpeningScene = true;
         menu.isTitleMenu = false;
         isHidePlayer = true;
@@ -1900,10 +1731,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         nextConnection = connection;
         levelTransitionTimer = LEVEL_TRANSITION_TIMER;
         leaveLevel = true;
-    }
-
-    boolean isMenu() {
-        return menu.isTitleMenu || menu.isOptionsMenu || menu.isCreditsMenu;
     }
 
     boolean isBrightnessOption() {
@@ -1951,6 +1778,27 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     public void setAntAnim(String anim, float antAnimDelta) {
         antAnim = anim;
         this.antAnimDelta = antAnimDelta;
+    }
+
+    public void lockMovement(boolean moveLock) {
+        this.moveLock = moveLock;
+    }
+
+    public float getGamma() {
+        return gamma;
+    }
+
+    public void setGamma(float gamma) {
+        this.gamma = gamma;
+    }
+
+    public Vector2 getPlayerPos() {
+        return playerPos;
+    }
+
+    public void resumeGame() {
+        dialogLock = true;
+        loadLevelTimer = LEVEL_TRANSITION_TIMER;
     }
 
 //	@Override
