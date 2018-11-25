@@ -6,8 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.util.List;
 
-import static com.lovely.games.CaenMain.PLAYER_ARROW_SPEED;
-import static com.lovely.games.CaenMain.TILE_SIZE;
+import static com.lovely.games.Constants.PLAYER_ARROW_SPEED;
+import static com.lovely.games.Constants.TILE_SIZE;
 
 public class Actor {
 

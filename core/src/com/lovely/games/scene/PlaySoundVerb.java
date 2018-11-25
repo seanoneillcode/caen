@@ -4,7 +4,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.lovely.games.Stage;
 
-import static com.lovely.games.CaenMain.RANDOM_SOUND_ID_RANGE;
+import static com.lovely.games.Constants.RANDOM_SOUND_ID_RANGE;
+
 
 public class PlaySoundVerb implements SceneVerb {
 

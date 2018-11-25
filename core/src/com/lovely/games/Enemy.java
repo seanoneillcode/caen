@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
-import static com.lovely.games.CaenMain.HALF_TILE_SIZE;
+import static com.lovely.games.Constants.HALF_TILE_SIZE;
 
 public class Enemy extends Block implements BlockLike {
 

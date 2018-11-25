@@ -8,9 +8,9 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.util.*;
 
-import static com.lovely.games.CaenMain.DEFAULT_MUSIC_LEVEL;
-import static com.lovely.games.CaenMain.DEFAULT_SOUND_LEVEL;
-import static com.lovely.games.CaenMain.RANDOM_SOUND_ID_RANGE;
+import static com.lovely.games.Constants.DEFAULT_MUSIC_LEVEL;
+import static com.lovely.games.Constants.DEFAULT_SOUND_LEVEL;
+import static com.lovely.games.Constants.RANDOM_SOUND_ID_RANGE;
 
 public class SoundPlayer {
 

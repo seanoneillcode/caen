@@ -3,7 +3,7 @@ package com.lovely.games;
 
 import com.badlogic.gdx.math.Vector2;
 
-import static com.lovely.games.CaenMain.TILE_SIZE;
+import static com.lovely.games.Constants.TILE_SIZE;
 
 public class Connection {
 

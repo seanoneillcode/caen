@@ -4,8 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
-import static com.lovely.games.CaenMain.ARROW_SPEED;
-import static com.lovely.games.CaenMain.TILE_SIZE;
+import static com.lovely.games.Constants.ARROW_SPEED;
+import static com.lovely.games.Constants.TILE_SIZE;
 
 public class ArrowSource implements Switchable {
 

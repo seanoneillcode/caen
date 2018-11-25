@@ -12,7 +12,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
 import com.lovely.games.scene.DialogVerb;
 import com.lovely.games.scene.Scene;
 import com.lovely.games.scene.SceneContainer;
@@ -20,60 +19,32 @@ import com.lovely.games.scene.SceneSource;
 
 import java.util.*;
 
+import static com.lovely.games.Constants.*;
+
 public class CaenMain extends ApplicationAdapter implements Stage {
 
-
-    public static final float TILE_SIZE = 32f;
-    public static final float ARROW_SPEED = TILE_SIZE * 2.0f;
-
-    protected static final float HALF_TILE_SIZE = 16f;
-    static final float QUARTER_TILE_SIZE = 8f;
-    private static final float PLAYER_SPEED = TILE_SIZE * 4.0f;
-    private static final float CAMERA_MARGIN = 0.5f;
-    private static final float CAMERA_CATCHUP_SPEED = 3.0f;
-    protected static final int VIEWPORT_WIDTH = 800;
-    protected static final int VIEWPORT_HEIGHT = 480;
-    private static final float CAST_ARROW_COOLDOWN = 0.6f;
-    private static final float PLAYER_DEATH_TIME = 1.0f;
-    private static final float PLAYER_SHOOTING_TIME = 0.34f;
-    protected static final float PLAYER_ARROW_SPEED = TILE_SIZE * 4.0f;
-    private static final float ZOOM_AMOUNT = 0.005f;
-    private static final float ZOOM_THRESHOLH = 0.01f;
-    private static final float LEVEL_TRANSITION_TIMER = 0.5f;
-    private static final float PLAYER_TRANSITION_SPEED = 0.5f;
-    private static final int START_LEVEL_NUM = 46;
-    public static final int RANDOM_SOUND_ID_RANGE = 1000000;
-    private static final int BLIP_SELECT_ITEM_SOUND_ID = MathUtils.random(RANDOM_SOUND_ID_RANGE);
-    static final float DEFAULT_SOUND_LEVEL = 0.2f;
-    static final float DEFAULT_MUSIC_LEVEL = 1f;
-    private static final float DEFAULT_GAMMA = 0.3f;
     private Vector2 playerSceneMovement = new Vector2();
-
+    private Vector2 playerPos, playerDir;
+    private Vector2 moveVector;
+    private Vector2 inputVector;
     private float lazerSoundTimer = 0;
     private float stepTimer = 0;
-
     private SpriteBatch batch;
     private SpriteBatch bufferBatch;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
-
     protected Level currentLevel;
-    private Vector2 playerPos, playerDir;
-    private Vector2 moveVector;
-    private Vector2 inputVector;
     private Connection lastConnection;
-    protected List<Arrow> arrows;
+    private List<Arrow> arrows;
     private Texture blockImage;
     private Texture groundBlockImage;
     private Platform currentPlatform;
     private Texture lazerImage, horizontalLazerImage;
-    private Animation<TextureRegion> walkRight, idleAnim, pressureOnAnim, pressureOffAnim;
-    private Animation<TextureRegion> lightAnim, playerLightAnim, arrowAnim, torchAnim, campfireAnim, doorOpenAnim, doorCloseAnim;
     private float animationDelta = 0;
     private float antAnimDelta = 0;
     private float walkAnimDelta = 0;
     private DialogContainer dialogContainer;
-    private Conversation conversation;
+    public Conversation conversation;
     private boolean dialogLock = false;
     private boolean isLevelDirty = false;
     private FrameBuffer buffer;
@@ -91,45 +62,30 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     private String posterImageName;
     private boolean staticLevel;
     private float screenFade;
-    private float gamma;
+    public float gamma;
     private Color fadeColor = Color.BLACK;
     private boolean levelChangeLock = false;
     private boolean isWalkOne = true;
     private boolean wasMoving;
     private boolean playerFacingLeft = false;
-    private Animation<TextureRegion> fireDeath;
-    private Animation<TextureRegion> fallDeath;
-    private Animation<TextureRegion> pushBlock;
     private boolean playerIsPushing = false;
     private boolean playerWasPushing = false;
     private float playerDeathTimer = 0;
     private boolean playerIsDead = false;
     private boolean isFallDeath = false;
-    private Animation<TextureRegion> playerShoot;
     private boolean isPlayerShooting = false;
     private float playerShootingTimer = 0;
-    private boolean isTitleMenu = false, isOptionsMenu = false, isCreditsMenu = false;
-    private int titleSelectionIndex = 0;
-    private List<String> titleOptions = Arrays.asList("credits", "options", "new game", "load game");
-    private List<String> optionOptions = Arrays.asList("back", "music", "sound", "brightness", "cast key", "down key", "right key", "left key", "up key", "reset everything!");
-    private List<String> creditOptions = Arrays.asList("Music - Daniel Lacey",  "Quality - Ben Kirimlidis", "Quality - Michalis Kirimlidis", "Code and Art - Sean O'Neill");
-    private boolean titleLock = false;
-    private Animation<TextureRegion> arrowExplodeAnim;
     private List<Explosion> explosions;
-    private Animation<TextureRegion> antWalk;
-    private Animation<TextureRegion> antIdle;
-    private SoundPlayer soundPlayer;
+    public SoundPlayer soundPlayer;
     private int lastLevel = -1;
     private String lastConnectionNumber = "";
-    private BitmapFont font;
-    private Color fontColorSelectedMain = new Color(69 / 256.0f, 128 / 256.0f, 213 / 256.0f, 1);
-    private Color fontColorMain = new Color(10 / 256.0f, 64 / 256.0f, 97 / 256.0f, 1);
-    private Color fontGreyedOut = new Color(55 / 256.0f, 55 / 256.0f, 55 / 256.0f, 1);
-    private boolean hasContinue = false;
+
+
+    public boolean hasContinue = false;
     private boolean isViewDirty = false;
     private ScreenFader screenFader;
     private boolean isPaused = false;
-    private boolean showSaveWarning = false;
+
     private float targetZoom = 1f;
     private Level nextLevel = null;
     private Connection nextConnection = null;
@@ -137,35 +93,26 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     private boolean leaveLevel = false;
     private StonePrizeScene stonePrizeScene = null;
     private NewGameScene newGameScene = null;
-    private Map<String, Animation<TextureRegion>> guffImages;
     private boolean isHidePlayer;
     private BlockLike currentImageHeight = null;
-    private Animation<TextureRegion> openingScene;
     boolean isPlayingOpeningScene;
-    private Animation<TextureRegion> platformAnim;
-    private Animation<TextureRegion> arrowSourceAnim;
     private List<MyEffect> effects;
-    private Animation<TextureRegion> walkUp, walkDown, enemyIdle, enemyShoot, menuSpriteAnim;
-    private Map<String, Integer> keyMappings;
-    private String pressKeyPlease;
+    public Map<String, Integer> keyMappings;
     MyInputProcessor inputProcessor;
     private StatisticsManager statisticsManager;
     private int pid;
     private int bestLevelSoFar = 0;
     private Platform lockedPlatform;
-    private Animation<TextureRegion> switchOnAnim, switchOffAnim;
-    private Animation<TextureRegion> doorAcrossOpenAnim, doorAcrossCloseAnim;
-    private Animation<TextureRegion> doorDustAnim;
     private Vector2 playerMovement = new Vector2();
     private BlockLike lastBlock;
-    private Animation<TextureRegion> antDrink, antFall;
     private String antAnim = "normal";
     private float loadLevelTimer = 0;
-    private Animation<TextureRegion> selectArrowAnim;
-
     private AssetManager assetManager;
     private LevelManager levelManager;
     private SpriteManager spriteManager;
+    private AnimationManager animationManager;
+    private MenuRenderer menuRenderer;
+    private Menu menu;
 
     @Override
 	public void create () {
@@ -191,13 +138,12 @@ public class CaenMain extends ApplicationAdapter implements Stage {
 
         blockImage = assetManager.get("entity/block.png");
         groundBlockImage = assetManager.get("entity/ground-block.png");
+        lazerImage = assetManager.get("entity/lazer.png");
+        horizontalLazerImage = assetManager.get("entity/lazer-horizontal.png");
 
         spriteManager = new SpriteManager(assetManager);
         spriteManager.getSprite("posterSprite").setBounds(0,0,VIEWPORT_WIDTH,VIEWPORT_HEIGHT);
         spriteManager.getSprite("arrowSprite").setBounds(0,0,32,32);
-
-        lazerImage = assetManager.get("entity/lazer.png");
-        horizontalLazerImage = assetManager.get("entity/lazer-horizontal.png");
 
         buffer = new FrameBuffer(Pixmap.Format.RGBA8888, VIEWPORT_WIDTH, VIEWPORT_HEIGHT, false);
         cam = new OrthographicCamera(buffer.getWidth(), buffer.getHeight());
@@ -206,76 +152,27 @@ public class CaenMain extends ApplicationAdapter implements Stage {
 
         screenFader = new ScreenFader();
         screenFade = 0f;
-
         gamma = 0.2f;
 
-        antWalk = loadAnimation(assetManager.get("character/ant-walk.png"), 4, 0.165f);
-        antIdle = loadAnimation(assetManager.get("character/ant-idle.png"), 2, 0.5f);
-        antDrink = loadAnimation(assetManager.get("character/ant-simple-drink.png"), 14, 0.2f);
-        antFall = loadAnimation(assetManager.get("character/ant-simple-fall.png"), 9, 0.1f);
-        enemyIdle = loadAnimation(assetManager.get("entity/enemy-idle.png"), 4, 0.25f);
-        enemyShoot = loadAnimation(assetManager.get("entity/enemy-shoot.png"), 4, 0.05f);
-        walkRight = loadAnimation(assetManager.get("character/pro-simple-walk.png"), 4, 0.16f); // 0.165
-        walkUp = loadAnimation(assetManager.get("character/pro-simple-walk-up.png"), 4, 0.16f); // 0.165
-        walkDown = loadAnimation(assetManager.get("character/pro-simple-walk-down.png"), 4, 0.16f); // 0.165
-        fireDeath = loadAnimation(assetManager.get("character/pro-simple-fire-death.png"), 8, 0.085f);
-        fallDeath = loadAnimation(assetManager.get("character/pro-simple-fall-death.png"), 5, 0.08f);
-        playerShoot = loadAnimation(assetManager.get("character/pro-simple-shoot.png"), 6, 0.07f);
-        pushBlock = loadAnimation(assetManager.get("character/pro-simple-push.png"), 4, 0.165f);
-        idleAnim = loadAnimation(assetManager.get("character/pro-simple-idle.png"), 2, 0.5f);
-        lightAnim = loadAnimation(assetManager.get("light-magic.png"), 4, 0.6f);
-        playerLightAnim = loadAnimation(assetManager.get("player-light.png"), 4, 0.5f);
-        arrowAnim = loadAnimation(assetManager.get("entity/arrow-sheet.png"), 8, 0.05f);
-        arrowExplodeAnim = loadAnimation(assetManager.get("entity/arrow-explode.png"), 8, 0.05f);
-        torchAnim = loadAnimation(assetManager.get("entity/torch-anim.png"), 8, 0.2f);
-        campfireAnim = loadAnimation(assetManager.get("entity/campfire.png"), 8, 0.1f);
-        doorAcrossOpenAnim = loadAnimation(assetManager.get("levels/door-horizontal.png"), 8, 0.03f);
-        doorAcrossCloseAnim = loadAnimation(assetManager.get("levels/door-horizontal.png"), 8, 0.03f);
-        doorOpenAnim = loadAnimation(assetManager.get("levels/door-vertical.png"), 8, 0.03f);
-        doorDustAnim = loadAnimation(assetManager.get("levels/door-dust.png"), 8, 0.08f);
-        doorCloseAnim = loadAnimation(assetManager.get("levels/door-vertical.png"), 8, 0.03f);
-        pressureOnAnim = loadAnimation(assetManager.get("entity/pressure-on.png"), 4, 0.02f);
-        pressureOffAnim = loadAnimation(assetManager.get("entity/pressure-on.png"), 4, 0.02f);
-        switchOnAnim = loadAnimation(assetManager.get("entity/switch-on.png"), 4, 0.02f);
-        switchOffAnim = loadAnimation(assetManager.get("entity/switch-on.png"), 4, 0.02f);
-        platformAnim = loadAnimation(assetManager.get("entity/platform-anim.png"), 8, 0.1f);
-        arrowSourceAnim = loadAnimation(assetManager.get("entity/arrow-source.png"), 8, 0.1f);
-        openingScene = loadAnimation(assetManager.get("player-large.png"), 8, 0.3f);
-        menuSpriteAnim = loadAnimation(assetManager.get("posters/menu-sprites.png"), 12, 0.2f);
-        selectArrowAnim = loadAnimation(assetManager.get("select-arrow.png"), 2, 0.4f);
-        doorOpenAnim.setPlayMode(Animation.PlayMode.REVERSED);
-        doorAcrossCloseAnim.setPlayMode(Animation.PlayMode.REVERSED);
-        pressureOffAnim.setPlayMode(Animation.PlayMode.REVERSED);
-        switchOffAnim.setPlayMode(Animation.PlayMode.REVERSED);
-        guffImages = new HashMap<>();
-        guffImages.put("entity/grass-1.png", loadAnimation(assetManager.get("entity/grass-1.png"), 4, 0.515f));
-        guffImages.put("entity/grass-2.png", loadAnimation(assetManager.get("entity/grass-2.png"), 4, 0.52f));
-        guffImages.put("entity/grass-3.png", loadAnimation(assetManager.get("entity/grass-3.png"), 4, 0.525f));
-        guffImages.put("entity/grass-4.png", loadAnimation(assetManager.get("entity/grass-4.png"), 4, 0.53f));
-        guffImages.put("entity/dust-air.png", loadAnimation(assetManager.get("entity/dust-air.png"), 16, 0.2f));
-        guffImages.put("character/dead.png", loadAnimation(assetManager.get("character/dead.png"), 1, 1f));
-        guffImages.put("entity/lintel.png", loadAnimation(assetManager.get("entity/lintel.png"), 1, 1f));
-        guffImages.put("entity/heavy-door.png", loadAnimation(assetManager.get("entity/heavy-door.png"), 1, 1f));
-        guffImages.put("entity/crystal.png", loadAnimation(assetManager.get("entity/crystal.png"), 1, 1f));
-        guffImages.put("entity/rain.png", loadAnimation(assetManager.get("entity/rain.png"), 4, 0.1f));
-        guffImages.put("entity/dust-air-2.png", loadAnimation(assetManager.get("entity/dust-air-2.png"), 16, 0.2f));
-        guffImages.put("entity/platform-particle-1.png", loadAnimation(assetManager.get("entity/platform-particle-1.png"), 8, 0.1f));
+        animationManager = new AnimationManager();
+        animationManager.load(assetManager);
+
+        menu = new Menu();
+        menuRenderer = new MenuRenderer(menu, spriteManager, animationManager);
+
         currentScenes = new ArrayList<>();
         currentSpell = "";
 
         effects = new ArrayList<>();
         stonePrizeScene = new StonePrizeScene(assetManager);
-        newGameScene = new NewGameScene(openingScene);
+        newGameScene = new NewGameScene(animationManager.openingScene);
         keyMappings = new HashMap<>();
 
-
-        font = loadFonts("fonts/kells.fnt");
 
         moveLock = false;
 
         sceneContainer = new SceneContainer();
         fadeScreen(true, 2.0f, Color.BLACK);
-//        setScreenFade(1.0f, Color.BLACK);
 
         // special
 //        startLevel(startLevel, startLevel.getPreviousConnection());
@@ -283,9 +180,9 @@ public class CaenMain extends ApplicationAdapter implements Stage {
 
         loadEverything();
         loadLevelFromPrefs();
-        isTitleMenu = true;
+        menu.isTitleMenu = true;
         isViewDirty = true;
-        titleLock = true;
+        menu.titleLock = true;
 	}
 
     @Override
@@ -368,15 +265,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         startLevel(level, connection);
     }
 
-    private Animation<TextureRegion> loadAnimation(Texture sheet, int numberOfFrames, float frameDelay) {
-        TextureRegion[][] tmp = TextureRegion.split(sheet, sheet.getWidth() / numberOfFrames, sheet.getHeight());
-        Array<TextureRegion> frames = new Array<>(numberOfFrames);
-        for (int i = 0; i < numberOfFrames; i++) {
-            frames.add(tmp[0][i]);
-        }
-        return new Animation<>(frameDelay, frames);
-    }
-
     private void loadLevel(Level level) {
         TiledMap map = assetManager.get(level.name);
         mapRenderer = new OrthogonalTiledMapRenderer(map, batch);
@@ -384,7 +272,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     }
 
     private void startLevel(Level level, Connection startConnection) {
-        //setScreenFade(1.0f, Color.BLACK);
         currentPlatform = null;
         effects.clear();
         playerIsDead = false;
@@ -529,7 +416,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         bufferBatch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_DST_ALPHA);
 
         Vector2 offset = new Vector2(playerPos.x, playerPos.y);
-        TextureRegion playerRegion = playerLightAnim.getKeyFrame(animationDelta, true);
+        TextureRegion playerRegion = animationManager.playerLightAnim.getKeyFrame(animationDelta, true);
         Sprite playerLight = spriteManager.getSprite("playerLight");
         Sprite lightHole = spriteManager.getSprite("lightHole");
         Sprite levelLight = spriteManager.getSprite("levelLight");
@@ -539,10 +426,9 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             playerLight.setPosition( offset.x - 60, offset.y);
             playerLight.draw(bufferBatch);
         }
-//        offset = new Vector2(camera.position.x, camera.position.y).scl(0.1f);
 
-        TextureRegion tr = lightAnim.getKeyFrame(animationDelta, true);
-        TextureRegion slow = lightAnim.getKeyFrame(animationDelta * 2.0f, true);
+        TextureRegion tr = animationManager.lightAnim.getKeyFrame(animationDelta, true);
+        TextureRegion slow = animationManager.lightAnim.getKeyFrame(animationDelta * 2.0f, true);
         for (Arrow arrow : arrows) {
 
             lightHole.setColor(arrow.color);
@@ -672,30 +558,30 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             batch.begin();
             for (Guff guff : currentLevel.guffs) {
                 if (!guff.isOnTop() && !guff.hide) {
-                    TextureRegion currentFrame = guffImages.get(guff.imageName).getKeyFrame(animationDelta + guff.offset, true);
+                    TextureRegion currentFrame = animationManager.getGuff(guff.imageName).getKeyFrame(animationDelta + guff.offset, true);
                     batch.draw(currentFrame, guff.pos.x, guff.pos.y, guff.size.x, guff.size.y);
                 }
             }
             for (PressureTile pressureTile : currentLevel.pressureTiles) {
                 TextureRegion frame;
                 if (pressureTile.isSwitch) {
-                    Animation<TextureRegion> animation = pressureTile.isPressure ? switchOnAnim : switchOffAnim;
+                    Animation<TextureRegion> animation = pressureTile.isPressure ? animationManager.switchOnAnim : animationManager.switchOffAnim;
                     frame = animation.getKeyFrame(pressureTile.animTimer, false);
                 } else {
-                    Animation<TextureRegion> animation = pressureTile.isPressure ? pressureOnAnim : pressureOffAnim;
+                    Animation<TextureRegion> animation = pressureTile.isPressure ? animationManager.pressureOnAnim : animationManager.pressureOffAnim;
                     frame = animation.getKeyFrame(pressureTile.animTimer, false);
                 }
                 batch.draw(frame, pressureTile.pos.x, pressureTile.pos.y);
             }
             for (Platform platform : currentLevel.getPlatforms()) {
-                TextureRegion frame = platformAnim.getKeyFrame(platform.getAnimTimer(), true);
+                TextureRegion frame = animationManager.platformAnim.getKeyFrame(platform.getAnimTimer(), true);
                 float height = 0;//((platform.getAnimTimer() % 0.4f) * 4f);
                 batch.draw(frame, platform.pos.x, platform.pos.y + height);
 //                TextureRegion smoke = platformParticleAnim.getKeyFrame(platform.getAnimTimer(), true);
 //                batch.draw(smoke, platform.pos.x - 16, platform.pos.y + height - 8);
             }
             for (MyEffect effect : effects) {
-                TextureRegion currentFrame = guffImages.get(effect.name).getKeyFrame(effect.timer, true);
+                TextureRegion currentFrame = animationManager.getGuff(effect.name).getKeyFrame(effect.timer, true);
                 batch.draw(currentFrame, effect.pos.x, effect.pos.y);
             }
             List<BlockLike> blockLikes = currentLevel.getBlockLikes();
@@ -724,7 +610,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 if (arrowSource.isHidden) {
                     continue;
                 }
-                TextureRegion frame = arrowSourceAnim.getKeyFrame(arrowSource.getAnimTimer(), true);
+                TextureRegion frame = animationManager.arrowSourceAnim.getKeyFrame(arrowSource.getAnimTimer(), true);
                 arrowSourceSprite.setPosition(arrowSource.pos.x, arrowSource.pos.y - 16);
                 arrowSourceSprite.setRegion(frame);
                 arrowSourceSprite.setRotation(0);
@@ -745,7 +631,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             Sprite arrowSprite = spriteManager.getSprite("arrowSprite");
             for (Arrow arrow : arrows) {
                 if (arrow.isArrow) {
-                    TextureRegion currentFrame = arrowAnim.getKeyFrame(animationDelta, true);
+                    TextureRegion currentFrame = animationManager.arrowAnim.getKeyFrame(animationDelta, true);
                     arrowSprite.setPosition(arrow.pos.x, arrow.pos.y + 12);
                     arrowSprite.setRegion(currentFrame);
                     if (arrow.isRed) {
@@ -763,12 +649,12 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             for (Door door : currentLevel.doors) {
                 Animation<TextureRegion> animation;
                 if (door.isAcross) {
-                    animation = door.isOpen ? doorAcrossOpenAnim : doorAcrossCloseAnim;
+                    animation = door.isOpen ? animationManager.doorAcrossOpenAnim : animationManager.doorAcrossCloseAnim;
                 } else {
-                    animation = door.isOpen ? doorOpenAnim : doorCloseAnim;
+                    animation = door.isOpen ? animationManager.doorOpenAnim : animationManager.doorCloseAnim;
                 }
                 TextureRegion frame = animation.getKeyFrame(door.animTimer, false);
-                TextureRegion dustFrame = doorDustAnim.getKeyFrame(door.animTimer, false);
+                TextureRegion dustFrame = animationManager.doorDustAnim.getKeyFrame(door.animTimer, false);
                 doorSprite.setRegion(frame);
                 doorSprite.setPosition(door.pos.x, door.pos.y);
                 if (door.isOpen) {
@@ -790,10 +676,10 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             for (Torch torch : currentLevel.torches) {
                 if (torch.pos.y >= threeDeeLinePos.y && torch.isOn) {
                     if (torch.isFire) {
-                        TextureRegion torchFrame = campfireAnim.getKeyFrame(animationDelta, true);
+                        TextureRegion torchFrame = animationManager.campfireAnim.getKeyFrame(animationDelta, true);
                         batch.draw(torchFrame, torch.pos.x - 20, torch.pos.y - 10);
                     } else {
-                        TextureRegion torchFrame = torchAnim.getKeyFrame(animationDelta, true);
+                        TextureRegion torchFrame = animationManager.torchAnim.getKeyFrame(animationDelta, true);
                         batch.draw(torchFrame, torch.pos.x, torch.pos.y);
                     }
                 }
@@ -811,30 +697,30 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             TextureRegion currentFrame;
             if (!playerIsDead && (levelTransitionTimer > 0 || isMoving())) {
                 if (playerIsPushing || playerWasPushing) {
-                    currentFrame = pushBlock.getKeyFrame(walkAnimDelta, true);
+                    currentFrame = animationManager.pushBlock.getKeyFrame(walkAnimDelta, true);
                 } else {
 
-                    currentFrame = walkRight.getKeyFrame(walkAnimDelta, true);
+                    currentFrame = animationManager.walkRight.getKeyFrame(walkAnimDelta, true);
 
                     if (playerDir.y > 0) {
-                        currentFrame = walkUp.getKeyFrame(walkAnimDelta, true);
+                        currentFrame = animationManager.walkUp.getKeyFrame(walkAnimDelta, true);
                     }
                     if (playerDir.y < 0) {
-                        currentFrame = walkDown.getKeyFrame(walkAnimDelta, true);
+                        currentFrame = animationManager.walkDown.getKeyFrame(walkAnimDelta, true);
                     }
                 }
             } else {
                 if (playerIsDead) {
                     if (isFallDeath) {
-                        currentFrame = fallDeath.getKeyFrame(animationDelta, false);
+                        currentFrame = animationManager.fallDeath.getKeyFrame(animationDelta, false);
                     } else {
-                        currentFrame = fireDeath.getKeyFrame(animationDelta, false);
+                        currentFrame = animationManager.fireDeath.getKeyFrame(animationDelta, false);
                     }
                 } else {
                     if (isPlayerShooting) {
-                        currentFrame = playerShoot.getKeyFrame(animationDelta, true);
+                        currentFrame = animationManager.playerShoot.getKeyFrame(animationDelta, true);
                     } else {
-                        currentFrame = idleAnim.getKeyFrame(animationDelta, true);
+                        currentFrame = animationManager.idleAnim.getKeyFrame(animationDelta, true);
                     }
                 }
             }
@@ -850,7 +736,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             }
             for (Guff guff : currentLevel.guffs) {
                 if (guff.isOnTop() && !guff.hide) {
-                    currentFrame = guffImages.get(guff.imageName).getKeyFrame(animationDelta + guff.offset, true);
+                    currentFrame = animationManager.getGuff(guff.imageName).getKeyFrame(animationDelta + guff.offset, true);
                     batch.draw(currentFrame, guff.pos.x, guff.pos.y, guff.size.x, guff.size.y);
                 }
             }
@@ -869,11 +755,11 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             for (Door door : currentLevel.doors) {
                 Animation<TextureRegion> animation;
                 if (door.isAcross) {
-                    animation = door.isOpen ? doorAcrossOpenAnim : doorAcrossCloseAnim;
+                    animation = door.isOpen ? animationManager.doorAcrossOpenAnim : animationManager.doorAcrossCloseAnim;
                 } else {
-                    animation = door.isOpen ? doorOpenAnim : doorCloseAnim;
+                    animation = door.isOpen ? animationManager.doorOpenAnim : animationManager.doorCloseAnim;
                 }
-                TextureRegion dustFrame = doorDustAnim.getKeyFrame(door.animTimer, false);
+                TextureRegion dustFrame = animationManager.doorDustAnim.getKeyFrame(door.animTimer, false);
                 TextureRegion frame = animation.getKeyFrame(door.animTimer, false);
                 doorSprite.setRegion(frame);
                 doorSprite.setPosition(door.pos.x, door.pos.y);
@@ -886,16 +772,16 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             for (Torch torch : currentLevel.torches) {
                 if (torch.pos.y < threeDeeLinePos.y && torch.isOn) {
                     if (torch.isFire) {
-                        TextureRegion torchFrame = campfireAnim.getKeyFrame(animationDelta, true);
+                        TextureRegion torchFrame = animationManager.campfireAnim.getKeyFrame(animationDelta, true);
                         batch.draw(torchFrame, torch.pos.x - 20, torch.pos.y - 10);
                     } else {
-                        TextureRegion torchFrame = torchAnim.getKeyFrame(animationDelta, true);
+                        TextureRegion torchFrame = animationManager.torchAnim.getKeyFrame(animationDelta, true);
                         batch.draw(torchFrame, torch.pos.x, torch.pos.y);
                     }
                 }
             }
             for (Explosion explosion : explosions) {
-                TextureRegion frame = arrowExplodeAnim.getKeyFrame(explosion.getTimer(), false);
+                TextureRegion frame = animationManager.arrowExplodeAnim.getKeyFrame(explosion.getTimer(), false);
                 batch.draw(frame, explosion.pos.x - 12, explosion.pos.y );
             }
 
@@ -916,7 +802,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 Sprite selectArrowSprite = spriteManager.getSprite("selectArrowSprite");
                 dialogContainer.render(batch, new Vector2(camera.position.x - (VIEWPORT_WIDTH / 2.0f) + 100, camera.position.y - (VIEWPORT_HEIGHT / 2.0f) + 100), conversation, soundPlayer);
                 selectArrowSprite.setPosition(dialogContainer.lastPos.x + 8, dialogContainer.lastPos.y + 12);
-                selectArrowSprite.setRegion(selectArrowAnim.getKeyFrame(animationDelta, true));
+                selectArrowSprite.setRegion(animationManager.selectArrowAnim.getKeyFrame(animationDelta, true));
                 selectArrowSprite.draw(batch);
             } else {
                 dialogContainer.reset();
@@ -953,74 +839,16 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         if (isMenu() && !isViewDirty && !isPlayingOpeningScene) {
             batch.setProjectionMatrix(camera.combined);
             batch.begin();
-            if (isTitleMenu) {
-                Sprite titleSprite = spriteManager.getSprite("titleSprite");
-                TextureRegion frame = menuSpriteAnim.getKeyFrame(animationDelta, true);
-//                menuSprite.setRegion(frame);
-//                menuSprite.setPosition(-180,0);
-//                menuSprite.draw(batch);
-                titleSprite.setPosition(180, 300);
-                titleSprite.draw(batch);
-            }
-            Vector2 selectedPos = new Vector2(280, 200);
-            List<String> menuOptions = titleOptions;
-            if (isOptionsMenu) {
-                menuOptions = optionOptions;
-                selectedPos.x = 140;
-                selectedPos.y = 430;
-            }
-            if (isCreditsMenu) {
-                menuOptions = creditOptions;
-                selectedPos.x = 280;
-            }
-            Sprite selectArrowSprite = spriteManager.getSprite("selectArrowSprite");
-            for (int index = menuOptions.size() - 1; index > -1; index--) {
-                String option = menuOptions.get(index);
-                float tmpfloat = 0;
-                if (titleSelectionIndex == menuOptions.size() - 1 - index) {
-                    font.setColor(fontColorSelectedMain);
-                    selectArrowSprite.setPosition(selectedPos.x + 80, selectedPos.y - 15);
-                    selectArrowSprite.setRegion(selectArrowAnim.getKeyFrame(animationDelta, true));
-                    selectArrowSprite.draw(batch);
-                } else {
-                    font.setColor(fontColorMain);
-                }
-                if (option.equals("continue") && !hasContinue) {
-                    font.setColor(fontGreyedOut);
-                }
-                if (option.equals("reset everything!")) {
-                    tmpfloat = 200;
-                    if (titleSelectionIndex == menuOptions.size() - 1 - index) {
-                        font.setColor(new Color(1.0f, 0.4f, 0.8f, 1.0f));
-                    } else {
-                        font.setColor(new Color(0.5f, 0.2f, 0.4f, 1.0f));
-                    }
-                }
-                if (keyMappings.containsKey(option)) {
-                    if (option.equals(pressKeyPlease)) {
-                        font.draw(batch, "press key", selectedPos.x + 240, selectedPos.y, 0f, 1, false);
-                    } else {
-                        font.draw(batch, Input.Keys.toString(keyMappings.get(option)), selectedPos.x + 240, selectedPos.y, 0f, 1, false);
-                    }
-                }
-
-                font.draw(batch, option, selectedPos.x + tmpfloat, selectedPos.y, 0f, 1, false);
-                selectedPos.add(0, -40);
-            }
-            if (isOptionsMenu) {
-                drawVolumeLine(new Vector2(260, 178), gamma);
-                drawVolumeLine(new Vector2(260, 138), soundPlayer.getSoundVolume());
-                drawVolumeLine(new Vector2(260, 98), soundPlayer.getMusicVolume());
-            }
-            if (showSaveWarning && conversation != null) {
+            menuRenderer.render(batch, animationDelta, this);
+            if (menu.showSaveWarning && conversation != null) {
                 conversation.update();
                 dialogContainer.render(batch, new Vector2(camera.position.x - (VIEWPORT_WIDTH / 2.0f), camera.position.y - (VIEWPORT_HEIGHT / 2.0f)), conversation, soundPlayer);
                 if (conversation.getCurrentDialog().isFinished()) {
+                    Sprite selectArrowSprite = spriteManager.getSprite("selectArrowSprite");
                     selectArrowSprite.setPosition(dialogContainer.lastPos.x + 8, dialogContainer.lastPos.y + 12);
                     selectArrowSprite.draw(batch);
                 }
             }
-
             batch.end();
         }
         Vector2 pos = new Vector2(204, 180);
@@ -1039,25 +867,8 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         isViewDirty = false;
     }
 
-    private void drawVolumeLine(Vector2 pos, float amount) {
-        Sprite volumeLevelOnSprite = spriteManager.getSprite("volumeLevelOnSprite");
-        Sprite volumeLevelOffSprite = spriteManager.getSprite("volumeLevelOffSprite");
-        Sprite volumePointerSprite = spriteManager.getSprite("volumePointerSprite");
-        for (int i = 0; i < 10; i++) {
-            if (amount * 10 > i) {
-                volumeLevelOnSprite.setPosition(pos.x + i * 32, pos.y );
-                volumeLevelOnSprite.draw(batch);
-            } else {
-                volumeLevelOffSprite.setPosition(pos.x + i * 32, pos.y);
-                volumeLevelOffSprite.draw(batch);
-            }
-            volumePointerSprite.setPosition(pos.x + ((amount * 10) * 32), pos.y );
-            volumePointerSprite.draw(batch);
-        }
-    }
-
     private void updateCameraZoom() {
-        if ((conversation == null && currentScenes.isEmpty()) || showSaveWarning) {
+        if ((conversation == null && currentScenes.isEmpty()) || menu.showSaveWarning) {
             targetZoom = 0.7f;
         } else {
             targetZoom = 0.6f;
@@ -1079,31 +890,23 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         }
     }
 
-    private BitmapFont loadFonts(String fontString) {
-        font = new BitmapFont(Gdx.files.internal(fontString),false);
-        font.setUseIntegerPositions(false);
-        font.setColor(fontColorMain);
-        font.getData().setScale(1.4f, 1.4f);
-        return font;
-    }
-
     private void drawActor(Actor actor) {
         TextureRegion currentFrame = null;
         Sprite antSprite = spriteManager.getSprite("antSprite");
         antSprite.setSize(32, 32);
         if (antAnim.equals("normal")) {
             if (actor.isWalking) {
-                currentFrame = antWalk.getKeyFrame(animationDelta, true);
+                currentFrame = animationManager.antWalk.getKeyFrame(animationDelta, true);
             } else {
-                currentFrame = antIdle.getKeyFrame(animationDelta, true);
+                currentFrame = animationManager.antIdle.getKeyFrame(animationDelta, true);
             }
         } else {
             if (antAnim.equals("drink")) {
-                currentFrame = antDrink.getKeyFrame(antAnimDelta, false);
+                currentFrame = animationManager.antDrink.getKeyFrame(antAnimDelta, false);
             }
             if (antAnim.equals("fall")) {
                 antSprite.setSize(48, 48);
-                currentFrame = antFall.getKeyFrame(antAnimDelta, false);
+                currentFrame = animationManager.antFall.getKeyFrame(antAnimDelta, false);
             }
         }
         antSprite.setPosition(actor.pos.x, actor.pos.y + 12);
@@ -1116,9 +919,9 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         if (enemy.isGround()) {
             return;
         }
-        TextureRegion frame = enemyIdle.getKeyFrame(enemy.animTimer, true);
+        TextureRegion frame = animationManager.enemyIdle.getKeyFrame(enemy.animTimer, true);
         if (enemy.isShooting) {
-            frame = enemyShoot.getKeyFrame(enemy.animTimer, false);
+            frame = animationManager.enemyShoot.getKeyFrame(enemy.animTimer, false);
         }
         Sprite enemySprite = spriteManager.getSprite("enemySprite");
         enemySprite.setRegion(frame);
@@ -1584,61 +1387,61 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             inputVector.y = inputVector.y - 1;
         }
 
-        if (isMenu() && !titleLock && !showSaveWarning) {
-            int oldTitleIndex = titleSelectionIndex;
-            if (pressKeyPlease != null) {
+        if (isMenu() && !menu.titleLock && !menu.showSaveWarning) {
+            int oldTitleIndex = menu.titleSelectionIndex;
+            if (menu.pressKeyPlease != null) {
                 inputVector.y = 0;
             }
-            titleSelectionIndex = titleSelectionIndex - (int) inputVector.y;
+            menu.titleSelectionIndex = menu.titleSelectionIndex - (int) inputVector.y;
             if (inputVector.y != 0) {
-                titleLock = true;
+                menu.titleLock = true;
                 moveLock = true;
             }
-            List<String> menuOptions = titleOptions;
-            if (isOptionsMenu) {
-                menuOptions = optionOptions;
+            List<String> menuOptions = menu.titleOptions;
+            if (menu.isOptionsMenu) {
+                menuOptions = menu.optionOptions;
             }
-            if (isCreditsMenu) {
-                menuOptions = creditOptions;
+            if (menu.isCreditsMenu) {
+                menuOptions = menu.creditOptions;
             }
-            if (titleSelectionIndex > menuOptions.size() - 1) {
-                titleSelectionIndex = menuOptions.size() - 1;
+            if (menu.titleSelectionIndex > menuOptions.size() - 1) {
+                menu.titleSelectionIndex = menuOptions.size() - 1;
             }
-            if (titleSelectionIndex < 0) {
-                titleSelectionIndex = 0;
+            if (menu.titleSelectionIndex < 0) {
+                menu.titleSelectionIndex = 0;
             }
-            if (isTitleMenu) {
+            if (menu.isTitleMenu) {
                 if (!hasContinue) {
-                    if (titleSelectionIndex < 1) {
-                        titleSelectionIndex = 1;
+                    if (menu.titleSelectionIndex < 1) {
+                        menu.titleSelectionIndex = 1;
                     }
                 }
             }
-            if (oldTitleIndex != titleSelectionIndex) {
+            if (oldTitleIndex != menu.titleSelectionIndex) {
                 soundPlayer.playSound("music/select-2.ogg", playerPos);
             }
-            if (pressKeyPlease != null && inputProcessor.hasInput) {
-                setNewKey(pressKeyPlease);
-                titleLock = true;
+            if (menu.pressKeyPlease != null && inputProcessor.hasInput) {
+                setNewKey(menu.pressKeyPlease);
+                menu.titleLock = true;
                 inputVector.x = 0;
-                pressKeyPlease = null;
+                menu.pressKeyPlease = null;
                 return;
             }
             if (inputVector.x != 0 || Gdx.input.isKeyPressed(Input.Keys.SPACE) || Gdx.input.isKeyPressed(Input.Keys.ENTER) || inputProcessor.pressingA) {
                 soundPlayer.playSound(BLIP_SELECT_ITEM_SOUND_ID, "music/select-3.ogg", playerPos, false);
-                if (isTitleMenu) {
-                    if (titleSelectionIndex == 0) {
-                        isTitleMenu = false;
+                if (menu.isTitleMenu) {
+                    if (menu.titleSelectionIndex == 0) {
+                        menu.isTitleMenu = false;
                         //loadLevelFromPrefs();
-                        titleLock = true;
+                        menu.titleLock = true;
                         dialogLock = true;
                         loadLevelTimer = LEVEL_TRANSITION_TIMER;
                         moveLock = true;
                         soundPlayer.resumeSounds();
                     }
-                    if (titleSelectionIndex == 1) {
+                    if (menu.titleSelectionIndex == 1) {
                         if (hasContinue) {
-                            showSaveWarning = true;
+                            menu.showSaveWarning = true;
                             startDialog("saveWarning", new DialogVerb("new-game"));
                         } else {
                             soundPlayer.resumeSounds();
@@ -1647,43 +1450,43 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                             return;
                         }
                     }
-                    if (titleSelectionIndex == 2) {
-                        isOptionsMenu = true;
-                        isTitleMenu = false;
-                        titleLock = true;
+                    if (menu.titleSelectionIndex == 2) {
+                        menu.isOptionsMenu = true;
+                        menu.isTitleMenu = false;
+                        menu.titleLock = true;
                         moveLock = true;
-                        titleSelectionIndex = optionOptions.size() - 1;
+                        menu.titleSelectionIndex = menu.optionOptions.size() - 1;
                     }
-                    if (titleSelectionIndex == 3) {
+                    if (menu.titleSelectionIndex == 3) {
                         // show credits
-                        isCreditsMenu = true;
-                        isTitleMenu = false;
-                        titleLock = true;
+                        menu.isCreditsMenu = true;
+                        menu.isTitleMenu = false;
+                        menu.titleLock = true;
                         moveLock = true;
-                        titleSelectionIndex = 0;
+                        menu.titleSelectionIndex = 0;
                     }
                 } else {
-                    if (isCreditsMenu) {
-                        isTitleMenu = true;
-                        isCreditsMenu = false;
-                        titleLock = true;
+                    if (menu.isCreditsMenu) {
+                        menu.isTitleMenu = true;
+                        menu.isCreditsMenu = false;
+                        menu.titleLock = true;
                         moveLock = true;
-                        titleSelectionIndex = 3;
+                        menu.titleSelectionIndex = 3;
                     } else {
-                        if (isOptionsMenu) {
-                            int tempIndex = optionOptions.size() - 1 - titleSelectionIndex;
-                            if (keyMappings.containsKey(optionOptions.get(tempIndex))) {
+                        if (menu.isOptionsMenu) {
+                            int tempIndex = menu.optionOptions.size() - 1 - menu.titleSelectionIndex;
+                            if (keyMappings.containsKey(menu.optionOptions.get(tempIndex))) {
                                 if (inputVector.x > 0) {
-                                    titleLock = true;
-                                    if (pressKeyPlease == null) {
-                                        pressKeyPlease = optionOptions.get(tempIndex);
+                                    menu.titleLock = true;
+                                    if (menu.pressKeyPlease == null) {
+                                        menu.pressKeyPlease = menu.optionOptions.get(tempIndex);
                                         inputProcessor.acceptInput();
                                     } else {
-                                        pressKeyPlease = null;
+                                        menu.pressKeyPlease = null;
                                     }
                                 }
                             }
-                            if (optionOptions.get(tempIndex).equals("sound")) {
+                            if (menu.optionOptions.get(tempIndex).equals("sound")) {
                                 // sound volume
                                 if (inputVector.x > 0) {
                                     soundPlayer.increaseSoundVolume();
@@ -1692,7 +1495,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                                     soundPlayer.decreaseSoundVolume();
                                 }
                             }
-                            if (optionOptions.get(tempIndex).equals("music")) {
+                            if (menu.optionOptions.get(tempIndex).equals("music")) {
                                 // music volume
                                 if (inputVector.x > 0) {
                                     soundPlayer.increaseMusicVolume();
@@ -1701,18 +1504,18 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                                     soundPlayer.decreaseMusicVolume();
                                 }
                             }
-                            if (optionOptions.get(tempIndex).equals("reset everything!")) {
+                            if (menu.optionOptions.get(tempIndex).equals("reset everything!")) {
                                 Preferences prefs = Gdx.app.getPreferences("caen-preferences");
                                 prefs.clear();
                                 prefs.flush();
-                                isTitleMenu = true;
-                                isOptionsMenu = false;
-                                titleLock = true;
+                                menu.isTitleMenu = true;
+                                menu.isOptionsMenu = false;
+                                menu.titleLock = true;
                                 moveLock = true;
-                                titleSelectionIndex = 2;
+                                menu.titleSelectionIndex = 2;
                                 loadEverything();
                             }
-                            if (optionOptions.get(tempIndex).equals("brightness")) {
+                            if (menu.optionOptions.get(tempIndex).equals("brightness")) {
                                 // brightness
 
                                 if (inputVector.x > 0) {
@@ -1723,13 +1526,13 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                                 }
                                 gamma = MathUtils.clamp(gamma, 0, 1.0f);
                             }
-                            if (optionOptions.get(tempIndex).equals("back")) {
+                            if (menu.optionOptions.get(tempIndex).equals("back")) {
                                 // go back
-                                isTitleMenu = true;
-                                isOptionsMenu = false;
-                                titleLock = true;
+                                menu.isTitleMenu = true;
+                                menu.isOptionsMenu = false;
+                                menu.titleLock = true;
                                 moveLock = true;
-                                titleSelectionIndex = 2;
+                                menu.titleSelectionIndex = 2;
                                 saveEverything();
                             }
                         }
@@ -1740,7 +1543,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 Gdx.app.exit();
             }
             if (inputVector.x == 0 && inputVector.y == 0) {
-                titleLock = false;
+                menu.titleLock = false;
             }
             inputVector = new Vector2();
             return;
@@ -1757,7 +1560,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 }
                 if (conversation.isFinished()) {
                     String chosenOption = conversation.getCurrentDialog().getChosenOption();
-                    if (showSaveWarning) {
+                    if (menu.showSaveWarning) {
                         if (chosenOption.equals("new-game")) {
                             //gotoState("new-game");
                             startOpeningScene();
@@ -1898,7 +1701,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             moveLock = false;
             skipLock = false;
             wasMoving = false;
-            titleLock = false;
+            menu.titleLock = false;
             playerMovement = new Vector2();
         }
         inputVector = new Vector2();
@@ -1914,9 +1717,9 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             if (isPlayingOpeningScene) {
                 newGameScene.finish();
             } else {
-                isTitleMenu = true;
+                menu.isTitleMenu = true;
                 isViewDirty = true;
-                titleLock = true;
+                menu.titleLock = true;
                 soundPlayer.pauseSounds();
                 loadLevelTimer = 0;
             }
@@ -2060,7 +1863,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
 
     private void startOpeningScene() {
         isPlayingOpeningScene = true;
-        isTitleMenu = false;
+        menu.isTitleMenu = false;
         isHidePlayer = true;
         newGameScene.reset();
         soundPlayer.playSound("music/new-game-1.ogg", playerPos);
@@ -2073,7 +1876,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         if (state.equals("new-game")) {
             // openingScene
 
-            isTitleMenu = false;
+            menu.isTitleMenu = false;
             isHidePlayer = false;
             startLevel(levelManager.getLevel(START_LEVEL_NUM), levelManager.getLevel(START_LEVEL_NUM).getConnection("61"));
 
@@ -2082,11 +1885,11 @@ public class CaenMain extends ApplicationAdapter implements Stage {
 
         }
         if (state.equals("menu")) {
-            isTitleMenu = true;
+            menu.isTitleMenu = true;
             isViewDirty = true;
-            titleLock = true;
+            menu.titleLock = true;
         }
-        showSaveWarning = false;
+        menu.showSaveWarning = false;
     }
 
     @Override
@@ -2100,12 +1903,12 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     }
 
     boolean isMenu() {
-        return isTitleMenu || isOptionsMenu || isCreditsMenu;
+        return menu.isTitleMenu || menu.isOptionsMenu || menu.isCreditsMenu;
     }
 
     boolean isBrightnessOption() {
-        int tempIndex = optionOptions.size() - 1 - titleSelectionIndex;
-        return isOptionsMenu && optionOptions.get(tempIndex).equals("brightness");
+        int tempIndex = menu.optionOptions.size() - 1 - menu.titleSelectionIndex;
+        return menu.isOptionsMenu && menu.optionOptions.get(tempIndex).equals("brightness");
     }
 
     public boolean isLazerBlocking(Vector2 checkPos) {

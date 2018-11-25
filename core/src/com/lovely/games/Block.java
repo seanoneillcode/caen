@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 import static com.badlogic.gdx.math.MathUtils.random;
-import static com.lovely.games.CaenMain.TILE_SIZE;
+import static com.lovely.games.Constants.TILE_SIZE;
 
 class Block implements BlockLike {
 

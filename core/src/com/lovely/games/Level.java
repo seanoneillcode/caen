@@ -18,9 +18,8 @@ import com.lovely.games.scene.SceneSource;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.lovely.games.CaenMain.HALF_TILE_SIZE;
-import static com.lovely.games.CaenMain.QUARTER_TILE_SIZE;
-import static com.lovely.games.CaenMain.TILE_SIZE;
+import static com.lovely.games.Constants.HALF_TILE_SIZE;
+import static com.lovely.games.Constants.TILE_SIZE;
 
 class Level {
 

@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.lovely.games.Stage;
 
-import static com.lovely.games.CaenMain.TILE_SIZE;
+import static com.lovely.games.Constants.TILE_SIZE;
 
 public class MoveVerb implements SceneVerb {
 

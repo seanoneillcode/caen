@@ -6,8 +6,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 import static com.badlogic.gdx.math.MathUtils.random;
-import static com.lovely.games.CaenMain.RANDOM_SOUND_ID_RANGE;
-import static com.lovely.games.CaenMain.TILE_SIZE;
+import static com.lovely.games.Constants.RANDOM_SOUND_ID_RANGE;
+import static com.lovely.games.Constants.TILE_SIZE;
 
 public class Platform implements Switchable {
 

@@ -6,12 +6,11 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import static com.badlogic.gdx.math.MathUtils.random;
-import static com.lovely.games.CaenMain.TILE_SIZE;
+import static com.lovely.games.Constants.TILE_SIZE;
 
 public class Arrow {
 
     boolean isRed;
-    //    public static final float ARROW_SPD = TILE_SIZE * 2.0f;
     boolean isArrow;
     Vector2 pos;
     Vector2 dir;
