@@ -6,14 +6,14 @@ import com.badlogic.gdx.math.Vector2;
 
 import static com.badlogic.gdx.math.MathUtils.random;
 
-class PressureTile {
+public class PressureTile {
 
-    Vector2 pos;
+    public Vector2 pos;
     Trunk trunk;
     private boolean handledAction;
     String switchId;
     protected boolean isSwitch;
-    Color color;
+    public Color color;
     float animTimer;
     boolean isPressure;
 

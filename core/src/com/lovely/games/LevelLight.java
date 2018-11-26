@@ -5,11 +5,11 @@ import com.badlogic.gdx.math.Vector2;
 
 public class LevelLight implements Switchable {
 
-    Vector2 pos;
-    Vector2 size;
-    Color color;
+    public Vector2 pos;
+    public Vector2 size;
+    public Color color;
     String switchId;
-    boolean isActive;
+    public boolean isActive;
 
     public LevelLight(Vector2 pos, Vector2 size, Color color, String switchId) {
         this.pos = pos;

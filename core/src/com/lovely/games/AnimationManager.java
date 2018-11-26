@@ -13,24 +13,30 @@ public class AnimationManager {
 
     private Map<String, Animation<TextureRegion>> guffImages;
 
-    Animation<TextureRegion> walkRight, idleAnim, pressureOnAnim, pressureOffAnim;
-    Animation<TextureRegion> lightAnim, playerLightAnim, arrowAnim, torchAnim, campfireAnim, doorOpenAnim, doorCloseAnim;
-    Animation<TextureRegion> fireDeath;
-    Animation<TextureRegion> fallDeath;
-    Animation<TextureRegion> pushBlock;
-    Animation<TextureRegion> playerShoot;
-    Animation<TextureRegion> arrowExplodeAnim;
-    Animation<TextureRegion> antWalk;
-    Animation<TextureRegion> antIdle;
-    Animation<TextureRegion> openingScene;
-    Animation<TextureRegion> platformAnim;
-    Animation<TextureRegion> arrowSourceAnim;
-    Animation<TextureRegion> walkUp, walkDown, enemyIdle, enemyShoot, menuSpriteAnim;
-    Animation<TextureRegion> switchOnAnim, switchOffAnim;
-    Animation<TextureRegion> doorAcrossOpenAnim, doorAcrossCloseAnim;
-    Animation<TextureRegion> doorDustAnim;
-    Animation<TextureRegion> antDrink, antFall;
-    Animation<TextureRegion> selectArrowAnim;
+    public Animation<TextureRegion> walkRight, idleAnim, pressureOnAnim, pressureOffAnim;
+    public Animation<TextureRegion> lightAnim;
+    public Animation<TextureRegion> playerLightAnim;
+    public Animation<TextureRegion> arrowAnim;
+    public Animation<TextureRegion> torchAnim;
+    public Animation<TextureRegion> campfireAnim;
+    public Animation<TextureRegion> doorOpenAnim;
+    public Animation<TextureRegion> doorCloseAnim;
+    public Animation<TextureRegion> fireDeath;
+    public Animation<TextureRegion> fallDeath;
+    public Animation<TextureRegion> pushBlock;
+    public Animation<TextureRegion> playerShoot;
+    public Animation<TextureRegion> arrowExplodeAnim;
+    public Animation<TextureRegion> antWalk;
+    public Animation<TextureRegion> antIdle;
+    public Animation<TextureRegion> openingScene;
+    public Animation<TextureRegion> platformAnim;
+    public Animation<TextureRegion> arrowSourceAnim;
+    public Animation<TextureRegion> walkUp, walkDown, enemyIdle, enemyShoot, menuSpriteAnim;
+    public Animation<TextureRegion> switchOnAnim, switchOffAnim;
+    public Animation<TextureRegion> doorAcrossOpenAnim, doorAcrossCloseAnim;
+    public Animation<TextureRegion> doorDustAnim;
+    public Animation<TextureRegion> antDrink, antFall;
+    public Animation<TextureRegion> selectArrowAnim;
 
     public void load(AssetManager assetManager) {
         antWalk = loadAnimation(assetManager.get("character/ant-walk.png"), 4, 0.165f);

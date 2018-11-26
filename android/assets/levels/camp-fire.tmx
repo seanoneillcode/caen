@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="32" tileheight="32" nextobjectid="64">
  <properties>
-  <property name="number" value="51"/>
+  <property name="number" value="52"/>
  </properties>
  <tileset firstgid="1" source="tower-tileset.tsx"/>
  <layer name="ground" width="20" height="15">

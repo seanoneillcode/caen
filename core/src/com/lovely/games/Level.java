@@ -21,30 +21,30 @@ import java.util.List;
 import static com.lovely.games.Constants.HALF_TILE_SIZE;
 import static com.lovely.games.Constants.TILE_SIZE;
 
-class Level {
+public class Level {
 
     static final int DEFAULT_DELAY = 1;
     final String number;
     boolean isWind = false;
 
-    List<Connection> connections;
-    List<ArrowSource> arrowSources;
-    List<Block> blocks;
+    public List<Connection> connections;
+    public List<ArrowSource> arrowSources;
+    public List<Block> blocks;
     boolean[][] walls;
     boolean[][] deaths;
-    List<Platform> platforms;
-    String name;
+    public List<Platform> platforms;
+    public String name;
     int numXTiles;
     int numYTiles;
-    List<PressureTile> pressureTiles;
-    List<Door> doors;
-    List<LevelLight> lights;
-    List<DialogSource> dialogSources;
-    List<Torch> torches;
-    List<SceneSource> scenes;
-    Trunk trunk;
-    List<Actor> actors;
-    List<Guff> guffs;
+    public List<PressureTile> pressureTiles;
+    public List<Door> doors;
+    public List<LevelLight> lights;
+    public List<DialogSource> dialogSources;
+    public List<Torch> torches;
+    public List<SceneSource> scenes;
+    public Trunk trunk;
+    public List<Actor> actors;
+    public List<Guff> guffs;
     public List<Wind> winds;
     public List<Enemy> enemies;
     private String music;

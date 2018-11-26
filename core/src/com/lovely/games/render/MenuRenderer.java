@@ -1,4 +1,4 @@
-package com.lovely.games;
+package com.lovely.games.render;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -7,6 +7,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.lovely.games.AnimationManager;
+import com.lovely.games.CaenMain;
+import com.lovely.games.Menu;
+import com.lovely.games.SpriteManager;
 
 import java.util.List;
 

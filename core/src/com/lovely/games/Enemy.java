@@ -9,7 +9,7 @@ import static com.lovely.games.Constants.HALF_TILE_SIZE;
 public class Enemy extends Block implements BlockLike {
 
     Vector2 dir;
-    Color color;
+    public Color color;
     String stringDir;
     float coolDown = 0f;
     float MAX_COOLDOWN = 0.02f;

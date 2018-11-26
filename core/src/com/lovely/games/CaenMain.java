@@ -1,23 +1,35 @@
 package com.lovely.games;
 
-import com.badlogic.gdx.*;
+import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.controllers.Controllers;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.lovely.games.render.LightRenderer;
+import com.lovely.games.render.MenuRenderer;
 import com.lovely.games.scene.DialogVerb;
 import com.lovely.games.scene.Scene;
 import com.lovely.games.scene.SceneContainer;
 import com.lovely.games.scene.SceneSource;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import static com.lovely.games.Constants.*;
 
@@ -30,7 +42,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     private float lazerSoundTimer = 0;
     private float stepTimer = 0;
     private SpriteBatch batch;
-    private SpriteBatch bufferBatch;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
     protected Level currentLevel;
@@ -47,8 +58,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     public Conversation conversation;
     private boolean dialogLock = false;
     private boolean isLevelDirty = false;
-    private FrameBuffer buffer;
-    private OrthographicCamera cam;
     private Vector2 cameraTargetPos;
     private SceneContainer sceneContainer;
     private List<Scene> currentScenes;
@@ -82,7 +91,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     private boolean isViewDirty = false;
     private ScreenFader screenFader;
     private boolean isPaused = false;
-
     private float targetZoom = 1f;
     private Level nextLevel = null;
     private Connection nextConnection = null;
@@ -94,7 +102,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     private BlockLike currentImageHeight = null;
     boolean isPlayingOpeningScene;
     private List<MyEffect> effects;
-    MyInputProcessor inputProcessor;
+    public MyInputProcessor inputProcessor;
     private StatisticsManager statisticsManager;
     private int pid;
     private int bestLevelSoFar = 0;
@@ -109,6 +117,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     private AnimationManager animationManager;
     private MenuRenderer menuRenderer;
     private Menu menu;
+    private LightRenderer lightRenderer;
 
     @Override
 	public void create () {
@@ -127,7 +136,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         Controllers.addListener(inputProcessor);
 
         batch = new SpriteBatch();
-        bufferBatch = new SpriteBatch();
+
         explosions = new ArrayList<>();
         soundPlayer = new SoundPlayer(assetManager);
         levelManager = new LevelManager(assetManager, soundPlayer);
@@ -140,11 +149,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         spriteManager = new SpriteManager(assetManager);
         spriteManager.getSprite("posterSprite").setBounds(0,0,VIEWPORT_WIDTH,VIEWPORT_HEIGHT);
         spriteManager.getSprite("arrowSprite").setBounds(0,0,32,32);
-
-        buffer = new FrameBuffer(Pixmap.Format.RGBA8888, VIEWPORT_WIDTH, VIEWPORT_HEIGHT, false);
-        cam = new OrthographicCamera(buffer.getWidth(), buffer.getHeight());
-        cam.position.set(buffer.getWidth() / 2, buffer.getWidth() / 2, 0);
-        cam.update();
 
         screenFader = new ScreenFader();
         screenFade = 0f;
@@ -164,6 +168,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         newGameScene = new NewGameScene(animationManager.openingScene);
 
         moveLock = false;
+        lightRenderer = new LightRenderer(animationManager, spriteManager);
 
         sceneContainer = new SceneContainer();
         fadeScreen(true, 2.0f, Color.BLACK);
@@ -393,132 +398,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         return false;
     }
 
-    private void renderLightMasks() {
-        buffer.begin();
-        if (currentLevel.name.equals("levels/maze-1.tmx") ) {
-            Gdx.gl.glClearColor(0, 0, 0, 1.0f);
-        } else {
-            Gdx.gl.glClearColor(gamma, gamma, gamma, 1.0f);
-        }
-        Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        float oldZoom = camera.zoom;
-        camera.zoom = 0.95f;
-        camera.update(false);
-        bufferBatch.setProjectionMatrix(camera.combined);
-        bufferBatch.begin();
-
-        bufferBatch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_DST_ALPHA);
-
-        Vector2 offset = new Vector2(playerPos.x, playerPos.y);
-        TextureRegion playerRegion = animationManager.playerLightAnim.getKeyFrame(animationDelta, true);
-        Sprite playerLight = spriteManager.getSprite("playerLight");
-        Sprite lightHole = spriteManager.getSprite("lightHole");
-        Sprite levelLight = spriteManager.getSprite("levelLight");
-        if (!staticLevel) {
-            playerLight.setRegion(playerRegion);
-            playerLight.setColor(1.0f, 0.8f, 0.5f, 1.0f);
-            playerLight.setPosition( offset.x - 60, offset.y);
-            playerLight.draw(bufferBatch);
-        }
-
-        TextureRegion tr = animationManager.lightAnim.getKeyFrame(animationDelta, true);
-        TextureRegion slow = animationManager.lightAnim.getKeyFrame(animationDelta * 2.0f, true);
-        for (Arrow arrow : arrows) {
-
-            lightHole.setColor(arrow.color);
-            lightHole.setRegion(tr);
-            lightHole.setPosition((arrow.pos.x), (arrow.pos.y));
-            lightHole.draw(bufferBatch);
-        }
-        for (ArrowSource arrowSource : currentLevel.arrowSources) {
-            float animTime = arrowSource.getAnimTimer();
-            if (animTime > 0 && !arrowSource.isHidden) {
-                lightHole.setColor(new Color(0.3f, 0.8f, 0.6f, (animTime / 0.8f)));
-                lightHole.setRegion(tr);
-                lightHole.setPosition((arrowSource.pos.x), (arrowSource.pos.y));
-                lightHole.draw(bufferBatch);
-            }
-        }
-        for (Explosion explosion : explosions) {
-            lightHole.setColor(explosion.color);
-            lightHole.setAlpha(1 - explosion.getAlpha() * 0.8f);
-            lightHole.setRegion(tr);
-            lightHole.setPosition((explosion.pos.x - 12), (explosion.pos.y));
-            lightHole.setScale((explosion.getAlpha() * 4) * 6.0f);
-            lightHole.draw(bufferBatch);
-        }
-        lightHole.setScale(6.0f);
-
-
-        for (PressureTile tile : currentLevel.pressureTiles) {
-            lightHole.setColor(tile.color);
-            lightHole.setRegion(tr);
-            lightHole.setPosition((tile.pos.x), (tile.pos.y));
-            lightHole.draw(bufferBatch);
-        }
-        for (Platform platform : currentLevel.platforms) {
-            lightHole.setColor(platform.color);
-            lightHole.setRegion(tr);
-            lightHole.setPosition((platform.pos.x), (platform.pos.y));
-            lightHole.draw(bufferBatch);
-        }
-        for (Block block : currentLevel.blocks) {
-            lightHole.setColor(block.color);
-            lightHole.setRegion(tr);
-            lightHole.setPosition((block.pos.x), (block.pos.y));
-            lightHole.draw(bufferBatch);
-        }
-        for (Door door : currentLevel.doors) {
-            lightHole.setColor(door.color);
-            lightHole.setRegion(tr);
-            lightHole.setPosition((door.pos.x), (door.pos.y + 16));
-            lightHole.draw(bufferBatch);
-        }
-        for (LevelLight light : currentLevel.lights) {
-            if (light.isActive) {
-                levelLight.setColor(light.color);
-                levelLight.setBounds(light.pos.x, light.pos.y, light.size.x, light.size.y);
-                levelLight.draw(bufferBatch);
-            }
-        }
-        for (Enemy enemy : currentLevel.enemies) {
-            lightHole.setColor(enemy.color);
-            lightHole.setRegion(tr);
-            lightHole.setPosition((enemy.pos.x), (enemy.pos.y));
-            lightHole.draw(bufferBatch);
-        }
-        for (Torch torch : currentLevel.torches) {
-            if (torch.isOn) {
-                if (torch.isFire) {
-                    lightHole.setColor(torch.color);
-                    lightHole.setRegion(slow);
-                    lightHole.setPosition((torch.pos.x), (torch.pos.y));
-                    lightHole.draw(bufferBatch);
-                } else {
-                    lightHole.setColor(torch.color);
-                    lightHole.setRegion(tr);
-                    lightHole.setPosition((torch.pos.x), (torch.pos.y));
-                    lightHole.draw(bufferBatch);
-                }
-            }
-        }
-        if (!staticLevel) {
-            for (Actor actor : currentLevel.actors) {
-                if (!actor.isHidden) {
-                    playerLight.setRegion(playerRegion);
-                    playerLight.setColor(1.0f, 0.8f, 0.5f, 1.0f);
-                    playerLight.setPosition(actor.pos.x - 60, actor.pos.y);
-                    playerLight.draw(bufferBatch);
-                }
-            }
-        }
-        camera.zoom = oldZoom;
-        camera.update(false);
-
-        bufferBatch.end();
-        buffer.end();
-    }
-
     @Override
     public void render () {
         if (isPaused) {
@@ -537,7 +416,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         getInput();
         animationDelta = animationDelta + Gdx.graphics.getDeltaTime();
         if ((!menu.shouldHandleMenu() || isBrightnessOption()) && !isPlayingOpeningScene) {
-            renderLightMasks();
+            lightRenderer.render(currentLevel, animationDelta, this);
         }
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -786,9 +665,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             }
 
             batch.setBlendFunction(GL20.GL_ZERO, GL20.GL_SRC_COLOR);
-            TextureRegion tr = new TextureRegion(buffer.getColorBufferTexture());
-            tr.flip(false,true);
-
+            TextureRegion tr = lightRenderer.getTextureRegion();
             batch.draw(tr, camera.position.x - (VIEWPORT_WIDTH / 2.0f), camera.position.y - (VIEWPORT_HEIGHT / 2.0f));
             batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
@@ -929,8 +806,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     public void dispose () {
         batch.dispose();
         assetManager.dispose();
-        bufferBatch.dispose();
-        buffer.dispose();
+        lightRenderer.dispose();
         soundPlayer.dispose();
     }
 
@@ -1280,6 +1156,9 @@ public class CaenMain extends ApplicationAdapter implements Stage {
 
     private void goToMatchingConnection(String number) {
         Level level = levelManager.getLevelFromNumber(number);
+        if (level == null) {
+            return;
+        }
         for (Connection thisConnection : currentLevel.connections) {
             for (Connection connectionOther : level.connections) {
                 if (thisConnection.to.equals(connectionOther.name)) {
@@ -1363,10 +1242,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             System.out.println("in " + in);
             inputAmount = in.cpy();
         }
-//        inputProcessor.controllerInput.x = 0;
-//        inputProcessor.controllerInput.y = 0;
-
-
 
         if (isLeftPressed) {
             inputVector.x = inputVector.x - 1;
@@ -1398,7 +1273,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                     String chosenOption = conversation.getCurrentDialog().getChosenOption();
                     if (menu.showSaveWarning) {
                         if (chosenOption.equals("new-game")) {
-                            //gotoState("new-game");
                             startOpeningScene();
                         } else {
                             gotoState("menu");
@@ -1449,7 +1323,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                         if (currentLevel.isTileBlocked(nextNextTilePos)) {
                             BlockLike block = currentLevel.getBlockLike(nextNextTilePos, true);
                             if (block == null) {
-//                                checkForSceneSources(nextNextTilePos);
                                 blocked = true;
                             } else {
                                 Vector2 nextTileAgain = playerPos.cpy()
@@ -1492,12 +1365,11 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                             playerFacingLeft = false;
                         }
                         playerDir = inputVector.cpy();
-//                        movementValue = Gdx.graphics.getDeltaTime() * PLAYER_SPEED;//TILE_SIZE / PLAYER_SPEED;
                         if ( hasControoler) {
                             playerMovement = inputProcessor.getControllerInput().cpy().scl(2f);
                         } else {
 
-                        playerMovement = inputVector.cpy().scl(2f).scl(inputAmount);//.limit(2f);
+                        playerMovement = inputVector.cpy().scl(2f).scl(inputAmount);
                         }
                     } else {
                         playerMovement.x = 0;
@@ -1512,7 +1384,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 }
                 if (Gdx.input.isKeyPressed(Input.Keys.SPACE) || inputProcessor.pressingX) {
                     if (!sceneBlock && !castLock && !isPlayerShooting) {
-//                        castCurrentSpell();
                         isPlayerShooting = true;
                         playerShootingTimer = PLAYER_SHOOTING_TIME;
                         animationDelta = 0;
@@ -1526,7 +1397,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         if ((inputVector.x != 0 || inputVector.y != 0)) {
             dialogLock = true;
             if (isMoving()) {
-                float pitch = MathUtils.random(0.75f, 1.25f);
                 if (stepTimer < 0) {
                     soundPlayer.playSound("music/step-2.ogg", playerPos);
                     stepTimer = 0.165f * 4f;
@@ -1577,12 +1447,10 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     }
 
     private void castCurrentSpell() {
-//        currentSpell = "arrow";
         if (castCooldown > 0) {
             return;
         }
         if (currentSpell != null && currentSpell.equals("arrow")) {
-
             Vector2 nextTilePos = playerDir.cpy().scl(24f, 32f).add(playerPos).add(0, QUARTER_TILE_SIZE);
             addArrow(nextTilePos, playerDir, PLAYER_ARROW_SPEED, false);
             castCooldown = CAST_ARROW_COOLDOWN;
@@ -1619,7 +1487,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         }
         if (actor.equals("pro")) {
             playerDir = value.cpy().nor();
-//            movementValue = TILE_SIZE / PLAYER_SPEED;
             moveVector = value.cpy().nor();
             playerMovement = value.cpy().nor();
             playerSceneMovement = value.cpy().nor();
@@ -1801,7 +1668,25 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         loadLevelTimer = LEVEL_TRANSITION_TIMER;
     }
 
-//	@Override
+    public OrthographicCamera getCamera() {
+        return camera;
+    }
+
+    public List<Arrow> getArrows() {
+        return arrows;
+    }
+
+    public boolean isStaticLevel() {
+        return staticLevel;
+    }
+
+    public List<Explosion> getExplosions() {
+        return explosions;
+    }
+
+
+
+    //	@Override
 //	public void render () {
 //		Gdx.gl.glClearColor(1, 0, 0, 1);
 //		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

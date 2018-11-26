@@ -13,7 +13,7 @@ public class Platform implements Switchable {
 
     public static final float SPEED = TILE_SIZE * 2.0f;
 
-    Vector2 pos;
+    public Vector2 pos;
     Vector2 start;
     Vector2 end;
     Vector2 destination;
@@ -22,7 +22,7 @@ public class Platform implements Switchable {
     boolean isActive;
     String switchId;
     boolean initialIsActive;
-    Color color;
+    public Color color;
     private int soundId;
     private float animTimer;
     float smokeTimer;

@@ -13,9 +13,9 @@ public class Actor {
 
     public static final float SHOOT_TIMER_LIMIT = 0.6f;
     private static final int WEAKNESS_LIMT = 6;
-    Vector2 pos;
+    public Vector2 pos;
     String id;
-    boolean isHidden;
+    public boolean isHidden;
     Vector2 originalPos;
     boolean originalIsHide;
     boolean isWalking;

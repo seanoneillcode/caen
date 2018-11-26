@@ -12,9 +12,9 @@ public class Arrow {
 
     boolean isRed;
     boolean isArrow;
-    Vector2 pos;
+    public Vector2 pos;
     Vector2 dir;
-    Color color;
+    public Color color;
     float speed;
     boolean isDead;
     boolean isCollidingSelf;

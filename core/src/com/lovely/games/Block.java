@@ -8,18 +8,18 @@ import com.badlogic.gdx.math.Vector2;
 import static com.badlogic.gdx.math.MathUtils.random;
 import static com.lovely.games.Constants.TILE_SIZE;
 
-class Block implements BlockLike {
+public class Block implements BlockLike {
 
     static final float TILE_SPEED = TILE_SIZE * 8.0f;
 
-    Vector2 pos;
+    public Vector2 pos;
     Vector2 dir;
     Vector2 startPos;
     boolean isMoving;
     float movementValue;
     float animTimer;
     boolean isGround;
-    Color color;
+    public Color color;
 
     Block(Vector2 pos) {
         this.startPos = pos.cpy();

@@ -10,10 +10,10 @@ import static com.lovely.games.Constants.RANDOM_SOUND_ID_RANGE;
 
 public class Door implements Switchable {
 
-    Vector2 pos;
+    public Vector2 pos;
     boolean isOpen;
     String switchId;
-    Color color;
+    public Color color;
     private boolean originalIsOpen;
     SoundPlayer soundPlayer;
     int soundId;

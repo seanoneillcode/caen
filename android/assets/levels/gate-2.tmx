@@ -2,7 +2,7 @@
 <map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="19" height="23" tilewidth="32" tileheight="32" infinite="0" nextobjectid="33">
  <properties>
   <property name="isWind" value="true"/>
-  <property name="number" value="17"/>
+  <property name="number" value="25"/>
  </properties>
  <tileset firstgid="1" source="tower-tileset.tsx"/>
  <layer name="death" width="19" height="23">

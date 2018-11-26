@@ -5,10 +5,10 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Torch implements Switchable {
 
-    Vector2 pos;
-    Color color;
-    boolean isFire;
-    boolean isOn;
+    public Vector2 pos;
+    public Color color;
+    public boolean isFire;
+    public boolean isOn;
     boolean originalIsOn;
     String switchId;
 

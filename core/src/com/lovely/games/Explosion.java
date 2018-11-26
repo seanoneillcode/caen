@@ -11,7 +11,7 @@ public class Explosion {
     private static final float EXPLOSION_TIME = 0.4f;
     private float timer;
     public Vector2 pos;
-    Color color;
+    public Color color;
     private float alpha = 0;
 
     Explosion(Vector2 pos) {
