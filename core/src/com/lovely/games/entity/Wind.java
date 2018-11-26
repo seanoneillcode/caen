@@ -1,4 +1,4 @@
-package com.lovely.games;
+package com.lovely.games.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
@@ -15,8 +15,8 @@ public class Wind {
     private static final float LEEWAY = 32.0f;
 
     private final int numWinds;
-    Vector2 pos;
-    Vector2 size;
+    public Vector2 pos;
+    public Vector2 size;
     String dir;
     List<Vector2> drawPositions;
     float variance = 0;

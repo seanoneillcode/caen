@@ -1,8 +1,10 @@
-package com.lovely.games;
+package com.lovely.games.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.lovely.games.SoundPlayer;
+import com.lovely.games.Trunk;
 
 import static com.badlogic.gdx.math.MathUtils.random;
 
@@ -11,13 +13,13 @@ public class PressureTile {
     public Vector2 pos;
     Trunk trunk;
     private boolean handledAction;
-    String switchId;
-    protected boolean isSwitch;
+    public String switchId;
+    public boolean isSwitch;
     public Color color;
-    float animTimer;
-    boolean isPressure;
+    public float animTimer;
+    public boolean isPressure;
 
-    PressureTile(Vector2 pos, String switchId, boolean isSwitch) {
+    public PressureTile(Vector2 pos, String switchId, boolean isSwitch) {
         this.pos = pos;
         this.handledAction = false;
         this.switchId = switchId;
@@ -28,21 +30,21 @@ public class PressureTile {
         isPressure = false;
     }
 
-    void setTrunk(Trunk trunk) {
+    public void setTrunk(Trunk trunk) {
         this.trunk = trunk;
     }
 
-    void start() {
+    public void start() {
         this.handledAction = false;
         isPressure = false;
         animTimer = 10;
     }
 
-    void update() {
+    public void update() {
         animTimer += Gdx.graphics.getDeltaTime();
     }
 
-    void handlePressureOff(SoundPlayer soundPlayer) {
+    public void handlePressureOff(SoundPlayer soundPlayer) {
         if (handledAction) {
             if (!isSwitch) {
                 if (trunk != null) {
@@ -55,7 +57,7 @@ public class PressureTile {
         this.handledAction = false;
     }
 
-    void handleAction(SoundPlayer soundPlayer) {
+    public void handleAction(SoundPlayer soundPlayer) {
         if (!handledAction && trunk != null) {
             trunk.broadcast(switchId);
             handledAction = true;

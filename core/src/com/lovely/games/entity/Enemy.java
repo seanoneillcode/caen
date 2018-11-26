@@ -1,8 +1,9 @@
-package com.lovely.games;
+package com.lovely.games.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.lovely.games.CaenMain;
 
 import static com.lovely.games.Constants.HALF_TILE_SIZE;
 
@@ -23,7 +24,7 @@ public class Enemy extends Block implements BlockLike {
         isShooting = false;
     }
 
-    void start() {
+    public void start() {
         super.start();
         isShooting = false;
     }

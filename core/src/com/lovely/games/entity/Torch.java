@@ -1,7 +1,8 @@
-package com.lovely.games;
+package com.lovely.games.entity;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.lovely.games.Switchable;
 
 public class Torch implements Switchable {
 

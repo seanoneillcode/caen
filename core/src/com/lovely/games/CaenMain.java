@@ -20,6 +20,20 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.lovely.games.dialog.Conversation;
+import com.lovely.games.dialog.DialogContainer;
+import com.lovely.games.dialog.DialogSource;
+import com.lovely.games.entity.Arrow;
+import com.lovely.games.entity.ArrowSource;
+import com.lovely.games.entity.Block;
+import com.lovely.games.entity.BlockLike;
+import com.lovely.games.entity.Door;
+import com.lovely.games.entity.Enemy;
+import com.lovely.games.entity.Explosion;
+import com.lovely.games.entity.Guff;
+import com.lovely.games.entity.Platform;
+import com.lovely.games.entity.PressureTile;
+import com.lovely.games.entity.Torch;
 import com.lovely.games.render.LightRenderer;
 import com.lovely.games.render.MenuRenderer;
 import com.lovely.games.scene.DialogVerb;
@@ -39,78 +53,79 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     private Vector2 playerPos, playerDir;
     private Vector2 moveVector;
     private Vector2 inputVector;
-    private float lazerSoundTimer = 0;
-    private float stepTimer = 0;
+    private Vector2 cameraTargetPos;
+    private Vector2 playerMovement = new Vector2();
     private SpriteBatch batch;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
-    protected Level currentLevel;
-    private Connection lastConnection;
-    private List<Arrow> arrows;
     private Texture blockImage;
     private Texture groundBlockImage;
-    private Platform currentPlatform;
     private Texture lazerImage, horizontalLazerImage;
+    private String currentSpell;
+    private String posterImageName;
+    private String lastConnectionNumber = "";
+    private String antAnim = "normal";
+    private Color fadeColor = Color.BLACK;
+    private float stepTimer = 0;
+    private float lazerSoundTimer = 0;
     private float animationDelta = 0;
     private float antAnimDelta = 0;
     private float walkAnimDelta = 0;
-    private DialogContainer dialogContainer;
-    public Conversation conversation;
+    private float castCooldown = 0;
+    private float posterAlpha;
+    private float screenFade;
+    public float gamma;
+    private float playerDeathTimer = 0;
+    private float playerShootingTimer = 0;
+    private float levelTransitionTimer = 0;
+    private float loadLevelTimer = 0;
     private boolean dialogLock = false;
     private boolean isLevelDirty = false;
-    private Vector2 cameraTargetPos;
-    private SceneContainer sceneContainer;
-    private List<Scene> currentScenes;
-    private DialogVerb activeDialogVerb;
     private boolean moveLock, snaplock;
     private boolean skipLock;
     private boolean castLock;
-    private String currentSpell;
-    private float castCooldown = 0;
-    private float posterAlpha;
-    private String posterImageName;
     private boolean staticLevel;
-    private float screenFade;
-    public float gamma;
-    private Color fadeColor = Color.BLACK;
     private boolean levelChangeLock = false;
     private boolean isWalkOne = true;
     private boolean wasMoving;
     private boolean playerFacingLeft = false;
     private boolean playerIsPushing = false;
     private boolean playerWasPushing = false;
-    private float playerDeathTimer = 0;
     private boolean playerIsDead = false;
     private boolean isFallDeath = false;
     private boolean isPlayerShooting = false;
-    private float playerShootingTimer = 0;
-    private List<Explosion> explosions;
-    public SoundPlayer soundPlayer;
-    private int lastLevel = -1;
-    private String lastConnectionNumber = "";
     private boolean isViewDirty = false;
-    private ScreenFader screenFader;
     private boolean isPaused = false;
-    private float targetZoom = 1f;
-    private Level nextLevel = null;
-    private Connection nextConnection = null;
-    private float levelTransitionTimer = 0;
     private boolean leaveLevel = false;
-    private StonePrizeScene stonePrizeScene = null;
-    private NewGameScene newGameScene = null;
     private boolean isHidePlayer;
-    private BlockLike currentImageHeight = null;
     boolean isPlayingOpeningScene;
-    private List<MyEffect> effects;
-    public MyInputProcessor inputProcessor;
-    private StatisticsManager statisticsManager;
     private int pid;
     private int bestLevelSoFar = 0;
+
+    protected Level currentLevel;
+    private Connection lastConnection;
+    private Platform currentPlatform;
+    private SceneContainer sceneContainer;
+    private DialogVerb activeDialogVerb;
+    private DialogContainer dialogContainer;
+    private Conversation conversation;
+    private StonePrizeScene stonePrizeScene = null;
+    private NewGameScene newGameScene = null;
+    private BlockLike currentImageHeight = null;
+    private ScreenFader screenFader;
+    private Level nextLevel = null;
+    private Connection nextConnection = null;
     private Platform lockedPlatform;
-    private Vector2 playerMovement = new Vector2();
     private BlockLike lastBlock;
-    private String antAnim = "normal";
-    private float loadLevelTimer = 0;
+
+    private List<MyEffect> effects;
+    private List<Explosion> explosions;
+    private List<Arrow> arrows;
+    private List<Scene> currentScenes;
+
+    public SoundPlayer soundPlayer;
+    public MyInputProcessor inputProcessor;
+    private StatisticsManager statisticsManager;
     private AssetManager assetManager;
     private LevelManager levelManager;
     private SpriteManager spriteManager;
@@ -247,6 +262,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
 
     private void loadLevelFromPrefs() {
         Preferences prefs = Gdx.app.getPreferences("caen-preferences");
+        int lastLevel;
         if (prefs.contains("last-level")) {
             lastLevel = prefs.getInteger("last-level");
         } else {
@@ -285,31 +301,31 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         arrows = new ArrayList<>();
         lastConnection = startConnection;
         explosions = new ArrayList<>();
-        for (ArrowSource arrowSource : currentLevel.getArrowSources()) {
+        for (com.lovely.games.entity.ArrowSource arrowSource : currentLevel.getArrowSources()) {
             arrowSource.start();
         }
-        for (Platform platform : currentLevel.getPlatforms()) {
+        for (com.lovely.games.entity.Platform platform : currentLevel.getPlatforms()) {
             platform.start(soundPlayer);
         }
-        for (Block block : currentLevel.blocks) {
+        for (com.lovely.games.entity.Block block : currentLevel.blocks) {
             block.start();
         }
-        for (Enemy enemy : currentLevel.enemies) {
+        for (com.lovely.games.entity.Enemy enemy : currentLevel.enemies) {
             enemy.start();
         }
         for (Connection connection : currentLevel.connections) {
             connection.reset();
         }
-        for (PressureTile pressureTile : currentLevel.pressureTiles) {
+        for (com.lovely.games.entity.PressureTile pressureTile : currentLevel.pressureTiles) {
             pressureTile.start();
         }
         for (Actor actor : currentLevel.actors) {
             actor.start();
         }
-        for (Door door : currentLevel.doors) {
+        for (com.lovely.games.entity.Door door : currentLevel.doors) {
             door.start();
         }
-        for (Torch torch : currentLevel.torches) {
+        for (com.lovely.games.entity.Torch torch : currentLevel.torches) {
             torch.start();
 
         }
@@ -347,7 +363,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             statisticsManager.addGameEvent(statisticsManager.startLevelEvent(level));
         }
         antAnim = "normal";
-        for (Guff guff : currentLevel.guffs) {
+        for (com.lovely.games.entity.Guff guff : currentLevel.guffs) {
             guff.reset();
         }
     }
@@ -429,13 +445,13 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             mapRenderer.render();
             batch.setProjectionMatrix(camera.combined);
             batch.begin();
-            for (Guff guff : currentLevel.guffs) {
+            for (com.lovely.games.entity.Guff guff : currentLevel.guffs) {
                 if (!guff.isOnTop() && !guff.hide) {
                     TextureRegion currentFrame = animationManager.getGuff(guff.imageName).getKeyFrame(animationDelta + guff.offset, true);
                     batch.draw(currentFrame, guff.pos.x, guff.pos.y, guff.size.x, guff.size.y);
                 }
             }
-            for (PressureTile pressureTile : currentLevel.pressureTiles) {
+            for (com.lovely.games.entity.PressureTile pressureTile : currentLevel.pressureTiles) {
                 TextureRegion frame;
                 if (pressureTile.isSwitch) {
                     Animation<TextureRegion> animation = pressureTile.isPressure ? animationManager.switchOnAnim : animationManager.switchOffAnim;
@@ -446,25 +462,23 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 }
                 batch.draw(frame, pressureTile.pos.x, pressureTile.pos.y);
             }
-            for (Platform platform : currentLevel.getPlatforms()) {
+            for (com.lovely.games.entity.Platform platform : currentLevel.getPlatforms()) {
                 TextureRegion frame = animationManager.platformAnim.getKeyFrame(platform.getAnimTimer(), true);
-                float height = 0;//((platform.getAnimTimer() % 0.4f) * 4f);
+                float height = 0;
                 batch.draw(frame, platform.pos.x, platform.pos.y + height);
-//                TextureRegion smoke = platformParticleAnim.getKeyFrame(platform.getAnimTimer(), true);
-//                batch.draw(smoke, platform.pos.x - 16, platform.pos.y + height - 8);
             }
             for (MyEffect effect : effects) {
                 TextureRegion currentFrame = animationManager.getGuff(effect.name).getKeyFrame(effect.timer, true);
                 batch.draw(currentFrame, effect.pos.x, effect.pos.y);
             }
-            List<BlockLike> blockLikes = currentLevel.getBlockLikes();
+            List<com.lovely.games.entity.BlockLike> blockLikes = currentLevel.getBlockLikes();
             blockLikes.sort((o1, o2) -> (int)(o2.getPos().y - o1.getPos().y));
-            for (BlockLike blockLike : blockLikes) {
+            for (com.lovely.games.entity.BlockLike blockLike : blockLikes) {
                 float height = (MathUtils.sinDeg(blockLike.getAnimTimer() * 360) * 2f);
                 if (currentImageHeight != null && currentImageHeight == blockLike) {
                     height = height + 2f;
                 }
-                if (!(blockLike instanceof Enemy)) {
+                if (!(blockLike instanceof com.lovely.games.entity.Enemy)) {
                     if (blockLike.isGround()) {
                         batch.draw(groundBlockImage, blockLike.getPos().x, blockLike.getPos().y - height);
                     }
@@ -472,14 +486,14 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                         batch.draw(blockImage, blockLike.getPos().x, blockLike.getPos().y);
                     }
                 }
-                if (blockLike instanceof Enemy) {
+                if (blockLike instanceof com.lovely.games.entity.Enemy) {
                     if (blockLike.getPos().y > threeDeeLinePos.y) {
-                        drawEnemy((Enemy) blockLike, height);
+                        drawEnemy((com.lovely.games.entity.Enemy) blockLike, height);
                     }
                 }
             }
             Sprite arrowSourceSprite = spriteManager.getSprite("arrowSourceSprite");
-            for (ArrowSource arrowSource : currentLevel.arrowSources) {
+            for (com.lovely.games.entity.ArrowSource arrowSource : currentLevel.arrowSources) {
                 if (arrowSource.isHidden) {
                     continue;
                 }
@@ -502,7 +516,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 arrowSourceSprite.draw(batch);
             }
             Sprite arrowSprite = spriteManager.getSprite("arrowSprite");
-            for (Arrow arrow : arrows) {
+            for (com.lovely.games.entity.Arrow arrow : arrows) {
                 if (arrow.isArrow) {
                     TextureRegion currentFrame = animationManager.arrowAnim.getKeyFrame(animationDelta, true);
                     arrowSprite.setPosition(arrow.pos.x, arrow.pos.y + 12);
@@ -519,7 +533,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 }
             }
             Sprite doorSprite = spriteManager.getSprite("doorSprite");
-            for (Door door : currentLevel.doors) {
+            for (com.lovely.games.entity.Door door : currentLevel.doors) {
                 Animation<TextureRegion> animation;
                 if (door.isAcross) {
                     animation = door.isOpen ? animationManager.doorAcrossOpenAnim : animationManager.doorAcrossCloseAnim;
@@ -546,7 +560,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                     drawActor(actor);
                 }
             }
-            for (Torch torch : currentLevel.torches) {
+            for (com.lovely.games.entity.Torch torch : currentLevel.torches) {
                 if (torch.pos.y >= threeDeeLinePos.y && torch.isOn) {
                     if (torch.isFire) {
                         TextureRegion torchFrame = animationManager.campfireAnim.getKeyFrame(animationDelta, true);
@@ -562,9 +576,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 float height = (MathUtils.sinDeg(currentImageHeight.getAnimTimer() * 360) * 2f);
                 heightAdjustment = height + 2f;
             }
-//            if (currentPlatform != null) {
-//                heightAdjustment = ((currentPlatform.getAnimTimer() % 0.4f) * -4f);
-//            }
             Sprite playerSprite = spriteManager.getSprite("playerSprite");
             playerSprite.setPosition(playerPos.x, playerPos.y + HALF_TILE_SIZE  - heightAdjustment );
             TextureRegion currentFrame;
@@ -607,25 +618,25 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 }
                 playerSprite.draw(batch);
             }
-            for (Guff guff : currentLevel.guffs) {
+            for (com.lovely.games.entity.Guff guff : currentLevel.guffs) {
                 if (guff.isOnTop() && !guff.hide) {
                     currentFrame = animationManager.getGuff(guff.imageName).getKeyFrame(animationDelta + guff.offset, true);
                     batch.draw(currentFrame, guff.pos.x, guff.pos.y, guff.size.x, guff.size.y);
                 }
             }
-            for (BlockLike blockLike : blockLikes) {
-                if (!(blockLike instanceof Enemy)) {
+            for (com.lovely.games.entity.BlockLike blockLike : blockLikes) {
+                if (!(blockLike instanceof com.lovely.games.entity.Enemy)) {
                     if (blockLike.getPos().y <= threeDeeLinePos.y && !blockLike.isGround()) {
                         batch.draw(blockImage, blockLike.getPos().x, blockLike.getPos().y);
                     }
                 }
-                if (blockLike instanceof Enemy) {
+                if (blockLike instanceof com.lovely.games.entity.Enemy) {
                     if (blockLike.getPos().y <= threeDeeLinePos.y && !blockLike.isGround()) {
-                        drawEnemy((Enemy) blockLike, 0);
+                        drawEnemy((com.lovely.games.entity.Enemy) blockLike, 0);
                     }
                 }
             }
-            for (Door door : currentLevel.doors) {
+            for (com.lovely.games.entity.Door door : currentLevel.doors) {
                 Animation<TextureRegion> animation;
                 if (door.isAcross) {
                     animation = door.isOpen ? animationManager.doorAcrossOpenAnim : animationManager.doorAcrossCloseAnim;
@@ -653,7 +664,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                     }
                 }
             }
-            for (Explosion explosion : explosions) {
+            for (com.lovely.games.entity.Explosion explosion : explosions) {
                 TextureRegion frame = animationManager.arrowExplodeAnim.getKeyFrame(explosion.getTimer(), false);
                 batch.draw(frame, explosion.pos.x - 12, explosion.pos.y );
             }
@@ -739,6 +750,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     }
 
     private void updateCameraZoom() {
+        float targetZoom;
         if ((conversation == null && currentScenes.isEmpty()) || menu.showSaveWarning) {
             targetZoom = 0.7f;
         } else {
@@ -786,7 +798,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         antSprite.draw(batch);
     }
 
-    private void drawEnemy(Enemy enemy, float height) {
+    private void drawEnemy(com.lovely.games.entity.Enemy enemy, float height) {
         if (enemy.isGround()) {
             return;
         }
@@ -912,7 +924,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 pressureTile.handleAction(soundPlayer);
                 handled = true;
             }
-            for (BlockLike block : currentLevel.getBlockLikes()) {
+            for (com.lovely.games.entity.BlockLike block : currentLevel.getBlockLikes()) {
                 if (block.getPos().dst2(pressureTile.pos) < 64) {
                     pressureTile.handleAction(soundPlayer);
                     handled = true;
@@ -922,13 +934,13 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 pressureTile.handlePressureOff(soundPlayer);
             }
         }
-        for (Explosion explosion : explosions) {
+        for (com.lovely.games.entity.Explosion explosion : explosions) {
             explosion.update();
         }
-        explosions.removeIf(Explosion::isDone);
+        explosions.removeIf(com.lovely.games.entity.Explosion::isDone);
 
         if (!playerIsDead) {
-            Platform platform = currentLevel.getPlatform(playerPos);
+            com.lovely.games.entity.Platform platform = currentLevel.getPlatform(playerPos);
             if (platform != null) {
                 currentPlatform = platform;
             } else {
@@ -940,7 +952,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             }
             currentImageHeight = null;
             if (currentPlatform == null && isDeathPlayer()) {
-                BlockLike block = currentLevel.getGroundBlock(playerPos);
+                com.lovely.games.entity.BlockLike block = currentLevel.getGroundBlock(playerPos);
                 if (!(block != null && block.isGround())) {
                     playerDeathTimer = PLAYER_DEATH_TIME;
                     soundPlayer.playSound("music/scream-hurt.ogg", playerPos);
@@ -992,7 +1004,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         for (Actor actor : currentLevel.actors) {
             actor.isWalking = false;
             if (actor.isBoss) {
-                Platform platform = currentLevel.getPlatform(actor.pos);
+                com.lovely.games.entity.Platform platform = currentLevel.getPlatform(actor.pos);
                 if (platform != null) {
                     actor.pos = platform.pos.cpy();
                 }
@@ -1023,11 +1035,11 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             arrowSource.update(this);
         }
 
-        Iterator<Arrow> arrowIterator = arrows.iterator();
+        Iterator<com.lovely.games.entity.Arrow> arrowIterator = arrows.iterator();
         while(arrowIterator.hasNext()) {
-            Arrow arrow = arrowIterator.next();
+            com.lovely.games.entity.Arrow arrow = arrowIterator.next();
             arrow.update();
-            for (Arrow otherArrow : arrows) {
+            for (com.lovely.games.entity.Arrow otherArrow : arrows) {
                 if (otherArrow != arrow && otherArrow.getRect().overlaps(arrow.getRect())) {
                     if (!otherArrow.isRed && !arrow.isRed) {
                         otherArrow.isDead = true;
@@ -1038,16 +1050,16 @@ public class CaenMain extends ApplicationAdapter implements Stage {
 
             Vector2 actualArrowPos = arrow.pos.cpy().add(QUARTER_TILE_SIZE, QUARTER_TILE_SIZE);
             if (arrow.isDead || currentLevel.isWall(actualArrowPos) || currentLevel.isOutOfBounds(actualArrowPos) || currentLevel.getDoor(actualArrowPos, false) != null) {
-                explosions.add(new Explosion(arrow.pos.cpy()));
+                explosions.add(new com.lovely.games.entity.Explosion(arrow.pos.cpy()));
                 soundPlayer.playSound("music/blast-1.ogg", arrow.pos);
                 arrowIterator.remove();
                 continue;
             }
-            BlockLike block = currentLevel.getBlockLike(arrow.pos.cpy().add(HALF_TILE_SIZE, HALF_TILE_SIZE), true);
+            com.lovely.games.entity.BlockLike block = currentLevel.getBlockLike(arrow.pos.cpy().add(HALF_TILE_SIZE, HALF_TILE_SIZE), true);
             if (block != null) {
                 blocksDirty = true;
                 Vector2 nextTileAgain = arrow.pos.cpy().add(HALF_TILE_SIZE, HALF_TILE_SIZE).add(arrow.dir.cpy().scl(TILE_SIZE));
-                explosions.add(new Explosion(arrow.pos.cpy()));
+                explosions.add(new com.lovely.games.entity.Explosion(arrow.pos.cpy()));
                 if (currentLevel.isTileBlocked(nextTileAgain)) {
                     arrowIterator.remove();
                 } else {
@@ -1070,7 +1082,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 if (actor.isBoss) {
                     if (arrow.getRect().overlaps(actor.getHitRect())) {
                         actor.handleHit();
-                        explosions.add(new Explosion(arrow.pos.cpy()));
+                        explosions.add(new com.lovely.games.entity.Explosion(arrow.pos.cpy()));
                         soundPlayer.playSound("music/blast-1.ogg", arrow.pos);
                         arrowIterator.remove();
                     }
@@ -1078,7 +1090,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             }
         }
 
-        for (Platform platform : currentLevel.getPlatforms()) {
+        for (com.lovely.games.entity.Platform platform : currentLevel.getPlatforms()) {
             platform.update(soundPlayer, this);
         }
 
@@ -1090,12 +1102,12 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         }
 
 
-        for (Block block : currentLevel.blocks) {
+        for (com.lovely.games.entity.Block block : currentLevel.blocks) {
             block.update();
         }
-        for (BlockLike blockLike : currentLevel.getBlockLikes()) {
+        for (com.lovely.games.entity.BlockLike blockLike : currentLevel.getBlockLikes()) {
             if (!blockLike.isMoving() && !blockLike.isGround()) {
-                Platform platform = currentLevel.getPlatform(blockLike.getPos());
+                com.lovely.games.entity.Platform platform = currentLevel.getPlatform(blockLike.getPos());
                 if (platform == null) {
                     blockLike.setPos(new Vector2(tileRound(blockLike.getPos().x), tileRound(blockLike.getPos().y)));
                     if (currentLevel.isDeath(blockLike.getPos().cpy().add(QUARTER_TILE_SIZE, QUARTER_TILE_SIZE))) {
@@ -1297,7 +1309,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                             .add(HALF_TILE_SIZE, HALF_TILE_SIZE)
                             .add(moveVector.cpy().scl(QUARTER_TILE_SIZE));
                     if (currentLevel.isTileBlocked(nextTilePos)) {
-                        BlockLike block = currentLevel.getBlockLike(nextTilePos, true);
+                        com.lovely.games.entity.BlockLike block = currentLevel.getBlockLike(nextTilePos, true);
                         if (block == null) {
                             checkForSceneSources(nextTilePos);
                             blocked = true;
@@ -1315,7 +1327,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                             }
                         }
                     }
-                    Platform platform = currentLevel.getPlatform(playerPos.cpy().add(HALF_TILE_SIZE, HALF_TILE_SIZE));
+                    com.lovely.games.entity.Platform platform = currentLevel.getPlatform(playerPos.cpy().add(HALF_TILE_SIZE, HALF_TILE_SIZE));
                     if (platform != null) {
                         Vector2 nextNextTilePos = playerPos.cpy()
                                 .add(moveVector.cpy().scl(QUARTER_TILE_SIZE))
@@ -1524,17 +1536,17 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         return currentLevel.trunk;
     }
 
-    void addArrow(Vector2 pos, Vector2 dir, float speed, boolean isRed) {
+    public void addArrow(Vector2 pos, Vector2 dir, float speed, boolean isRed) {
         soundPlayer.playSound("music/arrow-source.ogg", pos);
-        arrows.add(new Arrow(true, pos, dir, speed, true, isRed));
+        arrows.add(new com.lovely.games.entity.Arrow(true, pos, dir, speed, true, isRed));
     }
 
-    void addLazer(Vector2 pos, Vector2 dir) {
+    public void addLazer(Vector2 pos, Vector2 dir) {
         if (lazerSoundTimer <= 0) {
             soundPlayer.playSound("music/lazer-4.ogg", pos);
             lazerSoundTimer = 0.5f;
         }
-        arrows.add(new Arrow(false, pos.cpy().add(dir.x * HALF_TILE_SIZE, dir.y * HALF_TILE_SIZE), dir, TILE_SIZE * 16.0f, false, true));
+        arrows.add(new com.lovely.games.entity.Arrow(false, pos.cpy().add(dir.x * HALF_TILE_SIZE, dir.y * HALF_TILE_SIZE), dir, TILE_SIZE * 16.0f, false, true));
     }
 
     public void showPoster(float alpha, String poster) {

@@ -1,9 +1,11 @@
-package com.lovely.games;
+package com.lovely.games.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.lovely.games.SoundPlayer;
+import com.lovely.games.Switchable;
 
 import static com.badlogic.gdx.math.MathUtils.random;
 import static com.lovely.games.Constants.RANDOM_SOUND_ID_RANGE;
@@ -11,14 +13,14 @@ import static com.lovely.games.Constants.RANDOM_SOUND_ID_RANGE;
 public class Door implements Switchable {
 
     public Vector2 pos;
-    boolean isOpen;
-    String switchId;
+    public boolean isOpen;
+    public String switchId;
     public Color color;
     private boolean originalIsOpen;
     SoundPlayer soundPlayer;
     int soundId;
-    float animTimer;
-    boolean isAcross;
+    public float animTimer;
+    public boolean isAcross;
 
     public Door(Vector2 pos, boolean isOpen, String switchId, SoundPlayer soundPlayer, boolean isAcross) {
         this.pos = pos;

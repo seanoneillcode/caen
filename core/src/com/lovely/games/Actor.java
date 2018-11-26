@@ -3,6 +3,7 @@ package com.lovely.games;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.lovely.games.entity.Platform;
 
 import java.util.List;
 
@@ -57,7 +58,7 @@ public class Actor {
         isWalking = false;
     }
 
-    public void update(CaenMain stage, Platform platform) {
+    public void update(CaenMain stage, com.lovely.games.entity.Platform platform) {
         if (isHidden || isDone) {
             return;
         }
@@ -85,7 +86,7 @@ public class Actor {
         }
     }
 
-    void getNextPlatformPos(CaenMain stage, Platform platform) {
+    void getNextPlatformPos(CaenMain stage, com.lovely.games.entity.Platform platform) {
         List<Platform> platformList = stage.currentLevel.getPlatforms();
         int index = platformList.indexOf(platform);
         index++;

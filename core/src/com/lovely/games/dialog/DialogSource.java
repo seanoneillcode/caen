@@ -1,12 +1,12 @@
-package com.lovely.games;
+package com.lovely.games.dialog;
 
 import com.badlogic.gdx.math.Vector2;
 
 public class DialogSource {
 
-    Vector2 pos;
-    String id;
-    boolean done;
+    public Vector2 pos;
+    public String id;
+    public boolean done;
 
     public DialogSource(Vector2 pos, String id) {
         this.pos = pos;

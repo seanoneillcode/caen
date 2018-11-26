@@ -1,4 +1,4 @@
-package com.lovely.games;
+package com.lovely.games.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -10,13 +10,13 @@ import static com.lovely.games.Constants.TILE_SIZE;
 
 public class Arrow {
 
-    boolean isRed;
-    boolean isArrow;
+    public boolean isRed;
+    public boolean isArrow;
     public Vector2 pos;
-    Vector2 dir;
+    public Vector2 dir;
     public Color color;
     float speed;
-    boolean isDead;
+    public boolean isDead;
     boolean isCollidingSelf;
 
     public Arrow(boolean isArrow, Vector2 pos, Vector2 dir, float speed, boolean isCollidingSelf, boolean isRed) {

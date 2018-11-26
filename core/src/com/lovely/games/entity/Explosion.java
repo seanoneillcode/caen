@@ -1,4 +1,4 @@
-package com.lovely.games;
+package com.lovely.games.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -14,7 +14,7 @@ public class Explosion {
     public Color color;
     private float alpha = 0;
 
-    Explosion(Vector2 pos) {
+    public Explosion(Vector2 pos) {
         this.pos = pos;
         timer = 0;
         this.color = new Color(random(0.4f, 0.6f), random(0.8f, 1.0f) , random(0.7f, 1.0f), 1.0f);

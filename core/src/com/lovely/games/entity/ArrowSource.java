@@ -1,8 +1,10 @@
-package com.lovely.games;
+package com.lovely.games.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.lovely.games.CaenMain;
+import com.lovely.games.Switchable;
 
 import static com.lovely.games.Constants.ARROW_SPEED;
 import static com.lovely.games.Constants.TILE_SIZE;
@@ -12,7 +14,7 @@ public class ArrowSource implements Switchable {
     private static final float STEP = 0.5f;
     boolean isRed;
     public Vector2 pos;
-    Vector2 dir;
+    public Vector2 dir;
     float offset;
     float delay;
     float timer;

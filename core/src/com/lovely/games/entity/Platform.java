@@ -1,9 +1,12 @@
-package com.lovely.games;
+package com.lovely.games.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.lovely.games.CaenMain;
+import com.lovely.games.SoundPlayer;
+import com.lovely.games.Switchable;
 
 import static com.badlogic.gdx.math.MathUtils.random;
 import static com.lovely.games.Constants.RANDOM_SOUND_ID_RANGE;
@@ -20,7 +23,7 @@ public class Platform implements Switchable {
     float offset;
     float timer;
     boolean isActive;
-    String switchId;
+    public String switchId;
     boolean initialIsActive;
     public Color color;
     private int soundId;
@@ -43,7 +46,7 @@ public class Platform implements Switchable {
         animTimer = MathUtils.random(4.0f);
     }
 
-    void start(SoundPlayer soundPlayer) {
+    public void start(SoundPlayer soundPlayer) {
         timer = -offset;
         pos = start.cpy();
         destination = end;

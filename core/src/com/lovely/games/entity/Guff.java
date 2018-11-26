@@ -1,4 +1,4 @@
-package com.lovely.games;
+package com.lovely.games.entity;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -6,10 +6,10 @@ import com.badlogic.gdx.math.Vector2;
 public class Guff {
 
     private final boolean originalHide;
-    float offset;
-    String imageName;
-    Vector2 pos;
-    Vector2 size;
+    public float offset;
+    public String imageName;
+    public Vector2 pos;
+    public Vector2 size;
     private boolean isOnTop;
     public boolean hide;
 

@@ -13,6 +13,17 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.lovely.games.dialog.DialogSource;
+import com.lovely.games.entity.ArrowSource;
+import com.lovely.games.entity.Block;
+import com.lovely.games.entity.BlockLike;
+import com.lovely.games.entity.Door;
+import com.lovely.games.entity.Enemy;
+import com.lovely.games.entity.Guff;
+import com.lovely.games.entity.Platform;
+import com.lovely.games.entity.PressureTile;
+import com.lovely.games.entity.Torch;
+import com.lovely.games.entity.Wind;
 import com.lovely.games.scene.SceneSource;
 
 import java.util.ArrayList;
@@ -28,32 +39,32 @@ public class Level {
     boolean isWind = false;
 
     public List<Connection> connections;
-    public List<ArrowSource> arrowSources;
-    public List<Block> blocks;
+    public List<com.lovely.games.entity.ArrowSource> arrowSources;
+    public List<com.lovely.games.entity.Block> blocks;
     boolean[][] walls;
     boolean[][] deaths;
-    public List<Platform> platforms;
+    public List<com.lovely.games.entity.Platform> platforms;
     public String name;
     int numXTiles;
     int numYTiles;
-    public List<PressureTile> pressureTiles;
-    public List<Door> doors;
+    public List<com.lovely.games.entity.PressureTile> pressureTiles;
+    public List<com.lovely.games.entity.Door> doors;
     public List<LevelLight> lights;
-    public List<DialogSource> dialogSources;
-    public List<Torch> torches;
+    public List<com.lovely.games.dialog.DialogSource> dialogSources;
+    public List<com.lovely.games.entity.Torch> torches;
     public List<SceneSource> scenes;
     public Trunk trunk;
     public List<Actor> actors;
-    public List<Guff> guffs;
-    public List<Wind> winds;
-    public List<Enemy> enemies;
+    public List<com.lovely.games.entity.Guff> guffs;
+    public List<com.lovely.games.entity.Wind> winds;
+    public List<com.lovely.games.entity.Enemy> enemies;
     private String music;
 
     Level(List<Connection> connections, boolean[][] walls, boolean[][] deaths, String name, int numXTiles,
-          int numYTiles, List<ArrowSource> arrowSources, List<Platform> platforms, List<Block> blocks,
-          List<PressureTile> pressureTiles, List<Door> doors, List<DialogSource> dialogSources,
-          List<LevelLight> lights, List<Torch> torches, List<SceneSource> scenes, Trunk trunk, List<Actor> actors,
-          List<Wind> winds, List<Enemy> enemies, List<Guff> guffs, boolean isWind, String number, String music) {
+          int numYTiles, List<com.lovely.games.entity.ArrowSource> arrowSources, List<com.lovely.games.entity.Platform> platforms, List<com.lovely.games.entity.Block> blocks,
+          List<com.lovely.games.entity.PressureTile> pressureTiles, List<com.lovely.games.entity.Door> doors, List<com.lovely.games.dialog.DialogSource> dialogSources,
+          List<LevelLight> lights, List<com.lovely.games.entity.Torch> torches, List<SceneSource> scenes, Trunk trunk, List<Actor> actors,
+          List<com.lovely.games.entity.Wind> winds, List<com.lovely.games.entity.Enemy> enemies, List<com.lovely.games.entity.Guff> guffs, boolean isWind, String number, String music) {
         this.connections = connections;
         this.walls = walls;
         this.deaths = deaths;
@@ -98,8 +109,8 @@ public class Level {
         return walls[tilex][tiley];
     }
 
-    BlockLike getBlockLike(Vector2 pos, boolean noGround) {
-        for (BlockLike block : getBlockLikes()) {
+    com.lovely.games.entity.BlockLike getBlockLike(Vector2 pos, boolean noGround) {
+        for (com.lovely.games.entity.BlockLike block : getBlockLikes()) {
             if (!(noGround && block.isGround())) {
                 if (pos.dst2(block.getPos().cpy().add(HALF_TILE_SIZE, HALF_TILE_SIZE)) < (16 * 16)) {
                     return block;
@@ -109,8 +120,8 @@ public class Level {
         return null;
     }
 
-    DialogSource getDialogSource(Vector2 pos) {
-        for (DialogSource dialogSource : dialogSources) {
+    com.lovely.games.dialog.DialogSource getDialogSource(Vector2 pos) {
+        for (com.lovely.games.dialog.DialogSource dialogSource : dialogSources) {
             if (!dialogSource.done && pos.dst2(dialogSource.pos) < 512) {
                 return dialogSource;
             }
@@ -122,7 +133,6 @@ public class Level {
         List<SceneSource> sceneSources = new ArrayList<>();
         for (SceneSource sceneSource : scenes) {
             if (!sceneSource.isDone && sceneSource.isActive) {
-//                Rectangle playerRect = new Rectangle(pos.x + 1, pos.y + 1, 20, 20);
                 if (new Rectangle(sceneSource.pos.x, sceneSource.pos.y, sceneSource.size.x, sceneSource.size.y).contains(pos)) {
                     sceneSource.isDone = true;
                     sceneSources.add(sceneSource);
@@ -132,8 +142,8 @@ public class Level {
         return sceneSources;
     }
 
-    Door getDoor(Vector2 pos, boolean isOpen) {
-        for (Door door : doors) {
+    com.lovely.games.entity.Door getDoor(Vector2 pos, boolean isOpen) {
+        for (com.lovely.games.entity.Door door : doors) {
             if (door.isOpen == isOpen) {
                 if (pos.dst2(door.pos.cpy().add(HALF_TILE_SIZE, HALF_TILE_SIZE)) < 512) {
                     return door;
@@ -144,14 +154,14 @@ public class Level {
     }
 
     boolean isLazerBlocked(Vector2 pos) {
-        for (BlockLike block : getBlockLikes()) {
+        for (com.lovely.games.entity.BlockLike block : getBlockLikes()) {
             if (!(block.isGround())) {
                 if (pos.dst2(block.getPos().cpy().add(HALF_TILE_SIZE, HALF_TILE_SIZE)) < (256)) {
                     return true;
                 }
             }
         }
-        for (Door door : doors) {
+        for (com.lovely.games.entity.Door door : doors) {
             if (!door.isOpen) {
                 if (pos.dst2(door.pos.cpy().add(HALF_TILE_SIZE, HALF_TILE_SIZE)) < 512) {
                     return true;
@@ -162,13 +172,13 @@ public class Level {
     }
 
     boolean isTileBlocked(Vector2 pos) {
-        BlockLike block = getBlockLike(pos, true);
-        Door door = getDoor(pos, false);
+        com.lovely.games.entity.BlockLike block = getBlockLike(pos, true);
+        com.lovely.games.entity.Door door = getDoor(pos, false);
         return isWall(pos) || block != null || door != null;
     }
 
-    public List<BlockLike> getBlockLikes() {
-        List<BlockLike> blockLikes = new ArrayList<>();
+    public List<com.lovely.games.entity.BlockLike> getBlockLikes() {
+        List<com.lovely.games.entity.BlockLike> blockLikes = new ArrayList<>();
         blockLikes.addAll(blocks);
         blockLikes.addAll(enemies);
         return blockLikes;
@@ -188,12 +198,12 @@ public class Level {
         return pos.x > (numXTiles * TILE_SIZE) || pos.x < 0 || pos.y < 0 || pos.y > (numYTiles * TILE_SIZE);
     }
 
-    List<Platform> getPlatforms() {
+    List<com.lovely.games.entity.Platform> getPlatforms() {
         return platforms;
     }
 
-    Platform getPlatform(Vector2 pos) {
-        for (Platform platform : platforms) {
+    com.lovely.games.entity.Platform getPlatform(Vector2 pos) {
+        for (com.lovely.games.entity.Platform platform : platforms) {
             if (pos.dst2(platform.pos) < 512) {
                 return platform;
             }
@@ -201,7 +211,7 @@ public class Level {
         return null;
     }
 
-    BlockLike getGroundBlock(Vector2 pos) {
+    com.lovely.games.entity.BlockLike getGroundBlock(Vector2 pos) {
         for (BlockLike blockLike : getBlockLikes()) {
             if (blockLike.isGround() && pos.dst2(blockLike.getPos()) < 512) {
                 return blockLike;
@@ -228,7 +238,7 @@ public class Level {
         return false;
     }
 
-    List<ArrowSource> getArrowSources() {
+    List<com.lovely.games.entity.ArrowSource> getArrowSources() {
         return this.arrowSources;
     }
 
@@ -243,8 +253,8 @@ public class Level {
         }
     }
 
-    public Wind getWind(Vector2 playerPos) {
-        for (Wind wind : winds) {
+    public com.lovely.games.entity.Wind getWind(Vector2 playerPos) {
+        for (com.lovely.games.entity.Wind wind : winds) {
             Rectangle windRect = new Rectangle(wind.pos.x, wind.pos.y, wind.size.x, wind.size.y);
             if (windRect.contains(playerPos)) {
                 return wind;
@@ -307,25 +317,25 @@ public class Level {
         private final boolean isWind;
         private final String number;
         List<Connection> connections = new ArrayList<>();
-        List<ArrowSource> arrowSources = new ArrayList<>();
-        List<Block> blocks = new ArrayList<>();
-        List<PressureTile> pressureTiles = new ArrayList<>();
+        List<com.lovely.games.entity.ArrowSource> arrowSources = new ArrayList<>();
+        List<com.lovely.games.entity.Block> blocks = new ArrayList<>();
+        List<com.lovely.games.entity.PressureTile> pressureTiles = new ArrayList<>();
         boolean[][] walls;
         boolean[][] deaths;
         String name;
         int numXTiles = 0;
         int numYTiles = 0;
-        List<Platform> platforms = new ArrayList<>();
+        List<com.lovely.games.entity.Platform> platforms = new ArrayList<>();
         Trunk trunk = new Trunk();
-        List<Door> doors = new ArrayList<>();
-        List<DialogSource> dialogSources = new ArrayList<>();
+        List<com.lovely.games.entity.Door> doors = new ArrayList<>();
+        List<com.lovely.games.dialog.DialogSource> dialogSources = new ArrayList<>();
         List<LevelLight> lights = new ArrayList<>();
-        List<Torch> torches = new ArrayList<>();
+        List<com.lovely.games.entity.Torch> torches = new ArrayList<>();
         List<SceneSource> scenes = new ArrayList<>();
         List<Actor> actors = new ArrayList<>();
-        private List<Wind> winds = new ArrayList<>();
-        List<Enemy> enemies = new ArrayList<>();
-        private List<Guff> guffs = new ArrayList<>();
+        private List<com.lovely.games.entity.Wind> winds = new ArrayList<>();
+        List<com.lovely.games.entity.Enemy> enemies = new ArrayList<>();
+        private List<com.lovely.games.entity.Guff> guffs = new ArrayList<>();
         private String music = null;
 
         Builder(String name, int numXTiles, int numYTiles, boolean isWind, String number) {
@@ -362,7 +372,7 @@ public class Level {
         }
 
         Builder addArrowSource(Vector2 dir, Vector2 pos, float offset, float delay, boolean isActive, String switchId, boolean isRandom, float speed, boolean isRed, boolean isHidden) {
-            ArrowSource arrowSource = new ArrowSource(pos, dir, offset, delay, isActive, switchId, isRandom, speed, isRed, isHidden);
+            com.lovely.games.entity.ArrowSource arrowSource = new ArrowSource(pos, dir, offset, delay, isActive, switchId, isRandom, speed, isRed, isHidden);
             if (switchId != null) {
                 trunk.addListener(arrowSource);
             }
@@ -370,7 +380,7 @@ public class Level {
             return this;
         }
 
-        Builder addPlatform(Platform platform) {
+        Builder addPlatform(com.lovely.games.entity.Platform platform) {
             this.platforms.add(platform);
             if (platform.switchId != null) {
                 trunk.addListener(platform);
@@ -378,12 +388,12 @@ public class Level {
             return this;
         }
 
-        Builder addBlock(Block block) {
+        Builder addBlock(com.lovely.games.entity.Block block) {
             this.blocks.add(block);
             return this;
         }
 
-        Builder addDoor(Door door) {
+        Builder addDoor(com.lovely.games.entity.Door door) {
             doors.add(door);
             if (door.switchId != null) {
                 trunk.addListener(door);
@@ -392,7 +402,7 @@ public class Level {
         }
 
         Builder addTorch(Vector2 pos, Color color, boolean isFire, boolean isOn, String switchId) {
-            Torch torch = new Torch(pos, color, isFire, switchId, isOn);
+            com.lovely.games.entity.Torch torch = new Torch(pos, color, isFire, switchId, isOn);
             if (switchId != null) {
                 trunk.addListener(torch);
             }
@@ -400,7 +410,7 @@ public class Level {
             return this;
         }
 
-        Builder addPressureTile(PressureTile pressureTile) {
+        Builder addPressureTile(com.lovely.games.entity.PressureTile pressureTile) {
             this.pressureTiles.add(pressureTile);
             if (pressureTile.switchId != null) {
                 pressureTile.setTrunk(trunk);
@@ -408,7 +418,7 @@ public class Level {
             return this;
         }
 
-        Builder addDialogSource(DialogSource dialogSource) {
+        Builder addDialogSource(com.lovely.games.dialog.DialogSource dialogSource) {
             this.dialogSources.add(dialogSource);
             return this;
         }
@@ -570,7 +580,7 @@ public class Level {
                 if (properties.containsKey("switch")) {
                     switchId = properties.get("switch").toString();
                 }
-                Platform platform = new Platform(start, end, offset, isActive, switchId);
+                com.lovely.games.entity.Platform platform = new Platform(start, end, offset, isActive, switchId);
                 builder.addPlatform(platform);
             }
             if (properties.containsKey("type") && properties.get("type").equals("enemy")) {

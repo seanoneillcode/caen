@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.Vector2;
 import com.lovely.games.*;
+import com.lovely.games.entity.Torch;
 
 import static com.lovely.games.Constants.VIEWPORT_HEIGHT;
 import static com.lovely.games.Constants.VIEWPORT_WIDTH;
@@ -71,13 +72,13 @@ public class LightRenderer {
 
         TextureRegion tr = animationManager.lightAnim.getKeyFrame(animationDelta, true);
         TextureRegion slow = animationManager.lightAnim.getKeyFrame(animationDelta * 2.0f, true);
-        for (Arrow arrow : caenMain.getArrows()) {
+        for (com.lovely.games.entity.Arrow arrow : caenMain.getArrows()) {
             lightHole.setColor(arrow.color);
             lightHole.setRegion(tr);
             lightHole.setPosition((arrow.pos.x), (arrow.pos.y));
             lightHole.draw(bufferBatch);
         }
-        for (ArrowSource arrowSource : currentLevel.arrowSources) {
+        for (com.lovely.games.entity.ArrowSource arrowSource : currentLevel.arrowSources) {
             float animTime = arrowSource.getAnimTimer();
             if (animTime > 0 && !arrowSource.isHidden) {
                 lightHole.setColor(new Color(0.3f, 0.8f, 0.6f, (animTime / 0.8f)));
@@ -86,7 +87,7 @@ public class LightRenderer {
                 lightHole.draw(bufferBatch);
             }
         }
-        for (Explosion explosion : caenMain.getExplosions()) {
+        for (com.lovely.games.entity.Explosion explosion : caenMain.getExplosions()) {
             lightHole.setColor(explosion.color);
             lightHole.setAlpha(1 - explosion.getAlpha() * 0.8f);
             lightHole.setRegion(tr);
@@ -97,25 +98,25 @@ public class LightRenderer {
         lightHole.setScale(6.0f);
 
 
-        for (PressureTile tile : currentLevel.pressureTiles) {
+        for (com.lovely.games.entity.PressureTile tile : currentLevel.pressureTiles) {
             lightHole.setColor(tile.color);
             lightHole.setRegion(tr);
             lightHole.setPosition((tile.pos.x), (tile.pos.y));
             lightHole.draw(bufferBatch);
         }
-        for (Platform platform : currentLevel.platforms) {
+        for (com.lovely.games.entity.Platform platform : currentLevel.platforms) {
             lightHole.setColor(platform.color);
             lightHole.setRegion(tr);
             lightHole.setPosition((platform.pos.x), (platform.pos.y));
             lightHole.draw(bufferBatch);
         }
-        for (Block block : currentLevel.blocks) {
+        for (com.lovely.games.entity.Block block : currentLevel.blocks) {
             lightHole.setColor(block.color);
             lightHole.setRegion(tr);
             lightHole.setPosition((block.pos.x), (block.pos.y));
             lightHole.draw(bufferBatch);
         }
-        for (Door door : currentLevel.doors) {
+        for (com.lovely.games.entity.Door door : currentLevel.doors) {
             lightHole.setColor(door.color);
             lightHole.setRegion(tr);
             lightHole.setPosition((door.pos.x), (door.pos.y + 16));
@@ -128,7 +129,7 @@ public class LightRenderer {
                 levelLight.draw(bufferBatch);
             }
         }
-        for (Enemy enemy : currentLevel.enemies) {
+        for (com.lovely.games.entity.Enemy enemy : currentLevel.enemies) {
             lightHole.setColor(enemy.color);
             lightHole.setRegion(tr);
             lightHole.setPosition((enemy.pos.x), (enemy.pos.y));

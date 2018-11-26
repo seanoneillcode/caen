@@ -1,4 +1,4 @@
-package com.lovely.games;
+package com.lovely.games.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -17,11 +17,11 @@ public class Block implements BlockLike {
     Vector2 startPos;
     boolean isMoving;
     float movementValue;
-    float animTimer;
+    public float animTimer;
     boolean isGround;
     public Color color;
 
-    Block(Vector2 pos) {
+    public Block(Vector2 pos) {
         this.startPos = pos.cpy();
         this.pos = pos;
         this.isMoving = false;
@@ -32,7 +32,7 @@ public class Block implements BlockLike {
         animTimer = MathUtils.random(4.0f);
     }
 
-    void start() {
+    public void start() {
         this.pos = startPos.cpy();
         this.isGround = false;
         isMoving = false;

@@ -1,4 +1,4 @@
-package com.lovely.games;
+package com.lovely.games.dialog;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
@@ -6,11 +6,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Vector2;
+import com.lovely.games.SoundPlayer;
 
 import java.util.*;
 
-import static com.lovely.games.DialogLine.line;
-import static com.lovely.games.DialogLine.options;
+import static com.lovely.games.dialog.DialogLine.line;
+import static com.lovely.games.dialog.DialogLine.options;
 
 public class DialogContainer {
 
@@ -18,13 +19,13 @@ public class DialogContainer {
     public static final float SMALL_FACE_SCALE = 0.5f;
     public static final float SCALE_INCREASE_AMOUNT = 0.01f;
     private final Sprite rightDialogPointer;
-    Map<String, List<DialogElement>> dialogs = new HashMap<>();
+    public Map<String, List<DialogElement>> dialogs = new HashMap<>();
     String pro = "pro";
     String ant = "ant";
     String info = "info";
     private Sprite leftPortrait, rightPortrait;
     private String lastAntMood;
-    protected Vector2 lastPos = new Vector2();
+    public Vector2 lastPos = new Vector2();
 
     {
         dialogs.put("1", Arrays.asList(
@@ -404,7 +405,7 @@ public class DialogContainer {
         lastAntMood = "ant-listening";
     }
 
-    void render(SpriteBatch batch, Vector2 offset, Conversation conversation, SoundPlayer soundPlayer) {
+    public void render(SpriteBatch batch, Vector2 offset, Conversation conversation, SoundPlayer soundPlayer) {
         Vector2 dialogPos = offset.cpy().add(64, 16);
         DialogElement dialogLine = conversation.getCurrentDialog();
         actors = new HashSet<>(conversation.getActors());
