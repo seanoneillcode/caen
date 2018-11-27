@@ -20,7 +20,7 @@ public class SpriteManager {
 
     private void load() {
         addSprite("lightHole", "light-hole.png", 6f, 6f);
-        addSprite("playerLight", "player-light.png", 1f, 4f);
+        addSprite("playerLight", "player-light.png", 2f, 2f);
         addSprite("levelLight", "level-light.png", 1f, 1f);
         addSprite("fadeSprite", "fade-image.png", 8f, 8f);
         addSprite("posterSprite", "posters/poster-prize.png", 6f, 6f);

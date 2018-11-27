@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.lovely.games.*;
 import com.lovely.games.entity.Torch;
 
+import static com.lovely.games.Constants.TILE_SIZE;
 import static com.lovely.games.Constants.VIEWPORT_HEIGHT;
 import static com.lovely.games.Constants.VIEWPORT_WIDTH;
 
@@ -63,10 +64,11 @@ public class LightRenderer {
         Sprite playerLight = spriteManager.getSprite("playerLight");
         Sprite lightHole = spriteManager.getSprite("lightHole");
         Sprite levelLight = spriteManager.getSprite("levelLight");
-        if (caenMain.isStaticLevel()) {
+        if (!caenMain.isStaticLevel()) {
             playerLight.setRegion(playerRegion);
+            playerLight.setBounds(0,0,64,64);
             playerLight.setColor(1.0f, 0.8f, 0.5f, 1.0f);
-            playerLight.setPosition( offset.x - 60, offset.y);
+            playerLight.setPosition( offset.x + 27, offset.y - 27);
             playerLight.draw(bufferBatch);
         }
 
