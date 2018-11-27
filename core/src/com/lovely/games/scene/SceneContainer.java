@@ -121,6 +121,7 @@ public class SceneContainer {
                 .verb(new PosterVerb("posters/poster-prize.png"))
                 .verb(new HideShowImageVerb(true, "entity/crystal.png"))
                 .verb(new SendEventVerb("a"))
+                .verb(new SendEventVerb("c"))
                 .verb(new DialogVerb("13"))
                 .build());
 

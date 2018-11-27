@@ -57,8 +57,8 @@
 0,0,0,0,0,0,4,4,89,4,4,4,0,4,4,0,0,4,79,79,79,
 0,0,0,0,0,0,4,0,0,0,0,0,0,0,4,0,0,0,89,89,89,
 0,0,0,0,0,0,4,0,0,0,0,0,0,0,4,0,0,0,0,0,0,
-0,0,0,0,0,0,4,55,0,0,0,0,0,0,4,0,0,0,0,0,0,
-0,0,0,0,0,0,4,0,0,0,0,0,0,55,4,0,0,0,0,0,0,
+0,0,0,0,0,0,4,0,0,0,0,0,0,0,4,0,0,0,0,0,0,
+0,0,0,0,0,0,4,0,0,0,0,0,0,0,4,0,0,0,0,0,0,
 0,0,0,0,0,0,4,0,0,0,0,0,0,0,4,0,0,0,0,0,0,
 0,0,0,0,0,0,4,0,0,0,0,0,0,0,4,0,0,0,0,0,0,
 0,0,0,0,0,0,4,79,79,79,0,79,79,79,4,0,0,0,0,0,0,
@@ -94,7 +94,7 @@
   <object id="9" name="57" type="connection" x="320" y="416" width="32" height="32">
    <properties>
     <property name="dir" value="up"/>
-    <property name="to" value="52"/>
+    <property name="to" value="276"/>
    </properties>
   </object>
   <object id="17" name="58" type="connection" x="608" y="64" width="32" height="32">
@@ -109,7 +109,11 @@
    </properties>
   </object>
   <object id="55" type="torch" x="608" y="32" width="32" height="32"/>
-  <object id="56" name="14" type="scene" x="313.818" y="217.818" width="44.9091" height="44.5455"/>
+  <object id="56" name="14" type="scene" x="313.818" y="217.818" width="44.9091" height="44.5455">
+   <properties>
+    <property name="switch" value="c"/>
+   </properties>
+  </object>
   <object id="60" type="light" x="288" y="192" width="96" height="96">
    <properties>
     <property name="a" value="0.6"/>
