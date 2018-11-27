@@ -1,4 +1,4 @@
-package com.lovely.games;
+package com.lovely.games.scene;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.lovely.games.Stage;
 
 public class StonePrizeScene {
 
@@ -22,7 +23,7 @@ public class StonePrizeScene {
     private boolean isIncrease;
     private float amount;
 
-    StonePrizeScene(AssetManager assetManager) {
+    public StonePrizeScene(AssetManager assetManager) {
         player = new Sprite((Texture)assetManager.get("posters/stone-0.png"));
         player.setScale(2.0f);
         stone = new Sprite((Texture)assetManager.get("posters/stone-2.png"));
@@ -35,7 +36,7 @@ public class StonePrizeScene {
         needsReset = true;
     }
 
-    void reset() {
+    public void reset() {
         timer = 0;
         playerPos = new Vector2(-134f, -24f);
         stonePos = new Vector2(96f, -24f);
@@ -45,7 +46,7 @@ public class StonePrizeScene {
         needsReset = false;
     }
 
-    void update(Stage stage) {
+    public void update(Stage stage) {
         timer = timer + Gdx.graphics.getDeltaTime();
         if (timer < 1.0f) {
             playerPos.x = playerPos.x + 2.2f;
@@ -60,7 +61,7 @@ public class StonePrizeScene {
         lightAlpha = MathUtils.clamp(lightAlpha, 0, 1.0f);
     }
 
-    void render(SpriteBatch batch, Vector2 pos, float alpha) {
+    public void render(SpriteBatch batch, Vector2 pos, float alpha) {
         player.setPosition(pos.x + playerPos.x, pos.y + playerPos.y);
         player.draw(batch);
         player.setAlpha(alpha);
