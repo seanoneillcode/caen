@@ -318,6 +318,5 @@ public class SoundPlayer {
     public void levelMusic(String music) {
         System.out.println("playing music " + music);
         nextSong = musicMap.get(music);
-
     }
 }

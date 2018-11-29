@@ -199,6 +199,7 @@ public class SceneContainer {
                 .verb(new com.lovely.games.scene.verbs.HideShowActorVerb(true, "boss"))
                 .verb(new com.lovely.games.scene.verbs.DialogVerb("32"))
                 .verb(new com.lovely.games.scene.verbs.SendEventVerb("b"))
+                .verb(new PlayMusicVerb("none"))
                 .build());
 
         scenes.put("30", builder()
@@ -313,13 +314,14 @@ public class SceneContainer {
                 .verb(new com.lovely.games.scene.verbs.MoveVerb(new Vector2(-32 * 2, 0), "ant", true))
                 .verb(new com.lovely.games.scene.verbs.DialogVerb("46"))
                 .verb(new HideShowImageVerb(true, "entity/heavy-door.png"))
+                .verb(new PlayMusicVerb("none"))
                 .verb(new com.lovely.games.scene.verbs.MoveVerb(new Vector2(32, -32), "ant", true))
                 .verb(new com.lovely.games.scene.verbs.MoveVerb(new Vector2(-4, 0), "ant", true))
                 .verb(new com.lovely.games.scene.verbs.MoveVerb(new Vector2(0, -80), "pro", true))
                 .verb(new MoveVerb(new Vector2(16, -32), "pro", true))
                 .verb(new com.lovely.games.scene.verbs.DialogVerb("47"))
-                .verb(new PlaySoundVerb("sound/the-visitor.ogg", new Vector2(200, 240)))
                 .verb(new com.lovely.games.scene.verbs.SetAntAnimVerb("drink", 0.2f * 14, true))
+                .verb(new PlaySoundVerb("sound/poisoner.ogg", new Vector2(200, 240)))
                 .verb(new SetAntAnimVerb("fall", 0.1f * 9 , false))
                 .verb(new com.lovely.games.scene.verbs.DialogVerb("48"))
                 .verb(new SendEventVerb("a"))

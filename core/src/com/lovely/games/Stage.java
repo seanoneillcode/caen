@@ -37,4 +37,6 @@ public interface Stage {
     void setAntAnim(String anim, float antAnimDelta);
 
     void setAntPhase(Actor.Phase phase);
+
+    void playMusic(String name);
 }

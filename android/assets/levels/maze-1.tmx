@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="30" height="40" tilewidth="32" tileheight="32" nextobjectid="53">
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="30" height="40" tilewidth="32" tileheight="32" infinite="0" nextobjectid="53">
  <properties>
+  <property name="music" value="wind"/>
   <property name="number" value="36"/>
  </properties>
  <tileset firstgid="1" source="brown.tsx"/>

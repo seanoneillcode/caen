@@ -1595,8 +1595,8 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         isHidePlayer = true;
         newGameScene.reset();
         soundPlayer.playSound("music/new-game-1.ogg", playerPos);
-        soundPlayer.levelMusic("the-visitor");
-        soundPlayer.playMusic("the-visitor");
+//        soundPlayer.levelMusic("the-visitor");
+//        soundPlayer.playMusic("the-visitor");
     }
 
     @Override
@@ -1644,6 +1644,9 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         soundPlayer.playSound(id, name, pos, false);
     }
 
+    public void playMusic(String name) {
+        soundPlayer.levelMusic(name);
+    }
 
     public void addEffect(String name, Vector2 pos, float life) {
         effects.add(new MyEffect(name, pos, life));

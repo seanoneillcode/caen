@@ -34,10 +34,10 @@ public class NewGameScene {
         this.standing = standing;
         sprite = new Sprite(standing.getKeyFrame(0));
         sprite.setScale(2.0f);
-        phases.add(new Phase(2f, "dark-start"));
-        phases.add(new Phase(4f, "start"));
-        phases.add(new Phase(6f, "middle"));
-        phases.add(new Phase(2f, "ending"));
+        phases.add(new Phase(1f, "dark-start"));
+        phases.add(new Phase(2f, "start"));
+        phases.add(new Phase(2f, "middle"));
+        phases.add(new Phase(1f, "ending"));
         phaseIndex = 0;
     }
 
