@@ -1,31 +1,26 @@
-package com.lovely.games.scene;
+package com.lovely.games.scene.verbs;
 
+import com.lovely.games.Actor;
 import com.lovely.games.Stage;
 
-public class HideShowImageVerb implements SceneVerb {
+public class SetAntPhaseVerb implements SceneVerb {
 
-    boolean hide;
     boolean isDone;
-    String actor;
-    boolean originalHide;
+    Actor.Phase phase;
 
-    public HideShowImageVerb(boolean hide, String actor) {
-        this.hide = hide;
-        this.isDone = false;
-        this.actor = actor;
-        this.originalHide = hide;
+    public SetAntPhaseVerb(Actor.Phase phase) {
+        this.phase = phase;
     }
 
     @Override
     public void start() {
         isDone = false;
-        hide = originalHide;
     }
 
     @Override
     public void update(Stage stage) {
         if (!isDone) {
-            stage.hideGuff(actor, hide);
+            stage.setAntPhase(phase);
             isDone = true;
         }
     }

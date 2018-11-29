@@ -5,13 +5,12 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.lovely.games.scene.DialogVerb;
+import com.lovely.games.scene.verbs.DialogVerb;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static com.lovely.games.Constants.BLIP_SELECT_ITEM_SOUND_ID;
-import static com.lovely.games.Constants.LEVEL_TRANSITION_TIMER;
 
 public class Menu {
 

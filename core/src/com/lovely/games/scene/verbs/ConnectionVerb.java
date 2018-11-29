@@ -1,24 +1,21 @@
-package com.lovely.games.scene;
+package com.lovely.games.scene.verbs;
 
-import com.badlogic.gdx.math.Vector2;
 import com.lovely.games.Stage;
 
-public class CameraVerb implements SceneVerb {
+public class ConnectionVerb implements SceneVerb {
 
+    String connection;
     boolean isDone;
-    Vector2 target;
 
-    public CameraVerb(Vector2 target) {
-        this.isDone = false;
-        this.target = target;
+    public ConnectionVerb(String connection) {
+        this.connection = connection;
+        isDone = false;
     }
 
     @Override
     public void update(Stage stage) {
-        if (!isDone) {
-            stage.moveCamera(target);
-            isDone = true;
-        }
+        stage.goToConnection(connection);
+        isDone = true;
     }
 
     @Override
@@ -36,6 +33,7 @@ public class CameraVerb implements SceneVerb {
         isDone = false;
     }
 
+    @Override
     public void skip() {
 
     }

@@ -1,15 +1,15 @@
-package com.lovely.games.scene;
+package com.lovely.games.scene.verbs;
 
 import com.lovely.games.Stage;
 
-public class HideShowActorVerb implements SceneVerb {
+public class HideShowImageVerb implements SceneVerb {
 
     boolean hide;
     boolean isDone;
     String actor;
     boolean originalHide;
 
-    public HideShowActorVerb(boolean hide, String actor) {
+    public HideShowImageVerb(boolean hide, String actor) {
         this.hide = hide;
         this.isDone = false;
         this.actor = actor;
@@ -25,7 +25,7 @@ public class HideShowActorVerb implements SceneVerb {
     @Override
     public void update(Stage stage) {
         if (!isDone) {
-            stage.hideActor(actor, hide);
+            stage.hideGuff(actor, hide);
             isDone = true;
         }
     }

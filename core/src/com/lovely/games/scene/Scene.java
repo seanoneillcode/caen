@@ -1,19 +1,20 @@
 package com.lovely.games.scene;
 
 import com.lovely.games.Stage;
+import com.lovely.games.scene.verbs.SceneVerb;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Scene {
 
-    List<SceneVerb> verbs;
+    List<com.lovely.games.scene.verbs.SceneVerb> verbs;
     int currentVerb;
     boolean isDone;
     boolean resetCamera;
     String outcome;
 
-    public Scene(List<SceneVerb> verbs, boolean resetCamera) {
+    public Scene(List<com.lovely.games.scene.verbs.SceneVerb> verbs, boolean resetCamera) {
         this.verbs = verbs;
         this.currentVerb = 0;
         this.isDone = false;
@@ -24,7 +25,7 @@ public class Scene {
     public void start() {
         this.isDone = false;
         this.currentVerb = 0;
-        for (SceneVerb sceneVerb : verbs) {
+        for (com.lovely.games.scene.verbs.SceneVerb sceneVerb : verbs) {
             sceneVerb.start();
         }
         this.outcome = null;
@@ -36,7 +37,7 @@ public class Scene {
 
     public void update(Stage stage) {
         if (!isDone) {
-            SceneVerb verb = verbs.get(currentVerb);
+            com.lovely.games.scene.verbs.SceneVerb verb = verbs.get(currentVerb);
             verb.update(stage);
             if (verb.isDone()) {
                 if (verb.getOutcome() != null) {
@@ -72,7 +73,7 @@ public class Scene {
 
     public static class Builder {
 
-        List<SceneVerb> verbs = new ArrayList<>();
+        List<com.lovely.games.scene.verbs.SceneVerb> verbs = new ArrayList<>();
         boolean resetCamera = true;
 
         public Builder verb(SceneVerb verb) {

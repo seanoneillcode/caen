@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.Vector2;
 import com.lovely.games.*;
-import com.lovely.games.entity.Torch;
+import com.lovely.games.entity.*;
 
 import static com.lovely.games.Constants.TILE_SIZE;
 import static com.lovely.games.Constants.VIEWPORT_HEIGHT;
@@ -100,25 +100,25 @@ public class LightRenderer {
         lightHole.setScale(6.0f);
 
 
-        for (com.lovely.games.entity.PressureTile tile : currentLevel.pressureTiles) {
+        for (PressureTile tile : currentLevel.pressureTiles) {
             lightHole.setColor(tile.color);
             lightHole.setRegion(tr);
             lightHole.setPosition((tile.pos.x), (tile.pos.y));
             lightHole.draw(bufferBatch);
         }
-        for (com.lovely.games.entity.Platform platform : currentLevel.platforms) {
+        for (Platform platform : currentLevel.platforms) {
             lightHole.setColor(platform.color);
             lightHole.setRegion(tr);
             lightHole.setPosition((platform.pos.x), (platform.pos.y));
             lightHole.draw(bufferBatch);
         }
-        for (com.lovely.games.entity.Block block : currentLevel.blocks) {
+        for (Block block : currentLevel.blocks) {
             lightHole.setColor(block.color);
             lightHole.setRegion(tr);
             lightHole.setPosition((block.pos.x), (block.pos.y));
             lightHole.draw(bufferBatch);
         }
-        for (com.lovely.games.entity.Door door : currentLevel.doors) {
+        for (Door door : currentLevel.doors) {
             lightHole.setColor(door.color);
             lightHole.setRegion(tr);
             lightHole.setPosition((door.pos.x), (door.pos.y + 16));
@@ -131,7 +131,7 @@ public class LightRenderer {
                 levelLight.draw(bufferBatch);
             }
         }
-        for (com.lovely.games.entity.Enemy enemy : currentLevel.enemies) {
+        for (Enemy enemy : currentLevel.enemies) {
             lightHole.setColor(enemy.color);
             lightHole.setRegion(tr);
             lightHole.setPosition((enemy.pos.x), (enemy.pos.y));
@@ -154,10 +154,11 @@ public class LightRenderer {
         }
         if (!caenMain.isStaticLevel()) {
             for (Actor actor : currentLevel.actors) {
-                if (!actor.isHidden) {
+                if (!actor.isHidden && actor.showLight) {
                     playerLight.setRegion(playerRegion);
+                    playerLight.setBounds(0, 0, 64, 64);
                     playerLight.setColor(1.0f, 0.8f, 0.5f, 1.0f);
-                    playerLight.setPosition(actor.pos.x - 60, actor.pos.y);
+                    playerLight.setPosition(actor.pos.x + 27, actor.pos.y - 27);
                     playerLight.draw(bufferBatch);
                 }
             }

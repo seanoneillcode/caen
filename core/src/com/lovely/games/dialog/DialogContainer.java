@@ -109,13 +109,11 @@ public class DialogContainer {
                 line(pro, "I must be quick! If he catches me I'm dead...", "worried")
         ));
         dialogs.put("31", Arrays.asList(
-                line(ant, "Unbelievable"),
-                line(ant, "You actually figured out the puzzles"),
-                line(pro, "How are you ahead of me?"),
-                line(ant, "I'm not telling you"),
-                line(ant, "thief..."),
-                line(ant, "poisoner..."),
-                line(ant, "...and now ...dead man")
+                line(ant, "Stop! Give me the crystal!", "angry"),
+                line(pro, "Not a chance"),
+                line(ant, "You might have figured out the puzzles, but you can't get past me", "happy"),
+                line(pro, "Do your worst Old man"),
+                line(ant, "I will show you my worst", "talk")
         ));
         dialogs.put("32", Arrays.asList(
                 line(ant, "AHHHHhhhhh!!!11")

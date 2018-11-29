@@ -126,6 +126,8 @@ public class AssetLoader {
         assetManager.load("character/pro-simple-walk-up.png", Texture.class);
         assetManager.load("character/ant-idle.png", Texture.class);
         assetManager.load("character/ant-walk.png", Texture.class);
+        assetManager.load("character/ant-prepare.png", Texture.class);
+        assetManager.load("character/ant-appear.png", Texture.class);
         assetManager.load("character/ant-simple-fall.png", Texture.class);
         assetManager.load("character/ant-simple-drink.png", Texture.class);
         assetManager.load("character/player-shadow.png", Texture.class);

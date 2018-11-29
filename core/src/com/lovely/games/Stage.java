@@ -2,7 +2,7 @@ package com.lovely.games;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.lovely.games.scene.DialogVerb;
+import com.lovely.games.scene.verbs.DialogVerb;
 
 public interface Stage {
 
@@ -35,4 +35,6 @@ public interface Stage {
     void hideGuff(String image, boolean hide);
 
     void setAntAnim(String anim, float antAnimDelta);
+
+    void setAntPhase(Actor.Phase phase);
 }

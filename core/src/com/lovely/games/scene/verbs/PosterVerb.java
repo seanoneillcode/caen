@@ -1,4 +1,4 @@
-package com.lovely.games.scene;
+package com.lovely.games.scene.verbs;
 
 import com.badlogic.gdx.Gdx;
 import com.lovely.games.Stage;

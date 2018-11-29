@@ -35,7 +35,7 @@ public class AnimationManager {
     public Animation<TextureRegion> switchOnAnim, switchOffAnim;
     public Animation<TextureRegion> doorAcrossOpenAnim, doorAcrossCloseAnim;
     public Animation<TextureRegion> doorDustAnim;
-    public Animation<TextureRegion> antDrink, antFall;
+    public Animation<TextureRegion> antDrink, antFall, antPrepare, antAppear, antDisappear;
     public Animation<TextureRegion> selectArrowAnim;
 
     public void load(AssetManager assetManager) {
@@ -43,6 +43,9 @@ public class AnimationManager {
         antIdle = loadAnimation(assetManager.get("character/ant-idle.png"), 2, 0.5f);
         antDrink = loadAnimation(assetManager.get("character/ant-simple-drink.png"), 14, 0.2f);
         antFall = loadAnimation(assetManager.get("character/ant-simple-fall.png"), 9, 0.1f);
+        antPrepare = loadAnimation(assetManager.get("character/ant-prepare.png"), 2, 0.2f);
+        antAppear = loadAnimation(assetManager.get("character/ant-appear.png"), 6, 0.1f);
+        antDisappear = loadAnimation(assetManager.get("character/ant-appear.png"), 6, 0.1f);
         enemyIdle = loadAnimation(assetManager.get("entity/enemy-idle.png"), 4, 0.25f);
         enemyShoot = loadAnimation(assetManager.get("entity/enemy-shoot.png"), 4, 0.05f);
         walkRight = loadAnimation(assetManager.get("character/pro-simple-walk.png"), 4, 0.16f); // 0.165
@@ -77,6 +80,7 @@ public class AnimationManager {
         doorAcrossCloseAnim.setPlayMode(Animation.PlayMode.REVERSED);
         pressureOffAnim.setPlayMode(Animation.PlayMode.REVERSED);
         switchOffAnim.setPlayMode(Animation.PlayMode.REVERSED);
+        antDisappear.setPlayMode(Animation.PlayMode.REVERSED);
 
         guffImages = new HashMap<>();
         guffImages.put("entity/grass-1.png", loadAnimation(assetManager.get("entity/grass-1.png"), 4, 0.515f));

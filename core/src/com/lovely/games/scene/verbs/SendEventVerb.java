@@ -1,22 +1,22 @@
-package com.lovely.games.scene;
+package com.lovely.games.scene.verbs;
 
 import com.lovely.games.Stage;
 
-public class GameControlVerb implements SceneVerb {
+public class SendEventVerb implements SceneVerb {
 
+    String switchId;
     boolean isDone;
-    String state;
 
-    public GameControlVerb(String state) {
+    public SendEventVerb(String switchId) {
+        this.switchId = switchId;
         this.isDone = false;
-        this.state = state;
     }
 
     @Override
     public void update(Stage stage) {
         if (!isDone) {
-            stage.gotoState(state);
             isDone = true;
+            stage.getTrunk().broadcast(switchId);
         }
     }
 
@@ -35,6 +35,7 @@ public class GameControlVerb implements SceneVerb {
         isDone = false;
     }
 
+    @Override
     public void skip() {
 
     }

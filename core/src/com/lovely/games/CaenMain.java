@@ -36,7 +36,7 @@ import com.lovely.games.entity.PressureTile;
 import com.lovely.games.entity.Torch;
 import com.lovely.games.render.LightRenderer;
 import com.lovely.games.render.MenuRenderer;
-import com.lovely.games.scene.DialogVerb;
+import com.lovely.games.scene.verbs.DialogVerb;
 import com.lovely.games.scene.NewGameScene;
 import com.lovely.games.scene.Scene;
 import com.lovely.games.scene.SceneContainer;
@@ -380,8 +380,8 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         }
         Vector3 target = new Vector3(pos.x, pos.y, 0);
         if (currentLevel.name.equals("levels/boss-fight.tmx") && bossIsFighting()) {
-            target.y = target.y + 280;
-            camera.zoom = 0.75f;
+//            target.y = target.y + 280;
+//            camera.zoom = 1.75f;
         }
         final float speed = CAMERA_CATCHUP_SPEED * Gdx.graphics.getDeltaTime();
         float ispeed = 1.0f - speed;
@@ -409,7 +409,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
 
     private boolean bossIsFighting() {
         for (Actor actor : currentLevel.actors) {
-            if (actor.isBoss && !actor.isHidden) {
+            if (actor.isBoss) {
                 return true;
             }
         }
@@ -764,6 +764,9 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         if (posterImageName != null) {
             targetZoom = 1.0f;
         }
+        if (bossIsFighting()) {
+            targetZoom = 1.0f;
+        }
         if (Math.abs(camera.zoom - targetZoom) < ZOOM_THRESHOLH) {
             camera.zoom = targetZoom;
         }
@@ -792,6 +795,15 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             if (antAnim.equals("fall")) {
                 antSprite.setSize(48, 48);
                 currentFrame = animationManager.antFall.getKeyFrame(antAnimDelta, false);
+            }
+            if (antAnim.equals("prepare")) {
+                currentFrame = animationManager.antPrepare.getKeyFrame(antAnimDelta, true);
+            }
+            if (antAnim.equals("appear")) {
+                currentFrame = animationManager.antAppear.getKeyFrame(antAnimDelta, false);
+            }
+            if (antAnim.equals("disappear")) {
+                currentFrame = animationManager.antDisappear.getKeyFrame(antAnimDelta, false);
             }
         }
         antSprite.setPosition(actor.pos.x, actor.pos.y + 12);
@@ -1082,7 +1094,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             }
             for (Actor actor : currentLevel.actors) {
                 if (actor.isBoss) {
-                    if (arrow.getRect().overlaps(actor.getHitRect())) {
+                    if (arrow.getRect().overlaps(actor.getHitRect()) && actor.canBeHit()) {
                         actor.handleHit();
                         explosions.add(new Explosion(arrow.pos.cpy()));
                         soundPlayer.playSound("music/blast-1.ogg", arrow.pos);
@@ -1464,9 +1476,13 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         if (castCooldown > 0) {
             return;
         }
+        float speedBoost = 1.0f;
+        if (bossIsFighting()) {
+            speedBoost = 2.0f;
+        }
         if (currentSpell != null && currentSpell.equals("arrow")) {
             Vector2 nextTilePos = playerDir.cpy().scl(24f, 32f).add(playerPos).add(0, QUARTER_TILE_SIZE);
-            addArrow(nextTilePos, playerDir, PLAYER_ARROW_SPEED, false);
+            addArrow(nextTilePos, playerDir, PLAYER_ARROW_SPEED * speedBoost, false);
             castCooldown = CAST_ARROW_COOLDOWN;
         }
     }
@@ -1612,6 +1628,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         nextConnection = connection;
         levelTransitionTimer = LEVEL_TRANSITION_TIMER;
         leaveLevel = true;
+        System.out.println("level " + level.name);
     }
 
     boolean isBrightnessOption() {
@@ -1659,6 +1676,10 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     public void setAntAnim(String anim, float antAnimDelta) {
         antAnim = anim;
         this.antAnimDelta = antAnimDelta;
+    }
+
+    public void setAntPhase(Actor.Phase phase) {
+        currentLevel.actors.get(0).setPhase(phase);
     }
 
     public void lockMovement(boolean moveLock) {

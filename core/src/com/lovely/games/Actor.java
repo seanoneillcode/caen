@@ -1,19 +1,16 @@
 package com.lovely.games;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.lovely.games.entity.Platform;
-
-import java.util.List;
 
 import static com.lovely.games.Constants.PLAYER_ARROW_SPEED;
 import static com.lovely.games.Constants.TILE_SIZE;
 
 public class Actor {
 
-    public static final float SHOOT_TIMER_LIMIT = 0.6f;
-    private static final int WEAKNESS_LIMT = 6;
     public Vector2 pos;
     String id;
     public boolean isHidden;
@@ -24,12 +21,24 @@ public class Actor {
     boolean isBoss;
     float shootTimer;
     int bossLives;
-    private Vector2 oldTeleportPos;
-    private Vector2 newTeleportPos;
     private boolean wasHit = false;
     boolean isDone = false;
-    int weakness = 0;
+    private Phase phase;
+    private float phaseTimer;
+    public boolean showLight;
+    private boolean hasShot;
+    private float numShots;
 
+    public enum Phase {
+        TALKING,
+        RANDOM_SPOT,
+        PRE_APPEAR,
+        APPEAR,
+        SHOOT_FIREBALL,
+        DISAPPEAR,
+        WAITING,
+        FIERY_DEATH
+    }
 
     public Actor(Vector2 pos, String id, boolean isHide, boolean isRight, boolean isBoss) {
         this.pos = pos;
@@ -42,42 +51,116 @@ public class Actor {
         this.isBoss = isBoss;
         this.shootTimer = 0;
         this.bossLives = 2;
-        this.oldTeleportPos = pos.cpy();
-        this.newTeleportPos = pos.cpy();
+        this.phase = Phase.DISAPPEAR;
+        this.phaseTimer = 0;
+        showLight = true;
+        this.pos = new Vector2(MathUtils.random(450, 750), MathUtils.random(250, 550));
     }
 
     public void start() {
         this.pos = originalPos.cpy();
         this.isHidden = originalIsHide;
-        this.oldTeleportPos = originalPos.cpy();
-        this.newTeleportPos = originalPos.cpy();
         this.shootTimer = 0;
         this.bossLives = 2;
         wasHit = false;
         isDone = false;
         isWalking = false;
+        this.phase = Phase.TALKING;
+        this.phaseTimer = 0;
+        showLight = true;
+        hasShot = false;
+        numShots = 0f;
     }
 
-    public void update(CaenMain stage, com.lovely.games.entity.Platform platform) {
-        if (isHidden || isDone) {
+    public void update(CaenMain stage, Platform platform) {
+        if (isDone) {
             return;
         }
-        shootTimer += Gdx.graphics.getDeltaTime();
-        if (shootTimer > SHOOT_TIMER_LIMIT) {
-            shootTimer = 0;
-            weakness = weakness + 1;
-            if (weakness > WEAKNESS_LIMT) {
-                weakness = 0;
-            } else {
-                Vector2 arrowPos = pos.cpy().add(0, -24);
-                stage.addArrow(arrowPos, new Vector2(0, -1), PLAYER_ARROW_SPEED, true);
-            }
+        switch (phase) {
+            case TALKING:
+                isHidden = false;
+                showLight = true;
+                stage.setAntAnim("normal", phaseTimer);
+                break;
+            case RANDOM_SPOT:
+                isHidden = true;
+                showLight = false;
+                stage.setAntAnim("prepare", phaseTimer);
+                this.pos = getRandomSafePos(stage.getPlayerPos().cpy());
+                phase = Phase.PRE_APPEAR;
+                phaseTimer = 0;
+                System.out.println("pre-appear");
+                break;
+            case PRE_APPEAR:
+                isHidden = false;
+                showLight = false;
+                stage.setAntAnim("prepare", phaseTimer);
+                if (phaseTimer > 0.4f) {
+                    phase = Phase.APPEAR;
+                    System.out.println("appear");
+                    phaseTimer = 0;
+                }
+                break;
+            case APPEAR:
+                showLight = true;
+                stage.setAntAnim("appear", phaseTimer);
+                if (phaseTimer > 0.6f) {
+                    hasShot = false;
+                    numShots = 0f;
+                    phase = Phase.SHOOT_FIREBALL;
+                    System.out.println("shoot fireball");
+                    phaseTimer = 0;
+                }
+                break;
+            case SHOOT_FIREBALL:
+                showLight = true;
+                stage.setAntAnim("normal", phaseTimer);
+                if (!hasShot) {
+                    hasShot = true;
+                    Vector2 direction = stage.getPlayerPos().cpy().sub(pos).nor();
+                    Vector2 arrowPos = pos.cpy().add(direction.cpy().scl(24));
+                    stage.addArrow(arrowPos, direction, PLAYER_ARROW_SPEED * 2f, true);
+                    numShots = numShots + 1f;
+                }
+                if (phaseTimer > 0.3f * numShots && numShots < 3) {
+                    hasShot = false;
+                }
+                if (phaseTimer > 1.2f) {
+                    phase = Phase.DISAPPEAR;
+                    System.out.println("disappear");
+                    phaseTimer = 0;
+                }
+                break;
+            case DISAPPEAR:
+                showLight = true;
+                stage.setAntAnim("disappear", phaseTimer);
+                if (phaseTimer > 0.6f) {
+                    phase = Phase.WAITING;
+                    System.out.println("waiting");
+                    phaseTimer = 0;
+                }
+                break;
+            case WAITING:
+                isHidden = true;
+                if (phaseTimer > 1.2f) {
+                    System.out.println("random spot");
+                    phase = Phase.RANDOM_SPOT;
+                    phaseTimer = 0;
+                }
+                showLight = false;
+                break;
+            case FIERY_DEATH:
+                break;
         }
+
+        phaseTimer = phaseTimer + Gdx.graphics.getDeltaTime();
+
         if (wasHit) {
             wasHit = false;
             bossLives = bossLives - 1;
-            getNextPlatformPos(stage, platform);
-            pos = newTeleportPos.cpy();
+            phase = Phase.DISAPPEAR;
+            System.out.println("disappear");
+            phaseTimer = 0;
         }
         if (bossLives < 0) {
             stage.playScene("29");
@@ -86,15 +169,16 @@ public class Actor {
         }
     }
 
-    void getNextPlatformPos(CaenMain stage, com.lovely.games.entity.Platform platform) {
-        List<Platform> platformList = stage.currentLevel.getPlatforms();
-        int index = platformList.indexOf(platform);
-        index++;
-        if (index >= platformList.size()) {
-            index = 0;
+    private Vector2 getRandomSafePos(Vector2 playerPos) {
+        int count = 0;
+        while (count < 10) {
+            count++;
+            Vector2 potentialPos = new Vector2(MathUtils.random(280, 720), MathUtils.random(250, 750));
+            if (potentialPos.dst(playerPos) > 100) {
+                return potentialPos;
+            }
         }
-        oldTeleportPos = platform.pos.cpy();
-        newTeleportPos = platformList.get(index).pos.cpy();
+        return new Vector2(MathUtils.random(450, 750), MathUtils.random(250, 550));
     }
 
     protected Rectangle getHitRect() {
@@ -104,8 +188,19 @@ public class Actor {
     }
 
     public void handleHit() {
-        if (isBoss && !isHidden) {
+        if (isBoss){
             wasHit = true;
         }
     }
+
+    public boolean canBeHit() {
+        return (phase.equals(Phase.SHOOT_FIREBALL) || phase.equals(Phase.APPEAR)) || phase.equals(Phase.DISAPPEAR);
+    }
+
+    public void setPhase(Phase phase) {
+        this.phase = phase;
+        phaseTimer = 0;
+        System.out.println(phase);
+    }
+
 }

@@ -1,21 +1,23 @@
-package com.lovely.games.scene;
+package com.lovely.games.scene.verbs;
 
 import com.lovely.games.Stage;
 
-public class ConnectionVerb implements SceneVerb {
+public class GameControlVerb implements SceneVerb {
 
-    String connection;
     boolean isDone;
+    String state;
 
-    public ConnectionVerb(String connection) {
-        this.connection = connection;
-        isDone = false;
+    public GameControlVerb(String state) {
+        this.isDone = false;
+        this.state = state;
     }
 
     @Override
     public void update(Stage stage) {
-        stage.goToConnection(connection);
-        isDone = true;
+        if (!isDone) {
+            stage.gotoState(state);
+            isDone = true;
+        }
     }
 
     @Override
@@ -33,7 +35,6 @@ public class ConnectionVerb implements SceneVerb {
         isDone = false;
     }
 
-    @Override
     public void skip() {
 
     }

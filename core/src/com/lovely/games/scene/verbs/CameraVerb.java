@@ -1,22 +1,23 @@
-package com.lovely.games.scene;
+package com.lovely.games.scene.verbs;
 
+import com.badlogic.gdx.math.Vector2;
 import com.lovely.games.Stage;
 
-public class SendEventVerb implements SceneVerb {
+public class CameraVerb implements SceneVerb {
 
-    String switchId;
     boolean isDone;
+    Vector2 target;
 
-    public SendEventVerb(String switchId) {
-        this.switchId = switchId;
+    public CameraVerb(Vector2 target) {
         this.isDone = false;
+        this.target = target;
     }
 
     @Override
     public void update(Stage stage) {
         if (!isDone) {
+            stage.moveCamera(target);
             isDone = true;
-            stage.getTrunk().broadcast(switchId);
         }
     }
 
@@ -35,7 +36,6 @@ public class SendEventVerb implements SceneVerb {
         isDone = false;
     }
 
-    @Override
     public void skip() {
 
     }
