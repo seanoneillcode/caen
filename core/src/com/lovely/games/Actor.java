@@ -6,6 +6,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.lovely.games.entity.Platform;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static com.lovely.games.Constants.PLAYER_ARROW_SPEED;
 import static com.lovely.games.Constants.TILE_SIZE;
 
@@ -28,6 +31,8 @@ public class Actor {
     public boolean showLight;
     private boolean hasShot;
     private float numShots;
+    private List<Vector2> firePositions = Arrays.asList(new Vector2(340, 600), new Vector2(440, 300), new Vector2(600, 600), new Vector2(640, 340)) ;
+    private int firePositionIndex;
 
     public enum Phase {
         TALKING,
@@ -50,10 +55,11 @@ public class Actor {
         this.isFacingRight = isRight;
         this.isBoss = isBoss;
         this.shootTimer = 0;
-        this.bossLives = 2;
+        this.bossLives = 3;
         this.phase = Phase.DISAPPEAR;
         this.phaseTimer = 0;
         showLight = true;
+        firePositionIndex = 0;
         this.pos = new Vector2(MathUtils.random(450, 750), MathUtils.random(250, 550));
     }
 
@@ -61,7 +67,7 @@ public class Actor {
         this.pos = originalPos.cpy();
         this.isHidden = originalIsHide;
         this.shootTimer = 0;
-        this.bossLives = 2;
+        this.bossLives = 3;
         wasHit = false;
         isDone = false;
         isWalking = false;
@@ -86,7 +92,7 @@ public class Actor {
                 isHidden = true;
                 showLight = false;
                 stage.setAntAnim("prepare", phaseTimer);
-                this.pos = getRandomSafePos(stage.getPlayerPos().cpy());
+                this.pos = getRandomSafePos();
                 phase = Phase.PRE_APPEAR;
                 phaseTimer = 0;
                 System.out.println("pre-appear");
@@ -161,6 +167,17 @@ public class Actor {
             phase = Phase.DISAPPEAR;
             System.out.println("disappear");
             phaseTimer = 0;
+            String lightName = "c";
+            if (bossLives == 1) {
+                lightName = "d";
+            }
+            if (bossLives == 0) {
+                lightName = "e";
+            }
+            if (bossLives == -1) {
+                lightName = "f";
+            }
+            stage.getTrunk().broadcast(lightName);
         }
         if (bossLives < 0) {
             stage.playScene("29");
@@ -169,16 +186,12 @@ public class Actor {
         }
     }
 
-    private Vector2 getRandomSafePos(Vector2 playerPos) {
-        int count = 0;
-        while (count < 10) {
-            count++;
-            Vector2 potentialPos = new Vector2(MathUtils.random(280, 720), MathUtils.random(250, 750));
-            if (potentialPos.dst(playerPos) > 100) {
-                return potentialPos;
-            }
+    private Vector2 getRandomSafePos() {
+        firePositionIndex++;
+        if (firePositionIndex == firePositions.size()) {
+            firePositionIndex = 0;
         }
-        return new Vector2(MathUtils.random(450, 750), MathUtils.random(250, 550));
+        return firePositions.get(firePositionIndex);
     }
 
     protected Rectangle getHitRect() {
