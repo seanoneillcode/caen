@@ -24,7 +24,7 @@ public class Constants {
     public static final int START_LEVEL_NUM = 46;
     public static final int RANDOM_SOUND_ID_RANGE = 1000000;
     public static final int BLIP_SELECT_ITEM_SOUND_ID = MathUtils.random(RANDOM_SOUND_ID_RANGE);
-    public static final float DEFAULT_SOUND_LEVEL = 0.2f;
-    public static final float DEFAULT_MUSIC_LEVEL = 1f;
+    public static final float DEFAULT_SOUND_LEVEL = 0.5f;
+    public static final float DEFAULT_MUSIC_LEVEL = 0.7f;
     public static final float DEFAULT_GAMMA = 0.3f;
 }

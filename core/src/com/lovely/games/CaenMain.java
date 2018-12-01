@@ -103,6 +103,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     public boolean isPlayingOpeningScene;
     private int pid;
     private int bestLevelSoFar = 0;
+//    private Strng lastMusic = "none";
 
     protected Level currentLevel;
     private Connection lastConnection;
@@ -218,6 +219,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         prefs.putFloat("music-level", soundPlayer.getMusicVolume());
         prefs.putFloat("brightness-level", gamma);
         prefs.putString("current-spell", currentSpell);
+        prefs.putString("last-played-song", soundPlayer.getLastPlayedSong());
         prefs.putInteger("pid", pid);
         inputProcessor.keyMappings.forEach(prefs::putInteger);
         prefs.flush();
@@ -232,6 +234,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         Preferences prefs = Gdx.app.getPreferences("caen-preferences");
         soundPlayer.setSoundVolume(prefs.getFloat("sound-level", DEFAULT_SOUND_LEVEL));
         soundPlayer.setMusicVolume(prefs.getFloat("music-level", DEFAULT_MUSIC_LEVEL));
+        soundPlayer.setLastPlayedSong(prefs.getString("last-played-song", "none"));
         gamma = prefs.getFloat("brightness-level", DEFAULT_GAMMA);
         inputProcessor.keyMappings.put("up key", prefs.getInteger("up key", 19));
         inputProcessor.keyMappings.put("right key", prefs.getInteger("right key", 22));
@@ -368,6 +371,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         for (Guff guff : currentLevel.guffs) {
             guff.reset();
         }
+        soundPlayer.resumeMusic();
     }
 
     private Vector3 getCameraPosition() {
@@ -379,9 +383,8 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             return new Vector3(280, 240, 0);
         }
         Vector3 target = new Vector3(pos.x, pos.y, 0);
-        if (currentLevel.name.equals("levels/boss-fight.tmx") && bossIsFighting()) {
-//            target.y = target.y + 280;
-//            camera.zoom = 1.75f;
+        if (currentLevel.name.equals("levels/tower-bridge-1.tmx")) {
+            camera.zoom = 0.9f;
         }
         final float speed = CAMERA_CATCHUP_SPEED * Gdx.graphics.getDeltaTime();
         float ispeed = 1.0f - speed;
@@ -603,7 +606,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                         currentFrame = animationManager.fireDeath.getKeyFrame(animationDelta, false);
                     }
                 } else {
-                    if (isPlayerShooting) {
+                    if (isPlayerShooting && currentSpell != null && !currentSpell.equals("")) {
                         currentFrame = animationManager.playerShoot.getKeyFrame(animationDelta, true);
                     } else {
                         currentFrame = animationManager.idleAnim.getKeyFrame(animationDelta, true);

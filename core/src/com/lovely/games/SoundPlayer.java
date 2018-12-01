@@ -32,6 +32,7 @@ public class SoundPlayer {
     private float musicFadeTimer = 0;
     boolean switchingMusic = false;
     private float fadeVolume = 1f;
+    private String lastPlayedSong = "none";
 
     SoundPlayer(AssetManager assetManager) {
         this.assetManager = assetManager;
@@ -120,8 +121,12 @@ public class SoundPlayer {
             }
         } else {
             if (nextSong != 0 && !switchingMusic) {
-                switchingMusic = true;
-                musicFadeTimer = 4.0f;
+                if (nextSong == currentSong) {
+                    nextSong = 0;
+                } else {
+                    switchingMusic = true;
+                    musicFadeTimer = 4.0f;
+                }
             }
             if (musicFadeTimer > 0) {
                 fadeVolume = musicFadeTimer / 3.0f;
@@ -315,8 +320,23 @@ public class SoundPlayer {
         musicVolume = volume;
     }
 
+    public void resumeMusic() {
+        if (currentSong == 0 && nextSong == 0) {
+            levelMusic(lastPlayedSong);
+        }
+    }
+
+    public void setLastPlayedSong(String lastPlayedSong) {
+        this.lastPlayedSong = lastPlayedSong;
+    }
+
+    public String getLastPlayedSong() {
+        return lastPlayedSong;
+    }
+
     public void levelMusic(String music) {
         System.out.println("playing music " + music);
         nextSong = musicMap.get(music);
+        lastPlayedSong = music;
     }
 }
