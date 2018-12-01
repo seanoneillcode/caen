@@ -819,15 +819,25 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         if (enemy.isGround()) {
             return;
         }
-        TextureRegion frame = animationManager.enemyIdle.getKeyFrame(enemy.animTimer, true);
-        if (enemy.isShooting) {
-            frame = animationManager.enemyShoot.getKeyFrame(enemy.animTimer, false);
+        Animation<TextureRegion> currentAnim = animationManager.enemyIdle;
+        if (enemy.getDir().x != 0) {
+            currentAnim = animationManager.enemyIdleHor;
         }
+        if (enemy.isShooting) {
+            currentAnim = animationManager.enemyShoot;
+            if (enemy.getDir().x != 0) {
+                currentAnim = animationManager.enemyShootHor;
+            }
+        }
+        TextureRegion frame = currentAnim.getKeyFrame(enemy.animTimer, false);
         Sprite enemySprite = spriteManager.getSprite("enemySprite");
         enemySprite.setRegion(frame);
-        enemySprite.setRotation(enemy.getRotation());
-        enemySprite.setOrigin(20, 20);
-        enemySprite.setPosition(enemy.pos.x - 4, enemy.pos.y + 4);
+        enemySprite.setSize(TILE_SIZE + 2, TILE_SIZE + 2);
+        enemySprite.setOrigin(17, 17);
+        enemySprite.setPosition(enemy.pos.x - 1, enemy.pos.y + 4);
+        if (enemy.getDir().x > 0) {
+            enemySprite.setFlip(true, false);
+        }
         enemySprite.draw(batch);
     }
 

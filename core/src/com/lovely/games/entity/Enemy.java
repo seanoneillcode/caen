@@ -19,7 +19,7 @@ public class Enemy extends Block implements BlockLike {
     public Enemy(Vector2 pos, String dir) {
         super(pos);
         this.stringDir = dir;
-        this.dir = getDir(dir);
+        this.dir = parseDir(dir);
         this.color = new Color(0.4f, 0.8f, 0.7f, 1.0f);
         isShooting = false;
     }
@@ -29,7 +29,11 @@ public class Enemy extends Block implements BlockLike {
         isShooting = false;
     }
 
-    private Vector2 getDir(String dir) {
+    public Vector2 getDir() {
+        return dir;
+    }
+
+    private Vector2 parseDir(String dir) {
         switch (dir) {
             case "left":
                 return new Vector2(-1, 0);

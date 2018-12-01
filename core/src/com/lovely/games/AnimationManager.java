@@ -31,7 +31,7 @@ public class AnimationManager {
     public Animation<TextureRegion> openingScene;
     public Animation<TextureRegion> platformAnim;
     public Animation<TextureRegion> arrowSourceAnim;
-    public Animation<TextureRegion> walkUp, walkDown, enemyIdle, enemyShoot, menuSpriteAnim;
+    public Animation<TextureRegion> walkUp, walkDown, enemyIdle, enemyShoot, menuSpriteAnim, enemyIdleHor, enemyShootHor;
     public Animation<TextureRegion> switchOnAnim, switchOffAnim;
     public Animation<TextureRegion> doorAcrossOpenAnim, doorAcrossCloseAnim;
     public Animation<TextureRegion> doorDustAnim;
@@ -47,6 +47,8 @@ public class AnimationManager {
         antAppear = loadAnimation(assetManager.get("character/ant-appear.png"), 6, 0.1f);
         antDisappear = loadAnimation(assetManager.get("character/ant-appear.png"), 6, 0.1f);
         enemyIdle = loadAnimation(assetManager.get("entity/enemy-idle.png"), 4, 0.25f);
+        enemyIdleHor = loadAnimation(assetManager.get("entity/enemy-idle-hor.png"), 4, 0.25f);
+        enemyShootHor = loadAnimation(assetManager.get("entity/enemy-shoot-hor.png"), 4, 0.05f);
         enemyShoot = loadAnimation(assetManager.get("entity/enemy-shoot.png"), 4, 0.05f);
         walkRight = loadAnimation(assetManager.get("character/pro-simple-walk.png"), 4, 0.16f); // 0.165
         walkUp = loadAnimation(assetManager.get("character/pro-simple-walk-up.png"), 4, 0.16f); // 0.165

@@ -92,6 +92,8 @@ public class AssetLoader {
         assetManager.load("entity/torch-anim.png", Texture.class);
         assetManager.load("entity/enemy.png", Texture.class);
         assetManager.load("entity/enemy-idle.png", Texture.class);
+        assetManager.load("entity/enemy-idle-hor.png", Texture.class);
+        assetManager.load("entity/enemy-shoot-hor.png", Texture.class);
         assetManager.load("entity/enemy-shoot.png", Texture.class);
         assetManager.load("entity/enemy-ground.png", Texture.class);
         assetManager.load("entity/lazer.png", Texture.class);
