@@ -32,6 +32,8 @@ public class SpriteManager {
         addSpriteWithSize("playerSprite", 32, 32);
         addSpriteWithSize("androidSprite", "pointer.png", 5, 5);
         addSpriteWithSize("antSprite", 32, 32);
+        addSpriteWithSize("blockSprite", "entity/block.png", 32, 48);
+        addSpriteWithSize("groundBlockSprite", "entity/ground-block.png", 32, 32);
         addSprite("titleSprite", "caen-title.png", 2f, 2f);
         addSprite("volumePointerSprite", "volume-pointer.png", 2f, 2f);
         addSprite("volumeLevelOnSprite", "volume-level-on.png", 2f, 2f);

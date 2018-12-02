@@ -30,6 +30,7 @@ public class AnimationManager {
     public Animation<TextureRegion> antIdle;
     public Animation<TextureRegion> openingScene;
     public Animation<TextureRegion> platformAnim;
+    public Animation<TextureRegion> groundBlockAnim;
     public Animation<TextureRegion> arrowSourceAnim;
     public Animation<TextureRegion> walkUp, walkDown, enemyIdle, enemyShoot, menuSpriteAnim, enemyIdleHor, enemyShootHor;
     public Animation<TextureRegion> switchOnAnim, switchOffAnim;
@@ -78,6 +79,7 @@ public class AnimationManager {
         openingScene = loadAnimation(assetManager.get("player-large.png"), 8, 0.3f);
         menuSpriteAnim = loadAnimation(assetManager.get("posters/menu-sprites.png"), 12, 0.2f);
         selectArrowAnim = loadAnimation(assetManager.get("select-arrow.png"), 2, 0.4f);
+        groundBlockAnim = loadAnimation(assetManager.get("entity/ground-block.png"), 8, 0.1f);
         doorOpenAnim.setPlayMode(Animation.PlayMode.REVERSED);
         doorAcrossCloseAnim.setPlayMode(Animation.PlayMode.REVERSED);
         pressureOffAnim.setPlayMode(Animation.PlayMode.REVERSED);

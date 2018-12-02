@@ -60,8 +60,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     private SpriteBatch batch;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
-    private Texture blockImage;
-    private Texture groundBlockImage;
     private Texture lazerImage, horizontalLazerImage;
     private String currentSpell;
     private String posterImageName;
@@ -159,8 +157,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         soundPlayer = new SoundPlayer(assetManager);
         levelManager = new LevelManager(assetManager, soundPlayer);
 
-        blockImage = assetManager.get("entity/block.png");
-        groundBlockImage = assetManager.get("entity/ground-block.png");
+
         lazerImage = assetManager.get("entity/lazer.png");
         horizontalLazerImage = assetManager.get("entity/lazer-horizontal.png");
 
@@ -478,6 +475,8 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             }
             List<BlockLike> blockLikes = currentLevel.getBlockLikes();
             blockLikes.sort((o1, o2) -> (int)(o2.getPos().y - o1.getPos().y));
+            Sprite blockSprite = spriteManager.getSprite("blockSprite");
+            Sprite groundBlockSprite = spriteManager.getSprite("groundBlockSprite");
             for (BlockLike blockLike : blockLikes) {
                 float height = (MathUtils.sinDeg(blockLike.getAnimTimer() * 360) * 2f);
                 if (currentImageHeight != null && currentImageHeight == blockLike) {
@@ -485,10 +484,14 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 }
                 if (!(blockLike instanceof Enemy)) {
                     if (blockLike.isGround()) {
-                        batch.draw(groundBlockImage, blockLike.getPos().x, blockLike.getPos().y - height);
+                        Animation<TextureRegion> animation = animationManager.groundBlockAnim;
+                        groundBlockSprite.setRegion(animation.getKeyFrame(blockLike.getAnimTimer(), true));
+                        groundBlockSprite.setPosition(blockLike.getPos().x, blockLike.getPos().y - height);
+                        groundBlockSprite.draw(batch);
                     }
                     if (blockLike.getPos().y > threeDeeLinePos.y && !blockLike.isGround()) {
-                        batch.draw(blockImage, blockLike.getPos().x, blockLike.getPos().y);
+                        blockSprite.setPosition(blockLike.getPos().x, blockLike.getPos().y);
+                        blockSprite.draw(batch);
                     }
                 }
                 if (blockLike instanceof Enemy) {
@@ -632,7 +635,8 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             for (BlockLike blockLike : blockLikes) {
                 if (!(blockLike instanceof Enemy)) {
                     if (blockLike.getPos().y <= threeDeeLinePos.y && !blockLike.isGround()) {
-                        batch.draw(blockImage, blockLike.getPos().x, blockLike.getPos().y);
+                        blockSprite.setPosition(blockLike.getPos().x, blockLike.getPos().y);
+                        blockSprite.draw(batch);
                     }
                 }
                 if (blockLike instanceof Enemy) {
