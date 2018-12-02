@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="15" height="15" tilewidth="32" tileheight="32" nextobjectid="53">
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="15" height="15" tilewidth="32" tileheight="32" infinite="0" nextobjectid="53">
  <properties>
   <property name="number" value="33"/>
  </properties>
  <tileset firstgid="1" source="brown.tsx"/>
- <tileset firstgid="101" source="tower-tileset.tsx"/>
+ <tileset firstgid="166" source="tower-tileset.tsx"/>
  <layer name="ground" width="15" height="15">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -32,7 +32,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,89,0,89,0,89,0,0,0,79,79,
-0,0,0,0,80,4,79,4,200,4,198,79,200,89,89,
+0,0,0,0,80,4,79,4,100,4,98,79,265,89,89,
 0,0,0,0,0,4,89,4,89,4,89,89,89,0,0,
 0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,4,4,4,4,4,4,4,0,0,0,
@@ -93,9 +93,9 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,191,0,0,0,0,0,191,191,
-0,0,0,0,0,0,0,192,0,0,0,0,0,193,192,
-0,0,0,0,0,0,0,193,0,0,0,0,0,0,193,
+0,0,0,0,0,0,0,256,0,0,0,0,0,256,256,
+0,0,0,0,0,0,0,257,0,0,0,0,0,258,257,
+0,0,0,0,0,0,0,258,0,0,0,0,0,0,258,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
