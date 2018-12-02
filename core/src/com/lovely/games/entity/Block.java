@@ -28,7 +28,7 @@ public class Block implements BlockLike {
         this.dir = new Vector2();
         this.movementValue = 0;
         this.isGround = false;
-        this.color = new Color(random(0.8f, 1.0f), random(0.8f, 0.9f), random(0.8f, 0.9f), 1.0f);
+        this.color = new Color(random(0.7f, 0.9f), random(0.0f, 0.1f), random(0.3f, 0.4f), 1.0f);
         animTimer = MathUtils.random(4.0f);
     }
 
