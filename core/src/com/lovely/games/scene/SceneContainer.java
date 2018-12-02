@@ -187,18 +187,10 @@ public class SceneContainer {
 
         scenes.put("28", builder()
                 .verb(new MoveVerb(new Vector2(-6 * 32, 0), "pro", true))
-//                .verb(new DialogVerb("31"))
+                .verb(new DialogVerb("31"))
 //                .verb(new HideShowActorVerb(true, "ant"))
 //                .verb(new HideShowActorVerb(false, "boss"))
-                .verb(new SetAntPhaseVerb(Actor.Phase.DISAPPEAR))
-                .verb(new SendEventVerb("a"))
-                .verb(new SendEventVerb("c"))
-                .verb(new WaitVerb(0.1f))
-                .verb(new SendEventVerb("d"))
-                .verb(new WaitVerb(0.1f))
-                .verb(new SendEventVerb("e"))
-                .verb(new WaitVerb(0.1f))
-                .verb(new SendEventVerb("f"))
+
                 .build());
 
         scenes.put("29", builder()
@@ -340,6 +332,24 @@ public class SceneContainer {
 
         scenes.put("45", builder()
                 .verb(new DialogVerb("50"))
+                .build());
+
+        scenes.put("46", builder()
+                .verb(new DialogVerb("10"))
+                .verb(new SendEventVerb("b"))
+                .build());
+
+        scenes.put("47", builder()
+                .verb(new DialogVerb("9"))
+                .verb(new SetAntPhaseVerb(Actor.Phase.DISAPPEAR))
+                .verb(new SendEventVerb("a"))
+                .verb(new SendEventVerb("c"))
+                .verb(new WaitVerb(0.1f))
+                .verb(new SendEventVerb("d"))
+                .verb(new WaitVerb(0.1f))
+                .verb(new SendEventVerb("e"))
+                .verb(new WaitVerb(0.1f))
+                .verb(new SendEventVerb("f"))
                 .build());
 
         scenes.put("new-game", builder()

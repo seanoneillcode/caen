@@ -66,12 +66,6 @@
   <image source="../campsite-concept-colored.png" width="600" height="480"/>
  </imagelayer>
  <objectgroup name="objects">
-  <object id="56" name="23" type="scene" x="320" y="288" width="32" height="32">
-   <properties>
-    <property name="playOnce" value="false"/>
-   </properties>
-  </object>
-  <object id="58" name="ant" type="actor" x="320" y="288" width="32" height="32"/>
   <object id="59" type="torch" x="288" y="288" width="32" height="32">
    <properties>
     <property name="isFire" value="true"/>
