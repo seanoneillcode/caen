@@ -35,6 +35,8 @@ public class SpriteManager {
         addSpriteWithSize("blockSprite", "entity/block.png", 32, 48);
         addSpriteWithSize("groundBlockSprite", "entity/ground-block.png", 32, 32);
         addSprite("titleSprite", "caen-title.png", 2f, 2f);
+        addSprite("titleSpriteBehind", "posters/title-behind.png", 2f, 2f);
+        addSprite("titleSpriteFront", "posters/title-front.png", 2f, 2f);
         addSprite("volumePointerSprite", "volume-pointer.png", 2f, 2f);
         addSprite("volumeLevelOnSprite", "volume-level-on.png", 2f, 2f);
         addSprite("volumeLevelOffSprite", "volume-level-off.png", 2f, 2f);

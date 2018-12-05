@@ -14,9 +14,9 @@ import static com.lovely.games.Constants.BLIP_SELECT_ITEM_SOUND_ID;
 
 public class Menu {
 
-    public List<String> titleOptions = Arrays.asList("credits", "options", "new game", "load game");
+    public List<String> titleOptions = Arrays.asList("credits", "options", "new game", "resume");
     public List<String> optionOptions = Arrays.asList("back", "music", "sound", "brightness", "cast key", "down key", "right key", "left key", "up key", "reset everything!");
-    public List<String> creditOptions = Arrays.asList("Music - Daniel Lacey",  "Quality - Ben Kirimlidis", "Quality - Michalis Kirimlidis", "Code and Art - Sean O'Neill");
+    public List<String> creditOptions = Arrays.asList("Writing - Maire Power", "Music - Daniel Lacey",  "Quality - Ben Kirimlidis", "Quality - Michalis Kirimlidis", "Code and Art - Sean O'Neill");
 
     public boolean isTitleMenu = false;
     public boolean isOptionsMenu = false;

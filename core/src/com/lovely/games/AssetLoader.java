@@ -165,6 +165,8 @@ public class AssetLoader {
         assetManager.load("fade-image.png", Texture.class);
         assetManager.load("dialog-pointer.png", Texture.class);
         assetManager.load("caen-title.png", Texture.class);
+        assetManager.load("posters/title-behind.png", Texture.class);
+        assetManager.load("posters/title-front.png", Texture.class);
         assetManager.load("option-pointer.png", Texture.class);
         assetManager.load("volume-pointer.png", Texture.class);
         assetManager.load("volume-level-on.png", Texture.class);

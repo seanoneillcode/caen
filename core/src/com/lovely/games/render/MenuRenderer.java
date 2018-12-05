@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.lovely.games.AnimationManager;
 import com.lovely.games.CaenMain;
@@ -16,6 +17,7 @@ import java.util.List;
 
 public class MenuRenderer {
 
+    private final float animOffset;
     private Color fontColorSelectedMain = new Color(69 / 256.0f, 128 / 256.0f, 213 / 256.0f, 1);
     private Color fontColorMain = new Color(10 / 256.0f, 64 / 256.0f, 97 / 256.0f, 1);
     private Color fontGreyedOut = new Color(55 / 256.0f, 55 / 256.0f, 55 / 256.0f, 1);
@@ -29,6 +31,7 @@ public class MenuRenderer {
         this.font = loadFonts("fonts/kells.fnt");
         this.spriteManager = spriteManager;
         this.animationManager = animationManager;
+        this.animOffset = 4.5f;
     }
 
     private BitmapFont loadFonts(String fontString) {
@@ -41,7 +44,15 @@ public class MenuRenderer {
 
     public void render(SpriteBatch batch, float animationDelta, CaenMain caenMain) {
         if (menu.isTitleMenu) {
-            Sprite titleSprite = spriteManager.getSprite("titleSprite");
+            Sprite titleSprite = spriteManager.getSprite("titleSpriteBehind");
+            titleSprite.setPosition(180, 300);
+            titleSprite.setAlpha((MathUtils.sin(animOffset + animationDelta) + 1) / 2.0f);
+            titleSprite.draw(batch);
+            titleSprite = spriteManager.getSprite("titleSpriteFront");
+            titleSprite.setPosition(180, 300);
+            titleSprite.setAlpha((MathUtils.sin(animOffset + animationDelta + 1000) + 1) / 2.0f);
+            titleSprite.draw(batch);
+            titleSprite = spriteManager.getSprite("titleSprite");
             titleSprite.setPosition(180, 300);
             titleSprite.draw(batch);
         }
@@ -53,6 +64,7 @@ public class MenuRenderer {
             selectedPos.y = 430;
         }
         if (menu.isCreditsMenu) {
+            selectedPos.y = 320;
             menuOptions = menu.creditOptions;
             selectedPos.x = 280;
         }
@@ -62,9 +74,15 @@ public class MenuRenderer {
             float tmpfloat = 0;
             if (menu.titleSelectionIndex == menuOptions.size() - 1 - index) {
                 font.setColor(fontColorSelectedMain);
-                selectArrowSprite.setPosition(selectedPos.x + 80, selectedPos.y - 15);
-                selectArrowSprite.setRegion(animationManager.selectArrowAnim.getKeyFrame(animationDelta, true));
-                selectArrowSprite.draw(batch);
+                if (!menu.isCreditsMenu) {
+                    if (menu.isOptionsMenu) {
+                        selectArrowSprite.setPosition(selectedPos.x - 120, selectedPos.y - 15);
+                    } else {
+                        selectArrowSprite.setPosition(selectedPos.x + 80, selectedPos.y - 15);
+                    }
+                    selectArrowSprite.setRegion(animationManager.selectArrowAnim.getKeyFrame(animationDelta, true));
+                    selectArrowSprite.draw(batch);
+                }
             } else {
                 font.setColor(fontColorMain);
             }
