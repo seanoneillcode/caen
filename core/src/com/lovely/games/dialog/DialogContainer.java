@@ -57,9 +57,9 @@ public class DialogContainer {
         ));
         dialogs.put("10", Arrays.asList(
                 line(ant, "A wise decision, and an end to this trial.", "happy"),
-                line(ant, "Leave and tell know one what happened here."),
+                line(ant, "Leave and tell no one what happened here."),
                 line(pro, "Have no fear of that. I will be dead in a few days from the hunger.", "angry"),
-                line(ant, "You might have been a scourge to me but I will not let you go hungry"),
+                line(ant, "You might be a rogue, but I will not let you go hungry today"),
                 line(ant, "Take these coins and find something else to steal another day")
         ));
         dialogs.put("13", Arrays.asList(
@@ -123,8 +123,8 @@ public class DialogContainer {
                 line(ant, "The only exit is through me", "talk"),
                 line(ant, "Give me the Crystal and I'll let you pass", "happy"),
                 options(pro)
-                        .opt("Take this damned crystal and let me out", "46")
-                        .opt("No, The crystal is mine now", "47")
+                        .opt("Take the damned crystal and let me out", "46")
+                        .opt("No, the crystal is mine now", "47")
                         .build()        ));
         dialogs.put("32", Arrays.asList(
                 line(ant, "NOOOOoooooo.....!!")
@@ -206,6 +206,14 @@ public class DialogContainer {
         dialogs.put("50", Arrays.asList(
                 line(pro, "It's a old book", "talk"),
                 line(pro, "Full of symbols and written in a language I can't understand", "worried")
+        ));
+        dialogs.put("51", Arrays.asList(
+                line(ant, "The old man?", "talk"),
+                line(ant, "Well, I heard he's hiding a diamond the size of your head...", "talk"),
+                line(pro, "A diamond? If I stole that, I'd never be hungry again!", "happy"),
+                line(ant, "Stealing it could be very dangerous", "talk"),
+                line(pro, "Oh, I'll be fine", "happy"),
+                line(pro, "I just have to use my head", "worried")
         ));
     }
 

@@ -66,6 +66,7 @@ public class LevelManager {
         levels.add(Level.loadLevel(assetManager, "levels/gate-3.tmx", soundPlayer)); // 50
         levels.add(Level.loadLevel(assetManager, "levels/ant-catch-up.tmx", soundPlayer)); // 50
         levels.add(Level.loadLevel(assetManager, "levels/trench.tmx", soundPlayer)); // 50
+        levels.add(Level.loadLevel(assetManager, "levels/trailer-level.tmx", soundPlayer)); // 50
     }
 
     public int getLevelNumber(Level level) {

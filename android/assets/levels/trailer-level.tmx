@@ -33,14 +33,14 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,34,34,34,34,34,34,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,34,0,0,0,0,34,34,0,0,0,0,0,0,0,
-0,0,0,0,0,0,34,0,0,34,34,0,34,0,0,0,0,0,0,0,
-0,0,0,0,0,0,34,34,0,0,0,0,34,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,34,34,0,34,34,34,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,34,0,34,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,34,0,34,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,34,34,34,0,0,0,0,0,0,0,0,0
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
  <layer name="death" width="20" height="15">
@@ -71,21 +71,21 @@
     <property name="isFire" value="true"/>
    </properties>
   </object>
-  <object id="61" name="16" type="scene" x="224" y="288" width="32" height="32">
+  <object id="61" name="trailer" type="scene" x="270" y="312" width="32" height="32">
    <properties>
     <property name="playOnce" value="false"/>
    </properties>
   </object>
-  <object id="63" name="116" type="connection" x="288" y="416" width="32" height="32">
+  <object id="63" name="666" type="connection" x="216" y="313" width="32" height="32">
    <properties>
-    <property name="dir" value="up"/>
-    <property name="to" value="115"/>
+    <property name="dir" value="right"/>
+    <property name="to" value="665"/>
    </properties>
   </object>
-  <object id="64" name="665" type="connection" x="352" y="320" width="32" height="32">
+  <object id="64" name="ant" type="actor" x="324" y="303" width="32" height="32">
    <properties>
-    <property name="dir" value="up"/>
-    <property name="to" value="666"/>
+    <property name="isBoss" value="false"/>
+    <property name="isHide" value="false"/>
    </properties>
   </object>
  </objectgroup>

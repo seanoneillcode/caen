@@ -78,6 +78,7 @@ public class AssetLoader {
         assetManager.load("levels/gate-3.tmx", TiledMap.class);
         assetManager.load("levels/ant-catch-up.tmx", TiledMap.class);
         assetManager.load("levels/trench.tmx", TiledMap.class);
+        assetManager.load("levels/trailer-level.tmx", TiledMap.class);
         assetManager.update();
 
         assetManager.load("entity/platform.png", Texture.class);

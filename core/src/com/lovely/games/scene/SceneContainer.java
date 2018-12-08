@@ -352,6 +352,10 @@ public class SceneContainer {
                 .verb(new SendEventVerb("f"))
                 .build());
 
+        scenes.put("trailer", builder()
+                .verb(new DialogVerb("51"))
+                .build());
+
         scenes.put("new-game", builder()
                 .verb(new GameControlVerb("new-game"))
                 .build());

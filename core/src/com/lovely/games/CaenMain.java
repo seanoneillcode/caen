@@ -343,7 +343,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         moveLock = false;
         cameraTargetPos = null;
         playerDir = new Vector2(1,0);
-        if (level.name.equals("levels/camp-fire.tmx")) {
+        if (level.name.equals("levels/camp-fire.tmx") || level.name.equals("levels/trailer-level.tmx")) {
             staticLevel = true;
         } else {
             staticLevel = false;
