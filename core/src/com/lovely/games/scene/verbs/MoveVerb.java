@@ -30,7 +30,7 @@ public class MoveVerb implements SceneVerb {
         this.total = new Vector2();
         this.isDone = false;
         this.actor = actor;
-        this.isBlocking = isBlocking;
+        this.isBlocking = true;//isBlocking;
     }
 
     @Override

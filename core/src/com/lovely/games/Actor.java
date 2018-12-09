@@ -67,7 +67,7 @@ public class Actor {
         this.pos = originalPos.cpy();
         this.isHidden = originalIsHide;
         this.shootTimer = 0;
-        this.bossLives = 0;
+        this.bossLives = 3;
         wasHit = false;
         isDone = false;
         isWalking = false;

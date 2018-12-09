@@ -1342,7 +1342,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             }
         } else {
             if (!playerIsDead && levelTransitionTimer < 0 && playerSceneMovement.isZero()) {
-                boolean sceneBlock = !currentScenes.isEmpty() && currentScenes.stream().anyMatch(Scene::isBlocking);
+                boolean sceneBlock = !currentScenes.isEmpty();
                 if (!moveLock && !sceneBlock && !inputVector.isZero()) {
                     boolean blocked = false;
                     moveVector = inputVector.cpy();
@@ -1432,7 +1432,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 if (!inputVector.isZero() && !skipLock) {
                     skipLock = true;
                     for (Scene scene : currentScenes) {
-                        scene.skip();
+                        //scene.skip();
                     }
                 }
                 if (Gdx.input.isKeyPressed(Input.Keys.SPACE) || inputProcessor.pressingX) {

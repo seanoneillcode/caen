@@ -8,13 +8,13 @@ import java.util.List;
 
 public class Scene {
 
-    List<com.lovely.games.scene.verbs.SceneVerb> verbs;
+    List<SceneVerb> verbs;
     int currentVerb;
     boolean isDone;
     boolean resetCamera;
     String outcome;
 
-    public Scene(List<com.lovely.games.scene.verbs.SceneVerb> verbs, boolean resetCamera) {
+    public Scene(List<SceneVerb> verbs, boolean resetCamera) {
         this.verbs = verbs;
         this.currentVerb = 0;
         this.isDone = false;
@@ -25,7 +25,7 @@ public class Scene {
     public void start() {
         this.isDone = false;
         this.currentVerb = 0;
-        for (com.lovely.games.scene.verbs.SceneVerb sceneVerb : verbs) {
+        for (SceneVerb sceneVerb : verbs) {
             sceneVerb.start();
         }
         this.outcome = null;
@@ -37,7 +37,7 @@ public class Scene {
 
     public void update(Stage stage) {
         if (!isDone) {
-            com.lovely.games.scene.verbs.SceneVerb verb = verbs.get(currentVerb);
+            SceneVerb verb = verbs.get(currentVerb);
             verb.update(stage);
             if (verb.isDone()) {
                 if (verb.getOutcome() != null) {
@@ -73,7 +73,7 @@ public class Scene {
 
     public static class Builder {
 
-        List<com.lovely.games.scene.verbs.SceneVerb> verbs = new ArrayList<>();
+        List<SceneVerb> verbs = new ArrayList<>();
         boolean resetCamera = true;
 
         public Builder verb(SceneVerb verb) {
