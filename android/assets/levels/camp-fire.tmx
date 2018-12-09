@@ -71,7 +71,7 @@
     <property name="isFire" value="true"/>
    </properties>
   </object>
-  <object id="61" name="16" type="scene" x="224" y="288" width="32" height="32">
+  <object id="61" name="16" type="scene" x="280" y="281" width="47" height="45">
    <properties>
     <property name="playOnce" value="false"/>
    </properties>
@@ -80,12 +80,6 @@
    <properties>
     <property name="dir" value="up"/>
     <property name="to" value="115"/>
-   </properties>
-  </object>
-  <object id="64" name="665" type="connection" x="352" y="320" width="32" height="32">
-   <properties>
-    <property name="dir" value="up"/>
-    <property name="to" value="666"/>
    </properties>
   </object>
  </objectgroup>

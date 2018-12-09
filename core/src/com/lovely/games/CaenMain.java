@@ -134,6 +134,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     private MenuRenderer menuRenderer;
     private Menu menu;
     private LightRenderer lightRenderer;
+    private float sceneTargetZoom = 0;
 
     @Override
 	public void create () {
@@ -765,13 +766,13 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         } else {
             targetZoom = 0.6f;
         }
+        if (sceneTargetZoom > 0) {
+            targetZoom = sceneTargetZoom;
+        }
         if (menu.shouldHandleMenu()) {
             targetZoom = 0.9f;
         }
         if (posterImageName != null) {
-            targetZoom = 1.0f;
-        }
-        if (bossIsFighting()) {
             targetZoom = 1.0f;
         }
         if (Math.abs(camera.zoom - targetZoom) < ZOOM_THRESHOLH) {
@@ -1633,11 +1634,16 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             isViewDirty = true;
             menu.titleLock = true;
         }
+        if (state.equals("removeSpell")) {
+            currentSpell = "";
+        }
+
         menu.showSaveWarning = false;
     }
 
     @Override
     public void goToConnection(String target) {
+        currentSpell = "arrow";
         Level level = levelManager.getLevelFromConnection(target);
         Connection connection = level.getConnection(target);
         nextLevel = level;
@@ -1738,6 +1744,9 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         return explosions;
     }
 
+    public void zoomCamera(float target) {
+        sceneTargetZoom = target;
+    }
 
 
     //	@Override

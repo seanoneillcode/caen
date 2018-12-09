@@ -23,6 +23,7 @@ public class DialogContainer {
     String pro = "pro";
     String ant = "ant";
     String info = "info";
+    String other = "other";
     private Sprite leftPortrait, rightPortrait;
     private String lastAntMood;
     public Vector2 lastPos = new Vector2();
@@ -61,6 +62,9 @@ public class DialogContainer {
                 line(pro, "Have no fear of that. I will be dead in a few days from the hunger.", "angry"),
                 line(ant, "You might be a rogue, but I will not let you go hungry today"),
                 line(ant, "Take these coins and find something else to steal another day")
+        ));
+        dialogs.put("11", Arrays.asList(
+                line(pro, "I feel so empty without it", "worried")
         ));
         dialogs.put("13", Arrays.asList(
                 line(pro, "My bones feel like they're going to burst", "worried"),
@@ -135,8 +139,7 @@ public class DialogContainer {
                 line(pro, "Must be a trick of the light")
         ));
         dialogs.put("36", Arrays.asList(
-                line(pro, "Looks like there used to be a bridge here"),
-                line(pro, "I'll have to go the long way around", "worried")
+                line(pro, "More ruins...What is this place?", "worried")
         ));
         dialogs.put("37", Arrays.asList(
                 line(pro, "Ominous...")
@@ -208,10 +211,12 @@ public class DialogContainer {
                 line(pro, "Full of symbols and written in a language I can't understand", "worried")
         ));
         dialogs.put("51", Arrays.asList(
-                line(ant, "The old man?", "talk"),
-                line(ant, "Well, I heard he's hiding a diamond the size of your head...", "talk"),
-                line(pro, "A diamond? If I stole that, I'd never be hungry again!", "happy"),
-                line(ant, "Stealing it could be very dangerous", "talk"),
+                line(other, "The old man?", "talk"),
+                line(other, "Well, I heard...", "talk"),
+                line(other, "he's hiding a diamond the size of your head...", "talk"),
+                line(pro, "A diamond?", "worried"),
+                line(pro, "If I stole that, I'd never be hungry again!", "happy"),
+                line(other, "Stealing? That could be dangerous!", "talk"),
                 line(pro, "Oh, I'll be fine", "happy"),
                 line(pro, "I just have to use my head", "worried")
         ));
@@ -256,6 +261,8 @@ public class DialogContainer {
         portraits.put("ant-angry", assetManager.get("portraits/portrait-ant-angry.png"));
         portraits.put("ant-happy", assetManager.get("portraits/portrait-ant-happy.png"));
         portraits.put("ant-worried", assetManager.get("portraits/portrait-ant-angry.png"));
+        portraits.put("other-talk", assetManager.get("portraits/other-talk.png"));
+        portraits.put("other-listening", assetManager.get("portraits/other-listen.png"));
         this.leftPortrait = new Sprite(portraits.get("pro-talk"));
         this.rightPortrait = new Sprite(portraits.get("ant-talk"));
         this.rightPortrait.flip(true, false);
@@ -275,6 +282,11 @@ public class DialogContainer {
         actors = new HashSet<>(conversation.getActors());
         float portraitHeight = 170;
         boolean isLeft = dialogLine.getOwner().equals("pro");
+        String oppositePortrait = "ant";
+        if (actors.contains("other")) {
+            oppositePortrait = "other";
+            lastAntMood = "other-listening";
+        }
         if (isLeft) {
             if (dialogLine.getMood() != null) {
                 leftPortrait.setTexture(portraits.get("pro-" + dialogLine.getMood()));
@@ -289,11 +301,11 @@ public class DialogContainer {
             rightScaleTarget = SMALL_FACE_SCALE;
         } else {
             if (dialogLine.getMood() != null) {
-                rightPortrait.setTexture(portraits.get("ant-" + dialogLine.getMood()));
-                lastAntMood = "ant-" + dialogLine.getMood();
+                rightPortrait.setTexture(portraits.get(oppositePortrait + "-" + dialogLine.getMood()));
+                lastAntMood = oppositePortrait + "-" + dialogLine.getMood();
             } else {
-                rightPortrait.setTexture(portraits.get("ant-talk"));
-                lastAntMood = "ant-listening";
+                rightPortrait.setTexture(portraits.get(oppositePortrait + "-talk"));
+                lastAntMood = oppositePortrait + "-listening";
             }
             leftPortrait.setTexture(portraits.get(lastMood));
             rightDialogPointer.setPosition(dialogPos.x + 252, dialogPos.y + portraitHeight - 40);
@@ -318,7 +330,7 @@ public class DialogContainer {
             leftPortrait.setPosition(dialogPos.x - 20, dialogPos.y + 4 - 100 + 40);
             leftPortrait.draw(batch);
         }
-        if (actors.contains("ant")) {
+        if (actors.contains("ant") || actors.contains("other")) {
             rightPortrait.setPosition(dialogPos.x + 242, dialogPos.y + 4 - 170 + 40);
             rightPortrait.draw(batch);
         }

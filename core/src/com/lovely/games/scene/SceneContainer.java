@@ -194,6 +194,7 @@ public class SceneContainer {
                 .build());
 
         scenes.put("29", builder()
+                .verb(new CameraZoomVerb(0.7f))
                 .verb(new HideShowActorVerb(false, "ant"))
                 .verb(new HideShowActorVerb(true, "boss"))
                 .verb(new DialogVerb("32"))
@@ -335,8 +336,14 @@ public class SceneContainer {
                 .build());
 
         scenes.put("46", builder()
+                .verb(new CameraZoomVerb(0.7f))
                 .verb(new DialogVerb("10"))
                 .verb(new SendEventVerb("b"))
+                .verb(new SendEventVerb("a"))
+                .verb(new MoveVerb(new Vector2(32 * 3.5f, 0), "boss", true))
+                .verb(new WaitVerb(0.4f))
+                .verb(new GameControlVerb("removeSpell"))
+                .verb(new DialogVerb("11"))
                 .build());
 
         scenes.put("47", builder()
@@ -350,6 +357,7 @@ public class SceneContainer {
                 .verb(new SendEventVerb("e"))
                 .verb(new WaitVerb(0.1f))
                 .verb(new SendEventVerb("f"))
+                .verb(new CameraZoomVerb(1.0f))
                 .build());
 
         scenes.put("trailer", builder()

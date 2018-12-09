@@ -145,6 +145,8 @@ public class AssetLoader {
         assetManager.load("portraits/portrait-ant-listening.png", Texture.class);
         assetManager.load("portraits/portrait-ant-angry.png", Texture.class);
         assetManager.load("portraits/portrait-ant-happy.png", Texture.class);
+        assetManager.load("portraits/other-talk.png", Texture.class);
+        assetManager.load("portraits/other-listen.png", Texture.class);
         assetManager.update();
 
         assetManager.load("posters/ending-poster.png", Texture.class);

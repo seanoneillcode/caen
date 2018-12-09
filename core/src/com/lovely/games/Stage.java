@@ -12,6 +12,8 @@ public interface Stage {
 
     void moveCamera(Vector2 pos);
 
+    void zoomCamera(float target);
+
     void resetCamera();
 
     Trunk getTrunk();
