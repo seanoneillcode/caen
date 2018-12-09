@@ -706,11 +706,21 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                     Vector2 pos = new Vector2(camera.position.x - 150, camera.position.y - 120);
                     stonePrizeScene.render(batch, pos, posterAlpha);
                 } else {
-                    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-                    posterSprite.setTexture(assetManager.get(posterImageName));
-                    posterSprite.setAlpha(posterAlpha);
-                    posterSprite.setPosition(camera.position.x - (VIEWPORT_WIDTH / 2.0f), camera.position.y - (VIEWPORT_HEIGHT / 2.0f));
-                    posterSprite.draw(batch);
+                    if (posterImageName.equals("posters/vaporwave.png")) {
+//                        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+                        posterSprite.setTexture(assetManager.get(posterImageName));
+                        posterSprite.setAlpha(posterAlpha);
+                        posterSprite.setScale(1f);
+                        posterSprite.setPosition(camera.position.x - (VIEWPORT_WIDTH / 2.0f), camera.position.y - (VIEWPORT_HEIGHT / 2.0f));
+                        posterSprite.draw(batch);
+                    } else {
+                        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+                        posterSprite.setTexture(assetManager.get(posterImageName));
+                        posterSprite.setAlpha(posterAlpha);
+                        posterSprite.setScale(1);
+                        posterSprite.setPosition(camera.position.x - (VIEWPORT_WIDTH / 2.0f), camera.position.y - (VIEWPORT_HEIGHT / 2.0f));
+                        posterSprite.draw(batch);
+                    }
                 }
             }
 //            Vector2 startJoyPos = inputProcessor.getStartJoyPos();
@@ -1643,7 +1653,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
 
     @Override
     public void goToConnection(String target) {
-        currentSpell = "arrow";
         Level level = levelManager.getLevelFromConnection(target);
         Connection connection = level.getConnection(target);
         nextLevel = level;

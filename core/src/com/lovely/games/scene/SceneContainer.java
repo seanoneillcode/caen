@@ -147,10 +147,10 @@ public class SceneContainer {
 
         // go to sleep
         scenes.put("17", builder()
-                .verb(new FadeScreenVerb(false, 2.0f, Color.BLACK))
-                .verb(new FadeScreenVerb(true, 0.1f, Color.BLACK))
+//                .verb(new FadeScreenVerb(false, 2.0f, Color.BLACK))
+//                .verb(new FadeScreenVerb(true, 0.1f, Color.BLACK))
                 .verb(new PosterVerb("posters/ending-poster.png"))
-                .verb(new FadeScreenVerb(false, 0.1f, Color.BLACK))
+//                .verb(new FadeScreenVerb(false, 0.1f, Color.BLACK))
                 .build());
 
         scenes.put("21", builder()
@@ -194,10 +194,11 @@ public class SceneContainer {
                 .build());
 
         scenes.put("29", builder()
-                .verb(new CameraZoomVerb(0.7f))
                 .verb(new HideShowActorVerb(false, "ant"))
                 .verb(new HideShowActorVerb(true, "boss"))
-                .verb(new DialogVerb("32"))
+//                .verb(new DialogVerb("32"))
+                .verb(new PosterVerb("posters/vaporwave.png"))
+                .verb(new CameraZoomVerb(0.7f))
                 .verb(new SendEventVerb("b"))
                 .verb(new PlayMusicVerb("none"))
                 .build());

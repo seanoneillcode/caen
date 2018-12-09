@@ -155,6 +155,7 @@ public class AssetLoader {
         assetManager.load("posters/stone-1.png", Texture.class);
         assetManager.load("posters/stone-2.png", Texture.class);
         assetManager.load("posters/stone-3.png", Texture.class);
+        assetManager.load("posters/vaporwave.png", Texture.class);
         assetManager.load("posters/menu-sprites.png", Texture.class);
         assetManager.update();
 
