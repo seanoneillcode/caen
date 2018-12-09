@@ -281,11 +281,13 @@ public class SceneContainer {
                 .build());
 
         scenes.put("38", builder()
+                .verb(new CameraZoomVerb(0.9f))
                 .verb(new HideShowActorVerb(false, "ant"))
                 .verb(new MoveVerb(new Vector2(0, 3 * -32), "ant", true))
                 .verb(new MoveVerb(new Vector2(32 * 3, 0), "ant", true))
                 .verb(new MoveVerb(new Vector2(0, -32), "ant", true))
                 .verb(new MoveVerb(new Vector2(32 * 2, 0), "ant", true))
+                .verb(new CameraZoomVerb(0.7f))
                 .build());
 
         scenes.put("39", builder()
