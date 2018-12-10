@@ -22,7 +22,7 @@ public class MyInputProcessor implements InputProcessor, ControllerListener {
     public boolean hasTouchInput = false;
     public Vector2 startJoyPos;
     public Vector2 joyVector;
-    public float inputCaptureTimer = -1;
+//    public float inputCaptureTimer = -1;
     Vector2 startCameraPos;
     private Vector2 inputAmount = new Vector2();
     public Vector2 controllerInput = new Vector2();
@@ -33,19 +33,19 @@ public class MyInputProcessor implements InputProcessor, ControllerListener {
         for(int i = 0; i < 5; i++){
             touches.put(i, new TouchInfo());
         }
-        this.camera = camera;
-        joyVector = new Vector2();
-        startCameraPos = null;
+//        this.camera = camera;
+//        joyVector = new Vector2();
+//        startCameraPos = null;
         keyMappings = new HashMap<>();
     }
 
-    public Vector2 getStartJoyPos() {
-        if (startJoyPos == null || startCameraPos == null) {
-            return new Vector2();
-        }
-        Vector2 offset = new Vector2(startCameraPos.x - camera.position.x, startCameraPos.y - camera.position.y);
-        return startJoyPos.cpy().sub(offset);
-    }
+//    public Vector2 getStartJoyPos() {
+//        if (startJoyPos == null || startCameraPos == null) {
+//            return new Vector2();
+//        }
+//        Vector2 offset = new Vector2(startCameraPos.x - camera.position.x, startCameraPos.y - camera.position.y);
+//        return startJoyPos.cpy().sub(offset);
+//    }
 
     @Override
     public void connected(Controller controller) {
@@ -126,33 +126,33 @@ public class MyInputProcessor implements InputProcessor, ControllerListener {
         return controllerInput;
     }
 
-    public void update() {
-        if (inputCaptureTimer >= 0) {
-            inputCaptureTimer = inputCaptureTimer - Gdx.graphics.getDeltaTime();
-        }
-        if (inputCaptureTimer < 0 && !joyVector.isZero()) {
+//    public void update() {
+//        if (inputCaptureTimer >= 0) {
+//            inputCaptureTimer = inputCaptureTimer - Gdx.graphics.getDeltaTime();
+//        }
+//        if (inputCaptureTimer < 0 && !joyVector.isZero()) {
+//
+//            hasTouchInput = true;
+//            inputAmount.x = MathUtils.clamp(Math.abs(joyVector.x), 0, 32f) / 32f;
+//            inputAmount.y = MathUtils.clamp(Math.abs(joyVector.y), 0, 32f) / 32f;
+//
+//        } else {
+//            inputAmount = new Vector2();
+//            hasTouchInput = false;
+//        }
+//
+//
+//    }
 
-            hasTouchInput = true;
-            inputAmount.x = MathUtils.clamp(Math.abs(joyVector.x), 0, 32f) / 32f;
-            inputAmount.y = MathUtils.clamp(Math.abs(joyVector.y), 0, 32f) / 32f;
-
-        } else {
-            inputAmount = new Vector2();
-            hasTouchInput = false;
-        }
-
-
-    }
-
-    public Vector2 getAndroidPos() {
-        return new Vector2(touches.get(0).touchX, touches.get(0).touchY);
-    }
+//    public Vector2 getAndroidPos() {
+//        return new Vector2(touches.get(0).touchX, touches.get(0).touchY);
+//    }
 
 
 
-    public Vector2 getJoyVector() {
-        return joyVector.cpy();
-    }
+//    public Vector2 getJoyVector() {
+//        return joyVector.cpy();
+//    }
 
 
     public void acceptInput() {
@@ -183,49 +183,49 @@ public class MyInputProcessor implements InputProcessor, ControllerListener {
 //            hasTouchInput = true;
 //            inputCaptureTimer = INPUT_CAPTURE_WAIT;
 //        }
-        Vector3 mousePosition = new Vector3(x, y, 0);
-        mousePosition = camera.unproject(mousePosition);
-        if(pointer < 5){
-
-
-            touches.get(pointer).touchX = mousePosition.x;
-            touches.get(pointer).touchY = mousePosition.y;
-            touches.get(pointer).touched = true;
-        }
-        if (pointer == 0) {
-            startJoyPos = new Vector2(mousePosition.x, mousePosition.y);
-            startCameraPos = new Vector2(camera.position.x, camera.position.y);
-        }
-        return true;
+//        Vector3 mousePosition = new Vector3(x, y, 0);
+//        mousePosition = camera.unproject(mousePosition);
+//        if(pointer < 5){
+//
+//
+//            touches.get(pointer).touchX = mousePosition.x;
+//            touches.get(pointer).touchY = mousePosition.y;
+//            touches.get(pointer).touched = true;
+//        }
+//        if (pointer == 0) {
+//            startJoyPos = new Vector2(mousePosition.x, mousePosition.y);
+//            startCameraPos = new Vector2(camera.position.x, camera.position.y);
+//        }
+        return false;
     }
 
     public boolean touchUp (int x, int y, int pointer, int button) {
-        if (pointer == 0) {
-            startJoyPos = null;
-            startCameraPos = null;
-            joyVector.x = 0;
-            joyVector.y = 0;
-
-        }
+//        if (pointer == 0) {
+//            startJoyPos = null;
+//            startCameraPos = null;
+//            joyVector.x = 0;
+//            joyVector.y = 0;
+//
+//        }
         return false;
     }
 
     public boolean touchDragged (int x, int y, int pointer) {
-        Vector3 mousePosition = new Vector3(x, y, 0);
-
-        mousePosition = camera.unproject(mousePosition);
-//        if (pointer == 0) {
-//            System.out.println("x " + x + " y " + y + " pointer " + pointer);
-            if (pointer == 0) {
-                joyVector = new Vector2(mousePosition.x, mousePosition.y).sub(getStartJoyPos());
-//                if (inputCaptureTimer < 0) {
+//        Vector3 mousePosition = new Vector3(x, y, 0);
 //
-//                    inputCaptureTimer = INPUT_CAPTURE_WAIT;
-//                }
-
-//                System.out.println(joyVector);
-            }
-//        }
+//        mousePosition = camera.unproject(mousePosition);
+////        if (pointer == 0) {
+////            System.out.println("x " + x + " y " + y + " pointer " + pointer);
+//            if (pointer == 0) {
+//                joyVector = new Vector2(mousePosition.x, mousePosition.y).sub(getStartJoyPos());
+////                if (inputCaptureTimer < 0) {
+////
+////                    inputCaptureTimer = INPUT_CAPTURE_WAIT;
+////                }
+//
+////                System.out.println(joyVector);
+//            }
+////        }
         return false;
     }
 

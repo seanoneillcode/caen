@@ -425,7 +425,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         updateCameraZoom();
         camera.position.set(getCameraPosition());
         camera.update();
-        inputProcessor.update();
+//        inputProcessor.update();
         batch.setProjectionMatrix(camera.combined);
         if ((!menu.shouldHandleMenu() || isBrightnessOption()) && !isPlayingOpeningScene) {
             mapRenderer.setView(camera);
@@ -1246,25 +1246,25 @@ public class CaenMain extends ApplicationAdapter implements Stage {
 
         Vector2 inputAmount = new Vector2(1, 1);
         if (inputProcessor.hasTouchInput) {
-            Vector2 joyVector = inputProcessor.getJoyVector();
-            Vector2 norJoy = joyVector.nor();
+//            Vector2 joyVector = inputProcessor.getJoyVector();
+//            Vector2 norJoy = joyVector.nor();
             float threashold = 0.5f;
-            if (norJoy.x > threashold) {
-                isRightPressed = true;
-                inputAmount = inputProcessor.getInputAmount();
-            }
-            if (norJoy.x < -threashold) {
-                isLeftPressed = true;
-                inputAmount = inputProcessor.getInputAmount();
-            }
-            if (norJoy.y > threashold) {
-                isUpPressed = true;
-                inputAmount = inputProcessor.getInputAmount();
-            }
-            if (norJoy.y < -threashold) {
-                isDownPressed = true;
-                inputAmount = inputProcessor.getInputAmount();
-            }
+//            if (norJoy.x > threashold) {
+//                isRightPressed = true;
+//                inputAmount = inputProcessor.getInputAmount();
+//            }
+//            if (norJoy.x < -threashold) {
+//                isLeftPressed = true;
+//                inputAmount = inputProcessor.getInputAmount();
+//            }
+//            if (norJoy.y > threashold) {
+//                isUpPressed = true;
+//                inputAmount = inputProcessor.getInputAmount();
+//            }
+//            if (norJoy.y < -threashold) {
+//                isDownPressed = true;
+//                inputAmount = inputProcessor.getInputAmount();
+//            }
         }
 
         Vector2 in = inputProcessor.getControllerInput();
