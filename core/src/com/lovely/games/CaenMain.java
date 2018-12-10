@@ -481,7 +481,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             for (BlockLike blockLike : blockLikes) {
                 float height = (MathUtils.sinDeg(blockLike.getAnimTimer() * 360) * 2f);
                 if (currentImageHeight != null && currentImageHeight == blockLike) {
-                    height = height + 2f;
+//                    height = height + 2f;
                 }
                 if (!(blockLike instanceof Enemy)) {
                     if (blockLike.isGround()) {
@@ -623,7 +623,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             }
             if (!isHidePlayer) {
                 if (!playerIsDead) {
-                    batch.draw(assetManager.get("character/player-shadow.png",Texture.class), playerPos.x, playerPos.y);
+                    batch.draw(assetManager.get("character/player-shadow.png",Texture.class), playerPos.x, playerPos.y - heightAdjustment);
                 }
                 playerSprite.draw(batch);
             }

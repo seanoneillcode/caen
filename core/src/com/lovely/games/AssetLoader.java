@@ -91,12 +91,10 @@ public class AssetLoader {
         assetManager.load("entity/arrow-sheet.png", Texture.class);
         assetManager.load("entity/arrow-source.png", Texture.class);
         assetManager.load("entity/torch-anim.png", Texture.class);
-        assetManager.load("entity/enemy.png", Texture.class);
         assetManager.load("entity/enemy-idle.png", Texture.class);
         assetManager.load("entity/enemy-idle-hor.png", Texture.class);
         assetManager.load("entity/enemy-shoot-hor.png", Texture.class);
         assetManager.load("entity/enemy-shoot.png", Texture.class);
-        assetManager.load("entity/enemy-ground.png", Texture.class);
         assetManager.load("entity/lazer.png", Texture.class);
         assetManager.load("entity/lazer-horizontal.png", Texture.class);
         assetManager.load("entity/campfire.png", Texture.class);
@@ -111,7 +109,6 @@ public class AssetLoader {
         assetManager.load("entity/crystal.png", Texture.class);
         assetManager.load("character/dead.png", Texture.class);
         assetManager.load("entity/rain.png", Texture.class);
-        assetManager.load("entity/door-open.png", Texture.class);
         assetManager.load("levels/door-horizontal.png", Texture.class);
         assetManager.load("levels/door-dust.png", Texture.class);
         assetManager.load("levels/door-vertical.png", Texture.class);
@@ -150,13 +147,13 @@ public class AssetLoader {
         assetManager.update();
 
         assetManager.load("posters/ending-poster.png", Texture.class);
-        assetManager.load("posters/poster-prize.png", Texture.class);
         assetManager.load("posters/stone-0.png", Texture.class);
         assetManager.load("posters/stone-1.png", Texture.class);
         assetManager.load("posters/stone-2.png", Texture.class);
         assetManager.load("posters/stone-3.png", Texture.class);
         assetManager.load("posters/vaporwave.png", Texture.class);
-        assetManager.load("posters/menu-sprites.png", Texture.class);
+        assetManager.load("posters/title-behind.png", Texture.class);
+        assetManager.load("posters/title-front.png", Texture.class);
         assetManager.update();
 
         assetManager.load("dialog-bottom.png", Texture.class);
@@ -169,8 +166,6 @@ public class AssetLoader {
         assetManager.load("fade-image.png", Texture.class);
         assetManager.load("dialog-pointer.png", Texture.class);
         assetManager.load("caen-title.png", Texture.class);
-        assetManager.load("posters/title-behind.png", Texture.class);
-        assetManager.load("posters/title-front.png", Texture.class);
         assetManager.load("option-pointer.png", Texture.class);
         assetManager.load("volume-pointer.png", Texture.class);
         assetManager.load("volume-level-on.png", Texture.class);

@@ -23,12 +23,11 @@ public class SpriteManager {
         addSprite("playerLight", "player-light.png", 2f, 2f);
         addSprite("levelLight", "level-light.png", 1f, 1f);
         addSprite("fadeSprite", "fade-image.png", 8f, 8f);
-        addSprite("posterSprite", "posters/poster-prize.png", 6f, 6f);
-        addSpriteWithSize("enemySprite", "entity/enemy.png", 40, 40);
+        addSprite("posterSprite", "posters/ending-poster.png", 6f, 6f);
+        addSpriteWithSize("enemySprite", 40, 40);
         addSpriteWithSize("selectArrowSprite", "select-arrow.png", 32, 32);
         addSpriteWithSize("arrowSourceSprite", "entity/arrow-source.png", 32, 48);
         addSpriteWithSize("doorSprite", 64, 64);
-        addSpriteWithSize("menuSprite", "posters/menu-sprites.png", 800, 400);
         addSpriteWithSize("playerSprite", 32, 32);
         addSpriteWithSize("androidSprite", "pointer.png", 5, 5);
         addSpriteWithSize("antSprite", 32, 32);

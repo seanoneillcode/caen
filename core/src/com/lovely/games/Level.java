@@ -289,7 +289,7 @@ public class Level {
         }
         Connection nextConnection = connections.get(0);
         for (Connection connection : connections) {
-            if (Integer.valueOf(connection.to) < lowest) {
+            if (connection.to != null && Integer.valueOf(connection.to) < lowest) {
                 lowest = Integer.valueOf(connection.to);
                 nextConnection = connection;
             }

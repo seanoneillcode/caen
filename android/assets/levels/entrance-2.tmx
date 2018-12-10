@@ -41,7 +41,6 @@
   <object id="3" name="61" type="connection" x="176.666" y="63.8333" width="32" height="32">
    <properties>
     <property name="dir" value="down"/>
-    <property name="to" value="00"/>
    </properties>
   </object>
   <object id="51" name="ant" type="actor" x="160.667" y="320" width="32" height="32">
