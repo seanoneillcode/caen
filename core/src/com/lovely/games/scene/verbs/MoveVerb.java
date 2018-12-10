@@ -8,52 +8,37 @@ import static com.lovely.games.Constants.TILE_SIZE;
 
 public class MoveVerb implements SceneVerb {
 
+    private final Vector2 mov;
     float speed = TILE_SIZE * 3.0f;
-    Vector2 pos, amount, total;
+    Vector2 amount;
     boolean isDone;
     String actor;
     boolean isBlocking;
     boolean skip = false;
+    float time = 0;
 
     public MoveVerb(Vector2 amount, String actor) {
         this.amount = amount;
-        this.pos = new Vector2(speed, speed).scl(amount.cpy().nor());
-        this.total = new Vector2();
+        this.time = amount.dst(new Vector2()) / speed;
+        this.mov = new Vector2(speed, speed).scl(amount.cpy().nor());
         this.isDone = false;
         this.actor = actor;
         this.isBlocking = true;
     }
 
-    public MoveVerb(Vector2 amount, String actor, boolean isBlocking) {
-        this.amount = amount;
-        this.pos = new Vector2(speed, speed).scl(amount.cpy().nor());
-        this.total = new Vector2();
-        this.isDone = false;
-        this.actor = actor;
-        this.isBlocking = true;//isBlocking;
-    }
-
     @Override
     public void start() {
         isDone = false;
-        total = new Vector2();
     }
 
     @Override
     public void update(Stage stage) {
-        if (skip) {
-            Vector2 rest = amount.cpy().sub(total);
-            stage.moveActor(actor, rest);
+        time = time - Gdx.graphics.getDeltaTime();
+        if (time < 0) {
+            stage.moveActor(actor, new Vector2());
             isDone = true;
         } else {
-            if (total.dst2(amount) < 16) {
-                stage.moveActor(actor, new Vector2());
-                isDone = true;
-            } else {
-                Vector2 mov = pos.cpy().scl(Gdx.graphics.getDeltaTime());
-                total.add(mov);
-                stage.moveActor(actor, mov);
-            }
+            stage.moveActor(actor, mov.cpy().scl(Gdx.graphics.getDeltaTime()));
         }
     }
 
