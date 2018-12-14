@@ -1692,10 +1692,10 @@ public class CaenMain extends ApplicationAdapter implements Stage {
     }
 
     public boolean isDeathPlayer() {
-        boolean up = currentLevel.isDeath(playerPos.cpy().add(HALF_TILE_SIZE, HALF_TILE_SIZE + QUARTER_TILE_SIZE));
-        boolean down = currentLevel.isDeath(playerPos.cpy().add(HALF_TILE_SIZE, HALF_TILE_SIZE - QUARTER_TILE_SIZE));
-        boolean left = currentLevel.isDeath(playerPos.cpy().add(HALF_TILE_SIZE - QUARTER_TILE_SIZE, HALF_TILE_SIZE));
-        boolean right = currentLevel.isDeath(playerPos.cpy().add(HALF_TILE_SIZE + QUARTER_TILE_SIZE, HALF_TILE_SIZE));
+        boolean up = currentLevel.isDeathOrWall(playerPos.cpy().add(HALF_TILE_SIZE, HALF_TILE_SIZE + QUARTER_TILE_SIZE));
+        boolean down = currentLevel.isDeathOrWall(playerPos.cpy().add(HALF_TILE_SIZE, HALF_TILE_SIZE - QUARTER_TILE_SIZE));
+        boolean left = currentLevel.isDeathOrWall(playerPos.cpy().add(HALF_TILE_SIZE - QUARTER_TILE_SIZE, HALF_TILE_SIZE));
+        boolean right = currentLevel.isDeathOrWall(playerPos.cpy().add(HALF_TILE_SIZE + QUARTER_TILE_SIZE, HALF_TILE_SIZE));
         return up && down && left && right;
     }
 

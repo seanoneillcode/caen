@@ -194,6 +194,10 @@ public class Level {
         return deaths[tilex][tiley];
     }
 
+    boolean isDeathOrWall(Vector2 pos) {
+        return isDeath(pos) || isWall(pos);
+    }
+
     boolean isOutOfBounds(Vector2 pos) {
         return pos.x > (numXTiles * TILE_SIZE) || pos.x < 0 || pos.y < 0 || pos.y > (numYTiles * TILE_SIZE);
     }
