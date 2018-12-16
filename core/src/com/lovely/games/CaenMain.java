@@ -1293,13 +1293,27 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                             checkForSceneSources(nextTilePos);
                             blocked = true;
                         } else {
-                            Vector2 nextTileAgain = playerPos.cpy()
-                                    .add(moveVector.cpy().scl(TILE_SIZE + QUARTER_TILE_SIZE))
-                                    .add(HALF_TILE_SIZE, HALF_TILE_SIZE);
+                            Vector2 nextTileAgain = nextTileAgain(moveVector);
                             if (currentLevel.isTileBlocked(nextTileAgain)) {
                                 blocked = true;
                             } else {
-                                block.move(moveVector);
+                                if (moveVector.x != 0 && moveVector.y != 0) {
+                                    Vector2 xTile = nextTileAgain(new Vector2(moveVector.x, 0));
+                                    Vector2 yTile = nextTileAgain(new Vector2(0, moveVector.y));
+
+                                    if (currentLevel.isTileBlocked(xTile)) {
+                                        if (!currentLevel.isTileBlocked(yTile)) {
+                                            // move y
+                                            block.move(new Vector2(0, moveVector.y));
+                                        }
+                                    } else {
+                                        // move x
+                                        block.move(new Vector2(moveVector.x, 0));
+                                    }
+                                } else {
+                                    block.move(moveVector);
+                                }
+
                                 lastBlock = block;
                                 playerIsPushing = true;
                                 soundPlayer.playSound("music/block-3.ogg", block.getPos());
@@ -1427,6 +1441,12 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             goToPreviousLevel();
             levelChangeLock = true;
         }
+    }
+
+    private Vector2 nextTileAgain(Vector2 mov) {
+        return playerPos.cpy()
+                .add(mov.cpy().scl(TILE_SIZE + QUARTER_TILE_SIZE))
+                .add(HALF_TILE_SIZE, HALF_TILE_SIZE);
     }
 
     private void castCurrentSpell() {

@@ -70,9 +70,9 @@ public class Block implements BlockLike {
         if (isGround) {
             return;
         }
-        if (dir.x != 0) {
-            dir.y = 0;
-        }
+//        if (dir.x != 0) {
+//            dir.y = 0;
+//        }
         this.dir = dir.cpy();
         isMoving = true;
         movementValue = TILE_SIZE / TILE_SPEED;
