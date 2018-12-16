@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="32" height="30" tilewidth="32" tileheight="32" infinite="0" nextobjectid="43">
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="32" height="30" tilewidth="32" tileheight="32" infinite="0" nextobjectid="45">
  <properties>
   <property name="music" value="fight"/>
   <property name="number" value="50"/>
@@ -160,7 +160,7 @@
     <property name="isHide" value="true"/>
    </properties>
   </object>
-  <object id="23" name="28" type="scene" x="736" y="416" width="32" height="94">
+  <object id="23" name="28" type="scene" x="704" y="416" width="32" height="94">
    <properties>
     <property name="switch" value="a"/>
    </properties>
@@ -200,6 +200,16 @@
    <properties>
     <property name="isOn" value="false"/>
     <property name="switch" value="e"/>
+   </properties>
+  </object>
+  <object id="43" name="28" type="scene" x="736" y="412" width="32" height="30">
+   <properties>
+    <property name="switch" value="a"/>
+   </properties>
+  </object>
+  <object id="44" name="28" type="scene" x="736" y="483" width="32" height="30">
+   <properties>
+    <property name="switch" value="a"/>
    </properties>
   </object>
  </objectgroup>

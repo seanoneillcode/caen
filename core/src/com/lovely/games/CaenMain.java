@@ -148,9 +148,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
 
-        inputProcessor = new MyInputProcessor(camera);
-        Gdx.input.setInputProcessor(inputProcessor);
-        Controllers.addListener(inputProcessor);
+        inputProcessor = new MyInputProcessor();
 
         batch = new SpriteBatch();
 
@@ -425,13 +423,11 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         updateCameraZoom();
         camera.position.set(getCameraPosition());
         camera.update();
-//        inputProcessor.update();
         batch.setProjectionMatrix(camera.combined);
         if ((!menu.shouldHandleMenu() || isBrightnessOption()) && !isPlayingOpeningScene) {
             mapRenderer.setView(camera);
             update();
         }
-//        screenFader.update(this);
         getInput();
         animationDelta = animationDelta + Gdx.graphics.getDeltaTime();
         if ((!menu.shouldHandleMenu() || isBrightnessOption()) && !isPlayingOpeningScene) {
@@ -480,9 +476,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
             Sprite groundBlockSprite = spriteManager.getSprite("groundBlockSprite");
             for (BlockLike blockLike : blockLikes) {
                 float height = (MathUtils.sinDeg(blockLike.getAnimTimer() * 360) * 2f);
-                if (currentImageHeight != null && currentImageHeight == blockLike) {
-//                    height = height + 2f;
-                }
                 if (!(blockLike instanceof Enemy)) {
                     if (blockLike.isGround()) {
                         Animation<TextureRegion> animation = animationManager.groundBlockAnim;
@@ -723,11 +716,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                     }
                 }
             }
-//            Vector2 startJoyPos = inputProcessor.getStartJoyPos();
-//            androidSprite.setRegion((Texture) assetManager.get("pointer.png"));
-//            androidSprite.setPosition(startJoyPos.x, startJoyPos.y);
-//            androidSprite.setPosition(playerPos.x + HALF_TILE_SIZE, playerPos.y + HALF_TILE_SIZE);
-//            androidSprite.draw(batch);
             batch.end();
         }
         if (isPlayingOpeningScene) {
@@ -1245,56 +1233,6 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         boolean isDownPressed = Gdx.input.isKeyPressed(inputProcessor.keyMappings.get("down key"));
 
         Vector2 inputAmount = new Vector2(1, 1);
-        if (inputProcessor.hasTouchInput) {
-//            Vector2 joyVector = inputProcessor.getJoyVector();
-//            Vector2 norJoy = joyVector.nor();
-            float threashold = 0.5f;
-//            if (norJoy.x > threashold) {
-//                isRightPressed = true;
-//                inputAmount = inputProcessor.getInputAmount();
-//            }
-//            if (norJoy.x < -threashold) {
-//                isLeftPressed = true;
-//                inputAmount = inputProcessor.getInputAmount();
-//            }
-//            if (norJoy.y > threashold) {
-//                isUpPressed = true;
-//                inputAmount = inputProcessor.getInputAmount();
-//            }
-//            if (norJoy.y < -threashold) {
-//                isDownPressed = true;
-//                inputAmount = inputProcessor.getInputAmount();
-//            }
-        }
-
-        Vector2 in = inputProcessor.getControllerInput();
-        float thehold = 0.35f;
-        boolean hasControoler = false;
-        if (in.x > thehold) {
-            isRightPressed = true;
-            System.out.println("in " + in);
-            hasControoler = true;
-
-            inputAmount = in.cpy();
-        }
-        if (in.x < -thehold) {
-            isLeftPressed = true;
-            hasControoler = true;
-            System.out.println("in " + in);
-            inputAmount = in.cpy();
-        }
-        if (in.y > thehold) {
-            isUpPressed = true;
-            hasControoler = true;
-            System.out.println("in " + in);
-            inputAmount = in.cpy();
-        }
-        if (in.y < -thehold) {
-            isDownPressed = true;
-            hasControoler = true;
-            System.out.println("in " + in);
-            inputAmount = in.cpy();
-        }
 
         if (isLeftPressed) {
             inputVector.x = inputVector.x - 1;
@@ -1314,7 +1252,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
         }
 
         if (conversation != null) {
-            if (Gdx.input.isKeyPressed(Input.Keys.SPACE) || Gdx.input.isKeyPressed(Input.Keys.ENTER) || inputProcessor.pressingA) {
+            if (Gdx.input.isKeyPressed(Input.Keys.SPACE) || Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
                 inputVector.x = 1;
             }
             if ((inputVector.x != 0 || inputVector.y != 0) && !dialogLock) {
@@ -1418,12 +1356,7 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                             playerFacingLeft = false;
                         }
                         playerDir = inputVector.cpy();
-                        if ( hasControoler) {
-                            playerMovement = inputProcessor.getControllerInput().cpy().scl(2f);
-                        } else {
-
                         playerMovement = inputVector.cpy().scl(2f).scl(inputAmount);
-                        }
                     } else {
                         playerMovement.x = 0;
                         playerMovement.y = 0;
@@ -1431,11 +1364,8 @@ public class CaenMain extends ApplicationAdapter implements Stage {
                 }
                 if (!inputVector.isZero() && !skipLock) {
                     skipLock = true;
-                    for (Scene scene : currentScenes) {
-                        //scene.skip();
-                    }
                 }
-                if (Gdx.input.isKeyPressed(Input.Keys.SPACE) || inputProcessor.pressingX) {
+                if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
                     if (!sceneBlock && !castLock && !isPlayerShooting) {
                         isPlayerShooting = true;
                         playerShootingTimer = PLAYER_SHOOTING_TIME;

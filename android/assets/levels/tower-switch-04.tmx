@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="15" height="10" tilewidth="32" tileheight="32" infinite="0" nextobjectid="25">
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="15" height="10" tilewidth="32" tileheight="32" infinite="0" nextobjectid="26">
  <properties>
   <property name="number" value="20"/>
  </properties>
@@ -23,7 +23,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,4,4,4,0,0,0,0,0,0,0,0,0,0,
 0,0,4,4,4,0,0,0,0,0,0,0,0,0,0,
-0,0,0,106,0,0,28,2,27,0,0,0,0,0,0,
+0,0,0,12,0,0,28,2,27,0,0,0,0,0,0,
 0,0,72,72,72,83,2,28,2,81,72,72,72,0,0,
 0,0,72,72,73,27,28,27,2,2,71,72,72,0,0,
 72,72,72,83,2,2,2,28,2,2,28,81,72,72,72,
@@ -95,5 +95,6 @@
     <property name="ydir" value="-1"/>
    </properties>
   </object>
+  <object id="25" name="48" type="scene" x="96" y="64" width="32" height="32"/>
  </objectgroup>
 </map>

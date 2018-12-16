@@ -363,6 +363,10 @@ public class SceneContainer {
                 .verb(new CameraZoomVerb(1.0f))
                 .build());
 
+        scenes.put("48", builder()
+                .verb(new DialogVerb("52"))
+                .build());
+
         scenes.put("trailer", builder()
                 .verb(new DialogVerb("51"))
                 .build());

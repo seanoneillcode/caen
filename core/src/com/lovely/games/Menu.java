@@ -75,7 +75,7 @@ public class Menu {
             pressKeyPlease = null;
             return;
         }
-        if (inputVector.x != 0 || Gdx.input.isKeyPressed(Input.Keys.SPACE) || Gdx.input.isKeyPressed(Input.Keys.ENTER) || inputProcessor.pressingA) {
+        if (inputVector.x != 0 || Gdx.input.isKeyPressed(Input.Keys.SPACE) || Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
             soundPlayer.playSound(BLIP_SELECT_ITEM_SOUND_ID, "music/select-3.ogg", caenMain.getPlayerPos(), false);
             if (isTitleMenu) {
                 if (titleSelectionIndex == 0) {
