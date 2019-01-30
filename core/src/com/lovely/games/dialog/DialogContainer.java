@@ -220,11 +220,11 @@ public class DialogContainer {
                 line(pro, "Oh, I'll be fine", "happy"),
                 line(pro, "I just have to use my head", "worried")
         ));
-        dialogs.put("50", Arrays.asList(
+        dialogs.put("52", Arrays.asList(
                 line(pro, "This isn't a wall at all!", "talk"),
                 line(pro, "You found the easter egg!", "happy"),
                 line(pro, "This is embarrassing, I don't know what to say :D", "happy"),
-                line(pro, "Thanks for playing, hope you enjoy it.", "happy")
+                line(pro, "Thanks for playing, hope you're having fun", "happy")
         ));
     }
 
